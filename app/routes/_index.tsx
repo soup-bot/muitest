@@ -1,41 +1,21 @@
-import type { MetaFunction } from "@remix-run/node";
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+import React, { useState } from 'react';
+import { TagsInput } from "react-tag-input-component";
 
 export default function Index() {
+  const [selected, setSelected] = useState(["papaya"]);
+
+
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div className='flex justify-center h-screen'>
+    <div className='p-5 w-1/2 h-15'>
+      <TagsInput
+        value={selected}
+        onChange={setSelected}
+        name="fruits"
+        placeHolder="enter fruits"
+      />
+    </div>
     </div>
   );
 }
