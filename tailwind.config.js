@@ -8,5 +8,12 @@ module.exports = {
     // other plugins...
     require("flowbite/plugin")
   ],
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+        'primary':'#F05425',
+        'secondary':'#0FA5B7',
+      }
+    },
+  },  
 };

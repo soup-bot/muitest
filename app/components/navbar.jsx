@@ -1,4 +1,4 @@
-import { NavLink } from '@remix-run/react';
+import { NavLink, useLoaderData } from '@remix-run/react';
 import React, { useState, useEffect, useRef } from 'react';
 import logo from "../assets/logo.svg";
 import { MdMoveToInbox } from "react-icons/md";
@@ -7,6 +7,8 @@ import { RiContactsBook2Fill } from "react-icons/ri";
 import { HiDocumentReport } from "react-icons/hi";
 import { PiSignOutBold } from "react-icons/pi";
 import { FaUserCircle } from "react-icons/fa";
+import { json } from '@remix-run/node';
+
 
 export default function Navbar(){
   const [sidebarVisible, setSidebarVisible] = useState(false);
