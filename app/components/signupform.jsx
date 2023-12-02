@@ -1,3 +1,5 @@
+import { Carousel } from 'flowbite-react';
+
 export default function SignupForm(){
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -18,7 +20,6 @@ export default function SignupForm(){
               />
             </div>
           </div>
-
           <div>
             <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
               Last Name <span className="text-red-700">*</span>
