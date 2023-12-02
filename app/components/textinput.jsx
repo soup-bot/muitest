@@ -3,6 +3,7 @@ import { Form } from "@remix-run/react";
 import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 import xlsx from "xlsx";
+import { IoSend } from "react-icons/io5";
 
 
 
@@ -96,9 +97,8 @@ export default function InputForm(){
   
   return(
     <div className="w-full flex flex-col items-center">
-
-
-<div className="w-full lg:w-3/5 justify-center items-center mt-10  p-12 pb-4 rounded-lg shadow-md">
+      
+<div className="w-full lg:w-3/5 justify-center items-center mt-10  p-12 pb-4 rounded-lg md:shadow-lg lg:border-y-4  border-secondary">
 
 <label htmlFor="countries" className="block mb-5 text-l font-medium text-gray-900 dark:text-white">Select an input option</label>
 <select 
@@ -137,10 +137,10 @@ onChange={handleFileChange}/>
 
 {headers ? (
                 <>
-                  <h4 className="mt-3 text-md font-medium">Placeholders:</h4>
+                  <div className="mt-5 text-md font-medium"></div>
                   {Object.values(headers).map((value, index) => (
                     <button
-                      className="bg-secondary text-white m-1 py-0.5 px-2 rounded-md shadow-sm hover:bg-blue-400"
+                      className="bg-secondary text-white m-1 py-0.5 px-2 rounded-md shadow-sm hover:bg-blue-400 text-sm"
                       key={index}
                       type="button"
                       onMouseDown={(e) => handleButtonClick(value, e)}
@@ -170,7 +170,7 @@ onChange={handleFileChange}/>
                 </div>
                 
                 <div className="flex w-full align-middle justify-center mt-10">
-                <button type="submit" className="text-white bg-primary hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit
+                <button type="submit" className="flex align-middle justify-center items-center text-white bg-primary hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"> <p className="mr-3">SEND</p><IoSend /> 
                 
                 </button>
                 </div>

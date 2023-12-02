@@ -8,7 +8,7 @@ import { HiDocumentReport } from "react-icons/hi";
 import { PiSignOutBold } from "react-icons/pi";
 import { FaUserCircle } from "react-icons/fa";
 import { json } from '@remix-run/node';
-
+import { BiSolidMessageAdd } from "react-icons/bi";
 
 export default function Navbar(){
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -65,7 +65,7 @@ export default function Navbar(){
         onClick={toggleSidebar}
         data-collapse-toggle="navbar-default"
         type="button"
-        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg hover:bg-gray-100  dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
+        className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg   dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
         aria-controls="navbar-default"
         aria-expanded={sidebarVisible ? 'true' : 'false'}
       >
@@ -109,7 +109,7 @@ export default function Navbar(){
       <div>
  
  <div>
-    <FaUserCircle className="cursor-pointer" size={27} onClick={toggledropdownVisible}/>
+    <FaUserCircle className="cursor-pointer hover:scale-110 transition-all" size={27} onClick={toggledropdownVisible}/>
     </div>
 
   </div>
@@ -156,32 +156,38 @@ export default function Navbar(){
 
    <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <ul className="space-y-5 font-medium">
+      <li>
+            <NavLink to="/" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group">
+            <BiSolidMessageAdd size={26}/>
+               <span className="flex-1 ms-3 whitespace-nowrap">New Message</span>
+            </NavLink>
+         </li>
          <li>
-            <NavLink to="/inbox" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <NavLink to="/inbox" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group">
             <MdMoveToInbox size={26}/>
                <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
             </NavLink>
          </li>
          <li>
-            <NavLink to="/sentitems" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <NavLink to="/sentitems" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group">
             <IoMdSend size={26}/>
                <span className="flex-1 ms-3 whitespace-nowrap">Sent items</span>
             </NavLink>
          </li>
          <li>
-            <NavLink to="/contacts" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <NavLink to="/contacts" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group">
             <RiContactsBook2Fill size={26}/>
                <span className="flex-1 ms-3 whitespace-nowrap">Contacts</span>
             </NavLink>
          </li>
          <li>
-            <NavLink to="/reports" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <NavLink to="/reports" onClick={toggleSidebar} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group">
             <HiDocumentReport size={26}/>
                <span className="flex-1 ms-3 whitespace-nowrap">Reports</span>
             </NavLink>
          </li>
          <li>
-            <NavLink to="/" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <NavLink to="/auth" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group">
             <PiSignOutBold size={26}/>
                <span className="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
             </NavLink>
