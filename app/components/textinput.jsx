@@ -2,6 +2,7 @@ import { json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
+import xlsx from "xlsx";
 
 
 
@@ -11,15 +12,56 @@ export default function InputForm(){
   const [numMessages, setNumMessages] = useState(0);
   const [inputType, setInputType] = useState("numbers");
   const [selected, setSelected] = useState(["7637437"]);
+  const [headers, setHeaders] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleInputChange = (type) => {
     setInputType(type);
     setText("");
-    // setHeaders(null);
-    // setUploadedFile(null);
-    // setSelected([]);
+    setHeaders(null);
+    setUploadedFile(null);
+    setSelected([]);
     setNumMessages(0);
   };
+  const handleFileChange = async (e) => {
+    setHeaders(null);
+    const file = e.target.files[0];
+    setUploadedFile(file);
+    if (!file) {
+      return;
+    }
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      const workbook = xlsx.read(data, { type: "array" });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+      const headers = [];
+      const range = xlsx.utils.decode_range(sheet["!ref"]);
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const headerCellAddress = xlsx.utils.encode_cell({
+          r: range.s.r,
+          c: C,
+        });
+        const headerCellValue = sheet[headerCellAddress].v;
+        headers.push(headerCellValue);
+      }
+
+      console.log("CLIENT SIDE:", headers);
+      setHeaders(headers);
+    } catch (error) {
+      console.error("Error processing file:", error);
+    }
+  };
+
+  const handleButtonClick = (value, event) => {
+    event.preventDefault();
+    setText((prevText) => `${prevText} @@${value} `);
+    // calculateMessages(text)
+    calculateMessages(text + " @@" + value);
+  };
+
 
   const calculateMessages = (text) => {
     const gsm7Chars = new Set(
@@ -83,11 +125,34 @@ id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-s
       />
       </div>
 }
-{(inputType==='file') && 
+{(inputType==='file' ) && 
 
 <div className="mt-8">
-<input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
+<input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" type="file"
+name="excelFile"
+id="excelFile"
+accept=".xlsx, .xls, .csv"
+onChange={handleFileChange}/>
 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">XLSX, XLS, or CSV.</p>
+
+{headers ? (
+                <>
+                  <h4 className="mt-3 text-md font-medium">Placeholders:</h4>
+                  {Object.values(headers).map((value, index) => (
+                    <button
+                      className="bg-secondary text-white m-1 py-0.5 px-2 rounded-md shadow-sm hover:bg-blue-400"
+                      key={index}
+                      type="button"
+                      onMouseDown={(e) => handleButtonClick(value, e)}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </>
+              ) : (
+                // ELSE SHOW THAT NO DATA IS AVAILABLE
+                <div className="mt-3 text-md font-medium">No data available</div>
+              )}
 </div>
 }
       
