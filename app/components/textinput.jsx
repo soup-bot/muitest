@@ -121,8 +121,8 @@ id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-s
         classNames={{tag:'font-medium',input:'p-1 font-medium focus:border-transparent focus:ring-0 active:ring-0'}}
         value={selected}
         onChange={setSelected}
-        name="numbers"
       />
+       <input type="hidden" name="numbers" value={selected} />
       </div>
 }
 {(inputType==='file' ) && 
@@ -170,7 +170,7 @@ onChange={handleFileChange}/>
                 </div>
                 
                 <div className="flex w-full align-middle justify-center mt-10">
-                <button type="button" className="text-white bg-primary hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit
+                <button type="submit" className="text-white bg-primary hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit
                 
                 </button>
                 </div>
