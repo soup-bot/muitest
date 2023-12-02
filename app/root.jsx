@@ -1,5 +1,4 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
 import Navbar from "./components/navbar"
 import CSS from "./app.css"
 import {
@@ -9,15 +8,36 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+import { json } from "@remix-run/node";
 
+// export const loader = async ({ params }) => {
+//   // Check if the current route parameters include 'auth'
+//   const isAuthRoute = params?.includes('auth');
 
+//   return {
+//     isAuthRoute,
+//   };
+// };
 
 export function links() {
   return [{ rel: "stylesheet", href: CSS }]
 }
+export const loader = async ({ request, params }) => {
+  // Check if the current route parameters include 'auth'
+ const url = new URL(request.url);
+ const auth = url.pathname === '/auth';
+  return {
+  auth
+  };
+};
+
+
 
 export default function App() {
+  const {auth} = useLoaderData();
+  console.log(auth)
   return (
     <html lang="en">
       <head>
@@ -27,9 +47,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-          <Navbar></Navbar>
-        <Outlet />
-        <ScrollRestoration />
+      {!auth && <Navbar />}
+        <Outlet/>
+        <ScrollRestoration/>
         <Scripts />
         <LiveReload />
       </body>
