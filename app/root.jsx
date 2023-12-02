@@ -37,7 +37,6 @@ export const loader = async ({ request, params }) => {
 
 export default function App() {
   const {auth} = useLoaderData();
-  console.log(auth)
   return (
     <html lang="en">
       <head>

@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 export default function LoginForm(){
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -39,25 +41,17 @@ export default function LoginForm(){
           </div>
         
           <div>
+            {/* temporary link */}
+            <Link to="/">
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign in
             </button>
+            </Link>
           </div>
         </form>
-{/* 
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Already have an account
-          <button
-            type="button"
-            onClick={toggleMode}
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 focus:outline-none focus-visible:outline-indigo-600"
-          >
-            {signupMode ? 'Sign in' : 'Sign up'}
-          </button>
-        </p> */}
       </div>
   )
 }

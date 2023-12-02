@@ -58,11 +58,11 @@ export default function InputForm(){
 
 <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-12 pb-4 rounded-lg shadow-md">
 
-<label for="countries" class="block mb-5 text-l font-medium text-gray-900 dark:text-white">Select an input option</label>
+<label htmlFor="countries" className="block mb-5 text-l font-medium text-gray-900 dark:text-white">Select an input option</label>
 <select 
 onChange={(e) => handleInputChange(e.target.value)}
 value={inputType}
-id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
   <option value="numbers">Input up to 10 numbers</option>
   <option value="file">Upload a file</option>
