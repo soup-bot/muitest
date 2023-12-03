@@ -11,32 +11,29 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { json } from "@remix-run/node";
-
-// export const loader = async ({ params }) => {
-//   // Check if the current route parameters include 'auth'
-//   const isAuthRoute = params?.includes('auth');
-
-//   return {
-//     isAuthRoute,
-//   };
-// };
+import { useLocation } from "react-router-dom";
 
 export function links() {
   return [{ rel: "stylesheet", href: CSS }]
 }
-export const loader = async ({ request, params }) => {
-  // Check if the current route parameters include 'auth'
- const url = new URL(request.url);
- const auth = url.pathname === '/auth';
-  return {
-  auth
-  };
-};
+// export const loader = async ({ request, params }) => {
+//   // Check if the current route parameters include 'auth'
+//  const url = new URL(request.url);
+//  const auth = url.pathname === '/auth';
+//   return {
+//   auth
+//   };
+// };
 
 
 
 export default function App() {
-  const {auth} = useLoaderData();
+  const location = useLocation();
+console.log("LOCATION = "+ location.pathname);
+const auth = location.pathname === '/auth';
+
+
+  // const {auth} = useLoaderData();
   return (
     <html lang="en">
       <head>
