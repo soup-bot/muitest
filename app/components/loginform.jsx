@@ -1,10 +1,18 @@
-import { Link } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 
 export default function LoginForm(){
+  const validationErrors = useActionData();
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
-
+        <Form className="space-y-6" method="POST" noValidate>
+        <input type="hidden" name="formType" value="login"/>
+        {/* {validationErrors && (
+          <ul>
+            {Object.values(validationErrors).map((error) => (
+              <li className="font-medium text-red-600 text-sm list-disc" key={error}>{error}</li>
+            ))}
+          </ul>
+        )} */}
         
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -12,6 +20,7 @@ export default function LoginForm(){
             </label>
             <div className="mt-2">
               <input
+              maxLength={50}
                 id="email"
                 name="email"
                 type="email"
@@ -42,16 +51,16 @@ export default function LoginForm(){
         
           <div>
             {/* temporary link */}
-            <Link to="/">
+            {/* <Link to="/"> */}
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign in
             </button>
-            </Link>
+            {/* </Link> */}
           </div>
-        </form>
+        </Form>
       </div>
   )
 }

@@ -4,6 +4,7 @@ import SignupForm from '../components/signupform';
 import logo from "../assets/logo.svg";
 import { Link } from '@remix-run/react';
 import { redirect } from '@remix-run/node';
+import { validateCredentials } from '../data/validation.server';
 
 export default function Auth() {
   const [signupMode, setSignupMode] = useState(false);
@@ -49,9 +50,16 @@ return(
 export const action = async ({ request }) => {
   console.log("AUTH ACTION");
   const formData = await request.formData();
+  const credentials = Object.fromEntries(formData);
   for (const [key, value] of formData.entries()) {
     console.log(`${key}: ${value}`);
   }
+
+  // try {
+  //   validateCredentials(credentials);
+  // } catch (error) {
+  //   return error;
+  // }
 
   return redirect("/");
 };

@@ -1,10 +1,12 @@
+import { Form } from '@remix-run/react';
 import { Carousel } from 'flowbite-react';
 
 export default function SignupForm(){
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
-        <form className="space-y-6" action="#" method="POST">
+        <Form className="space-y-6" method="POST" noValidate>
+        <input type="hidden" name="formType" value="signup"/>
         <div className='flex'>
               <div className='mr-4'>
             <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
@@ -51,6 +53,7 @@ export default function SignupForm(){
                     id="mobile"
                     name="mobile"
                     type="tel"
+                    required
                     autoComplete="tel"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -141,7 +144,7 @@ export default function SignupForm(){
               Sign up
             </button>
           </div>
-        </form>
+        </Form>
         
       </div>
   )
