@@ -201,6 +201,7 @@ return (
         {inputType === 'numbers' && (
           <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8">
           <div className="w-full md:w-4/5">
+
             <TagsInput
               classNames={{ tag: 'font-medium', input: 'p-1 font-medium focus:border-transparent focus:ring-0 active:ring-0' }}
               value={selected}

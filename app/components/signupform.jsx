@@ -4,12 +4,12 @@ import { Carousel } from 'flowbite-react';
 export default function SignupForm(){
 
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
+    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
         <Form className="space-y-6" method="POST" noValidate>
         <input type="hidden" name="formType" value="signup"/>
         <div className='flex'>
               <div className='mr-4'>
-            <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-500">
               First Name <span className="text-red-700">*</span>
             </label>
             <div className="mt-2">
@@ -24,7 +24,7 @@ export default function SignupForm(){
             </div>
           </div>
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-500">
               Last Name <span className="text-red-700">*</span>
             </label>
             <div className="mt-2">
@@ -45,7 +45,7 @@ export default function SignupForm(){
 
               <div className='flex'>
               <div className="mr-4">
-                <label htmlFor="mobile" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="mobile" className="block text-sm font-medium leading-6 text-gray-500">
                   Mobile Phone <span className="text-red-700">*</span>
                 </label>
                 <div className="mt-2">
@@ -61,7 +61,7 @@ export default function SignupForm(){
               </div>
 
               <div>
-                <label htmlFor="businessPhone" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="businessPhone" className="block text-sm font-medium leading-6 text-gray-500">
                   Business Phone
                 </label>
                 <div className="mt-2">
@@ -77,7 +77,7 @@ export default function SignupForm(){
               </div>
 
               <div>
-                <label htmlFor="companyName" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="companyName" className="block text-sm font-medium leading-6 text-gray-500">
                   Company Name
                 </label>
                 <div className="mt-2">
@@ -94,7 +94,7 @@ export default function SignupForm(){
               
             </>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-500">
               Email address <span className="text-red-700">*</span>
             </label>
             <div className="mt-2">
@@ -111,7 +111,7 @@ export default function SignupForm(){
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-500">
                 Password <span className="text-red-700">*</span>
               </label>
             </div>
@@ -126,7 +126,7 @@ export default function SignupForm(){
               />
             </div>
           </div>
-          <label for="plan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select your plan</label>
+          <label for="plan" class="block mb-2 text-sm font-medium text-gray-500 dark:text-white">Select your plan</label>
   <select name="plan" id="plan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
     <option>BULK/CORP SMS 3K</option>

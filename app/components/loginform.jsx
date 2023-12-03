@@ -3,7 +3,7 @@ import { Form, Link, useActionData } from "@remix-run/react";
 export default function LoginForm(){
   const validationErrors = useActionData();
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
         <Form className="space-y-6" method="POST" noValidate>
         <input type="hidden" name="formType" value="login"/>
         {/* {validationErrors && (
@@ -15,7 +15,7 @@ export default function LoginForm(){
         )} */}
         
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-500">
               Email address
             </label>
             <div className="mt-2">
@@ -33,7 +33,7 @@ export default function LoginForm(){
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-500">
                 Password
               </label>
             </div>

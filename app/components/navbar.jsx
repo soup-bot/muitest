@@ -65,7 +65,7 @@ export default function Navbar(){
         onClick={toggleSidebar}
         data-collapse-toggle="navbar-default"
         type="button"
-        className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg   dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
+        className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary rounded-lg   dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
         aria-controls="navbar-default"
         aria-expanded={sidebarVisible ? 'true' : 'false'}
       >
@@ -109,7 +109,7 @@ export default function Navbar(){
       <div>
  
  <div>
-    <FaUserCircle className="cursor-pointer hover:scale-110 transition-all" size={27} onClick={toggledropdownVisible}/>
+    <FaUserCircle className="cursor-pointer hover:scale-110 transition-all" size={27} color={'#F05425'} onClick={toggledropdownVisible}/>
     </div>
 
   </div>
