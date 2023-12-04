@@ -1,11 +1,32 @@
-import { Form } from '@remix-run/react';
+import { Form, useActionData } from '@remix-run/react';
 import { Carousel } from 'flowbite-react';
 
 export default function SignupForm(){
+  const validationErrors = useActionData();
 
   return (
     <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
         <Form className="space-y-6" method="POST" noValidate>
+        {/* {validationErrors && (
+            <ul className='my-7'>
+              {Object.values(validationErrors).map((error) => (
+                <li className="font-medium text-red-600 text-sm" key={error}>{error}</li>
+              ))}
+            </ul>
+          )} */}
+
+{/* {validationErrors && (
+  <ul className='my-7'>
+    {Object.keys(validationErrors)
+      .filter(key => key === 'newEmail' || key === "firstName" || key === "lastName" || key === "newPassword") // Adjust the condition as needed
+      .map((key) => (
+        <li className="font-medium text-red-600 text-sm" key={key}>
+          {validationErrors[key]}
+        </li>
+      ))}
+  </ul>
+)} */}
+
         <input type="hidden" name="formType" value="signup"/>
         <div className='flex'>
               <div className='mr-4'>
@@ -18,9 +39,17 @@ export default function SignupForm(){
                 name="firstName"
                 type="text"
                 autoComplete="given-name"
+                placeholder=" "
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                pattern="[A-Za-z\s]+"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+              disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+              invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
               />
+              <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                  Please enter a valid name
+                  </span>
             </div>
           </div>
           <div>
@@ -33,9 +62,17 @@ export default function SignupForm(){
                 name="lastName"
                 type="text"
                 autoComplete="family-name"
+                placeholder=" "
+                pattern="[A-Za-z\s]+"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
               />
+              <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                  Please enter a valid name
+                  </span>
             </div>
           </div>
 
@@ -52,11 +89,17 @@ export default function SignupForm(){
                   <input
                     id="mobile"
                     name="mobile"
-                    type="tel"
+                    type="number"
+                    placeholder=" "
                     required
-                    autoComplete="tel"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                    invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   />
+                  <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                  Please enter a valid phone number
+                  </span>
                 </div>
               </div>
 
@@ -68,10 +111,16 @@ export default function SignupForm(){
                   <input
                     id="businessPhone"
                     name="businessPhone"
-                    type="tel"
-                    autoComplete="tel"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    type="number"
+                    placeholder=" "
+                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                    invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   />
+                   <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                  Please enter a valid phone number
+                  </span>
                 </div>
               </div>
               </div>
@@ -86,7 +135,8 @@ export default function SignupForm(){
                     name="companyName"
                     type="text"
                     autoComplete="organization"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+                     placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -98,14 +148,23 @@ export default function SignupForm(){
               Email address <span className="text-red-700">*</span>
             </label>
             <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+            <input
+  maxLength={50}
+  id="email"
+  name="email"
+  type="email"
+  placeholder=" "
+  required
+  autoComplete="email"
+  className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+    invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
+/>
+
+        <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+    Please enter a valid email address
+  </span>
             </div>
           </div>
 
@@ -116,14 +175,23 @@ export default function SignupForm(){
               </label>
             </div>
             <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+            <input
+              id="password"
+              name="password"
+              type="password"
+              minLength="5"
+              autoComplete="current-password"
+              placeholder=" "
+              pattern=".{5,}"
+              required
+              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+              disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+              invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer `}
+            />
+            <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+    Your password must be more than 5 characters
+  </span>
             </div>
           </div>
           <label htmlFor="plan" className="block mb-2 text-sm font-medium text-gray-500 dark:text-white">Select your plan</label>
