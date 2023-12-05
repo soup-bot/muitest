@@ -49,7 +49,7 @@ const auth = location.pathname === '/auth';
       <body>
       {!auth && <Navbar />}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Outlet/>
+        <Outlet />
         </LocalizationProvider>
         <ScrollRestoration/>
         <Scripts />

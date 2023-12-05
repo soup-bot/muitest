@@ -6,7 +6,8 @@ module.exports = {
   ],
   plugins: [
     // other plugins...
-    require("flowbite/plugin")
+    require("flowbite/plugin"),
+    require('tailwindcss-animated')
   ],
   theme: {
     extend: {

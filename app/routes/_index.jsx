@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 export default function Index() {
 
   return (
-    <div>
+    <div className='animate-fade-up animate-once animate-duration-200 animate-ease-in'>
 <InputForm/>
     </div>
   );

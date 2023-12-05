@@ -103,7 +103,7 @@ return (
 
       <Form  method="post"
           encType="multipart/form-data" >
-      <div className="mb-10">
+      <div className="mb-5">
         {inputType === 'numbers' && (
           <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8">
           <div className="w-full md:w-4/5">

@@ -18,7 +18,7 @@ export default function Auth() {
 
 
 return(
-    <div className='h-screen flex flex-col lg:flex-row '>
+    <div className='h-screen flex flex-col lg:flex-row'>
       <div className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 ${signupMode ? '' : 'justify-center'} `}>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -34,7 +34,7 @@ return(
       </div>
     
     
-      {signupMode ? <SignupForm></SignupForm>: <LoginForm></LoginForm>}
+      {signupMode ? <SignupForm></SignupForm >: <LoginForm></LoginForm>}
   
         <p className="mt-3 text-center text-sm text-gray-500 pb-20">
           {signupMode ? 'Already have an account? ' : "Don't have an account? "}

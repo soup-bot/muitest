@@ -10,7 +10,7 @@ export default function LoginForm() {
 
 
   return (
-    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
       <Form className="space-y-6" method="POST" noValidate>
         <input type="hidden" name="formType" value="login" />
 

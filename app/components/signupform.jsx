@@ -5,7 +5,7 @@ export default function SignupForm(){
   const validationErrors = useActionData();
 
   return (
-    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
+    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row ">
         <Form className="space-y-6" method="POST" noValidate>
         {/* {validationErrors && (
             <ul className='my-7'>
