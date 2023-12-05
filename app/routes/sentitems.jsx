@@ -4,7 +4,7 @@ import { useState, useRef, forwardRef} from "react";
 import DataTable from 'react-data-table-component';
 import { DataGrid } from '@mui/x-data-grid';
 import dayjs from "dayjs";
-
+import { FaArrowRight } from "react-icons/fa";
 
 
 
@@ -48,25 +48,28 @@ const columns = [
   { field: 'col3', headerName: 'Status', width: 100 },
   { field: 'col4', headerName: 'Sent', width: 150 },
 ];
+const getFirstDayOfMonth = () => {
+  return dayjs().startOf('month');
+};
+
+
+// Function to get the last day of the current month
+const getLastDayOfMonth = () => {
+  return dayjs().endOf('month');
+};
 
 
 export default function SentItems() {
 
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const getFirstDayOfMonth = () => {
-    return dayjs().startOf('month');
-  };
-  
-
-  // Function to get the last day of the current month
-  const getLastDayOfMonth = () => {
-    return dayjs().endOf('month');
-  };
-
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
-  const dataGridRef = useRef(null);
+
+
+
+const checkRangeValidity = () => {
+    
+}
+
  const today = dayjs().format('DD/MM/YYYY')
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -81,22 +84,19 @@ export default function SentItems() {
     <div className="h-screen w-full flex justify-center xl:pl-20">
       <div className=" h-min min-h-full rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3" >
       <h1 className="font-medium text-2xl my-10">Sent items</h1>
-
-        <Form>
-         
-    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-    <div className="relative">
+<div className="flex flex-col lg:flex-row w-full">
+        <Form className="w-full lg:w-full flex align-middle justify-center items-center mr-5">
+    <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
         </div>
         <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search.." required/>
-        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-secondary hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-secondary hover:bg-hoversec focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
     </div>
-
         </Form>
-        <div className="my-5">
+        <div className="my-5 w-full lg:wd-1/2">
         <div className="flex-col sm:flex-row flex align-middle justify-center">
 <div className="flex  gap-4">
         <DatePicker
@@ -107,31 +107,24 @@ export default function SentItems() {
           size="small"
           onChange={handleStartDateChange}
         />
-
-        {/* {startDate && (
-          <p className="text-gray-700 dark:text-white">
-            Start: {startDate.format('DD/MM/YYYY') }
-          </p>
-        )} */}
          <DatePicker
           label="End Date"
           format="DD-MM-YYYY"
           value={endDate}
           onChange={handleEndDateChange}
         />
-
-        {/* {endDate && (
-          <p className="text-gray-700 dark:text-white">
-            End: {endDate.format('DD/MM/YYYY') }
-          </p>
-        )} */}
         {/* <p>DIFFERENCE: {startDate && endDate && (endDate.diff(startDate))}</p> */}
         </div>
         <div className="flex align-middle justify-center items-center mb-8 sm:m-0 sm:ml-8">
-        <button type="button" className=" w-full mt-8 sm:mt-0  text-white bg-primary hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">View</button>
+        <button type="button" 
+        disabled={endDate.diff(startDate)<0}
+        className=" w-full mt-8 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-xl text-md px-5 py-2.5 sm:py-3 disabled:bg-black">
+          View</button>
         </div>
         </div>
         </div>
+        </div>
+        
         <div className="flex-col flex align-middle mb-5">
       <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true} />
         </div>

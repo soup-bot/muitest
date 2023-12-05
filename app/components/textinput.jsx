@@ -95,103 +95,6 @@ export default function InputForm(){
     calculateMessages(e.target.value);
   };
   
-//   return(
-//     <div className="w-full flex flex-col items-center">
-      
-// <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-12 pb-4 rounded-lg md:shadow-lg lg:border-y-4  border-secondary">
-
-// <label htmlFor="toggleInput" className="block mb-5 text-l font-medium text-gray-900 dark:text-white">
-//           Toggle Input Type
-//         </label>
-//         <label className="relative inline-flex items-center cursor-pointer"/>
-//           <input
-//             type="checkbox"
-//             value=""
-//             checked={inputType === "file"}
-//             onChange={() => handleInputChange(inputType === "numbers" ? "file" : "numbers")}
-//             className="sr-only peer"
-//           />
-
-
-//       <Form  method="post"
-//           encType="multipart/form-data" >
-
-            
-// <label class="relative inline-flex items-center cursor-pointer">
-//   <input type="checkbox" value="" class="sr-only peer"/>
-//   <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-//   <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Toggle me</span>
-// </label>
-
-// <div className="mb-10">
-// {(inputType==='numbers') && 
-// <div className="mt-8">
-// <TagsInput
-//         classNames={{tag:'font-medium',input:'p-1 font-medium focus:border-transparent focus:ring-0 active:ring-0'}}
-//         value={selected}
-//         onChange={setSelected}
-//       />
-//        <input type="hidden" name="numbers" value={selected} />
-//       </div>
-// }
-// {(inputType==='file' ) && 
-
-// <div className="mt-8">
-// <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" type="file"
-// name="excelFile"
-// id="excelFile"
-// accept=".xlsx, .xls, .csv"
-// onChange={handleFileChange}/>
-// <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">XLSX, XLS, or CSV.</p>
-
-// {headers ? (
-//                 <>
-//                   <div className="mt-5 text-md font-medium"></div>
-//                   {Object.values(headers).map((value, index) => (
-//                     <button
-//                       className="bg-secondary text-white m-1 py-0.5 px-2 rounded-md shadow-sm hover:bg-blue-400 text-sm"
-//                       key={index}
-//                       type="button"
-//                       onMouseDown={(e) => handleButtonClick(value, e)}
-//                     >
-//                       {value}
-//                     </button>
-//                   ))}
-//                 </>
-//               ) : (
-//                 // ELSE SHOW THAT NO DATA IS AVAILABLE
-//                 <div className="mt-3 text-md font-medium">No data available</div>
-//               )}
-// </div>
-// }
-      
-
-// </div>
-//     <div>
-// <label htmlFor="message" className="block mb-2 text-l font-medium text-gray-900 dark:text-white">Your message</label>
-
-// <textarea  value={text} onChange={handleTextChange} name="text" id="message" rows="14" maxLength="1531" className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your message here..."></textarea>
-// <div className="justify-between flex-wrap border-2 align-middle bg-slate-100  rounded-md">
-// <div className="flex font-medium text-sm justify-between p-2"><p className="">{text.length} characters used</p>
-//                 <p className={`${numMessages > 10 ? "errortxt" : ""}`}>
-//                   {numMessages}/10 messages
-//                 </p></div>
-//                 </div>
-                
-//                 <div className="flex w-full align-middle justify-center mt-10">
-//                 <button type="submit" className="flex align-middle justify-center items-center text-white bg-primary hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"> <p className="mr-3">SEND</p><IoSend /> 
-                
-//                 </button>
-//                 </div>
-               
-
-// </div>
-// </Form>
-// </div>
-// </div>
-//   )
-
-
 return (
   <div className="w-full flex flex-col items-center">
     <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-12 pb-4 rounded-lg md:shadow-lg lg:border-y-4  border-secondary">
@@ -300,7 +203,7 @@ onChange={handleFileChange}/>
                  </div>
                 
                  <div className="flex w-full align-middle justify-center mt-10">
-                 <button type="submit" className="flex align-middle justify-center items-center text-white bg-primary hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"> <p className="mr-3">SEND</p><IoSend /> 
+                 <button type="submit" className="flex align-middle justify-center items-center text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"> <p className="mr-3">SEND</p><IoSend /> 
                 
                  </button>
                 </div>

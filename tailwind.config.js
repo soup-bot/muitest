@@ -13,6 +13,8 @@ module.exports = {
       colors: {
         'primary':'#F05425',
         'secondary':'#0FA5B7',
+        'hoverprim':'#d9440e',
+        'hoversec':'#0c8492',
       }
     },
   },  
