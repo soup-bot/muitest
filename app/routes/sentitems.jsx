@@ -1,6 +1,24 @@
 import { Form } from "@remix-run/react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState, useRef, forwardRef} from "react";
+import DataTable from 'react-data-table-component';
+import { DataGrid } from '@mui/x-data-grid';
+
+const rows= [
+  { id: 1, col1: 'Ahmed', col2: 'Hello Worlddsadasdasdasdasdasddddddddddddddddddddddddddddddddddddddddddddddddd', col3: 'Delivered', col4: '5-12-2023 15:42'},
+  { id: 2, col1: 'Aisha', col2: 'Bye World', col3: 'Delivered', col4: '5-12-2023 11:41'},
+  { id: 3, col1: 'Zayan', col2: 'Hi World', col3: 'Delivered', col4: '5-12-2023 15:44'},
+];
+  
+
+
+const columns = [
+  { field: 'col1', headerName: 'To', width: 150 },
+  { field: 'col2', headerName: 'Text', width: 150 },
+  { field: 'col3', headerName: 'Status', width: 100 },
+  { field: 'col4', headerName: 'Sent', width: 150 },
+];
+
 
 export default function SentItems() {
   const [startDate, setStartDate] = useState(null);
@@ -14,12 +32,13 @@ export default function SentItems() {
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
-
+ 
 
   return (
-    <div className="h-screen w-full flex justify-center">
-      <div className="shadow-md rounded-md w-full px-10 mt-4">
-        <h1 className="text-black text-xl">Sent items</h1>
+    <div className="h-screen w-full flex justify-center xl:pl-20">
+      <div className="rounded-lg md:shadow-lg xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3">
+      <h1 className="font-medium text-2xl my-10">Sent items</h1>
+
         <Form>
          
 
@@ -35,12 +54,14 @@ export default function SentItems() {
     </div>
 
         </Form>
-        <div className="flex-col flex align-middle">
-<div className="flex mt-8">
+        <div className="my-5">
+        <div className="flex-col sm:flex-row flex align-middle justify-center">
+<div className="flex  gap-4">
         <DatePicker
-        className="mx-2"
           label="Start Date"
           value={startDate}
+          format="DD-MM-YYYY"
+          size="small"
           onChange={handleStartDateChange}
         />
 
@@ -50,8 +71,8 @@ export default function SentItems() {
           </p>
         )} */}
          <DatePicker
-         className="mx-2"
           label="End Date"
+          format="DD-MM-YYYY"
           value={endDate}
           onChange={handleEndDateChange}
         />
@@ -63,9 +84,16 @@ export default function SentItems() {
         )} */}
         {/* <p>DIFFERENCE: {startDate && endDate && (endDate.diff(startDate))}</p> */}
         </div>
-        <button type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">View</button>
+        <div className="flex align-middle justify-center items-center mb-8 sm:m-0 sm:ml-8">
+        <button type="button" className=" w-full mt-8 sm:mt-0  text-white bg-primary hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">View</button>
+        </div>
+        </div>
+        </div>
+        <div className="flex-col flex align-middle">
+      <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true}/>
         </div>
       </div>
+     
     </div>
   );
 }

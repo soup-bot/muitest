@@ -197,6 +197,9 @@ return (
     <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-12 pb-4 rounded-lg md:shadow-lg lg:border-y-4  border-secondary">
       <h1 className="font-medium text-2xl">Compose a message</h1>
 
+
+      <Form  method="post"
+          encType="multipart/form-data" >
       <div className="mb-10">
         {inputType === 'numbers' && (
           <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8">
@@ -302,6 +305,7 @@ onChange={handleFileChange}/>
                  </button>
                 </div>
       </div>
+      </Form>
     </div>
   </div>
 );
