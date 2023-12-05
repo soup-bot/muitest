@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, Outlet } from "@remix-run/react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState, useRef, forwardRef} from "react";
 import DataTable from 'react-data-table-component';
@@ -126,7 +126,8 @@ const checkRangeValidity = () => {
         </div>
         
         <div className="flex-col flex align-middle mb-5">
-      <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true} />
+      {/* <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true} /> */}
+      <Outlet></Outlet>
         </div>
       </div>
      
