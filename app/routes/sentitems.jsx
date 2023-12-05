@@ -3,6 +3,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState, useRef, forwardRef} from "react";
 import DataTable from 'react-data-table-component';
 import { DataGrid } from '@mui/x-data-grid';
+import dayjs from "dayjs";
+
+
+
 
 const rows = [
   { id: 1, col1: 'User 1', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 15:42' },
@@ -47,10 +51,23 @@ const columns = [
 
 
 export default function SentItems() {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const dataGridRef = useRef(null);
 
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const getFirstDayOfMonth = () => {
+    return dayjs().startOf('month');
+  };
+  
+
+  // Function to get the last day of the current month
+  const getLastDayOfMonth = () => {
+    return dayjs().endOf('month');
+  };
+
+  const [startDate, setStartDate] = useState(getFirstDayOfMonth());
+  const [endDate, setEndDate] = useState(getLastDayOfMonth());
+  const dataGridRef = useRef(null);
+ const today = dayjs().format('DD/MM/YYYY')
   const handleStartDateChange = (date) => {
     setStartDate(date);
   };
@@ -67,7 +84,6 @@ export default function SentItems() {
 
         <Form>
          
-
     <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -85,6 +101,7 @@ export default function SentItems() {
 <div className="flex  gap-4">
         <DatePicker
           label="Start Date"
+          defaultValue={today}
           value={startDate}
           format="DD-MM-YYYY"
           size="small"
@@ -116,7 +133,7 @@ export default function SentItems() {
         </div>
         </div>
         <div className="flex-col flex align-middle mb-5">
-      <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true}/>
+      <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true} />
         </div>
       </div>
      
