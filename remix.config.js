@@ -7,6 +7,7 @@ export default {
   // serverBuildPath: "build/index.js",
   serverDependenciesToBundle: [
     /^react-icons/,
+    /^dayjs/,
     /^@mui\/*/,
     /^@emotion\/react/,
     /^@emotion\/styled/,

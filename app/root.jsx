@@ -1,6 +1,10 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import Navbar from "./components/navbar"
 import CSS from "./app.css"
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
+
 import {
   Links,
   LiveReload,
@@ -44,7 +48,9 @@ const auth = location.pathname === '/auth';
       </head>
       <body>
       {!auth && <Navbar />}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Outlet/>
+        </LocalizationProvider>
         <ScrollRestoration/>
         <Scripts />
         <LiveReload />
