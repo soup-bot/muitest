@@ -4,12 +4,38 @@ import { useState, useRef, forwardRef} from "react";
 import DataTable from 'react-data-table-component';
 import { DataGrid } from '@mui/x-data-grid';
 
-const rows= [
-  { id: 1, col1: 'Ahmed', col2: 'Hello Worlddsadasdasdasdasdasddddddddddddddddddddddddddddddddddddddddddddddddd', col3: 'Delivered', col4: '5-12-2023 15:42'},
-  { id: 2, col1: 'Aisha', col2: 'Bye World', col3: 'Delivered', col4: '5-12-2023 11:41'},
-  { id: 3, col1: 'Zayan', col2: 'Hi World', col3: 'Delivered', col4: '5-12-2023 15:44'},
+const rows = [
+  { id: 1, col1: 'User 1', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 15:42' },
+  { id: 2, col1: 'User 2', col2: 'Bye World', col3: 'Delivered', col4: '5-12-2023 11:41' },
+  { id: 3, col1: 'User 3', col2: 'Hi World', col3: 'Delivered', col4: '5-12-2023 15:44' },
+  { id: 4, col1: 'User 4', col2: 'Hello World', col3: 'Pending', col4: '5-12-2023 10:30' },
+  { id: 5, col1: 'User 5', col2: 'Bye World', col3: 'Delivered', col4: '5-12-2023 09:15' },
+  { id: 6, col1: 'User 6', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 08:20' },
+  { id: 7, col1: 'User 7', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 14:10' },
+  { id: 8, col1: 'User 8', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 13:05' },
+  { id: 9, col1: 'User 9', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 12:00' },
+  { id: 10, col1: 'User 10', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 11:55' },
+  { id: 11, col1: 'User 11', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 16:30' },
+  { id: 12, col1: 'User 12', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 16:15' },
+  { id: 13, col1: 'User 13', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 15:00' },
+  { id: 14, col1: 'User 14', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 14:55' },
+  { id: 15, col1: 'User 15', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 14:50' },
+  { id: 16, col1: 'User 16', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 14:45' },
+  { id: 17, col1: 'User 17', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 14:40' },
+  { id: 18, col1: 'User 18', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 14:35' },
+  { id: 19, col1: 'User 19', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 14:30' },
+  { id: 20, col1: 'User 20', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 14:25' },
+  { id: 21, col1: 'User 21', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 14:20' },
+  { id: 22, col1: 'User 22', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 14:15' },
+  { id: 23, col1: 'User 23', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 14:10' },
+  { id: 24, col1: 'User 24', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 14:05' },
+  { id: 25, col1: 'User 25', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 14:00' },
+  { id: 26, col1: 'User 26', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 13:55' },
+  { id: 27, col1: 'User 27', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 13:50' },
+  { id: 28, col1: 'User 28', col2: 'Hello World', col3: 'Delivered', col4: '5-12-2023 13:45' },
+  { id: 29, col1: 'User 29', col2: 'Bye World', col3: 'Pending', col4: '5-12-2023 13:40' },
+  { id: 30, col1: 'User 30', col2: 'Hi World', col3: 'Failed', col4: '5-12-2023 13:35' },
 ];
-  
 
 
 const columns = [
@@ -36,7 +62,7 @@ export default function SentItems() {
 
   return (
     <div className="h-screen w-full flex justify-center xl:pl-20">
-      <div className="rounded-lg md:shadow-lg xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3">
+      <div className=" h-min min-h-full rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3" >
       <h1 className="font-medium text-2xl my-10">Sent items</h1>
 
         <Form>
@@ -89,7 +115,7 @@ export default function SentItems() {
         </div>
         </div>
         </div>
-        <div className="flex-col flex align-middle">
+        <div className="flex-col flex align-middle mb-5">
       <DataGrid density="compact" rows={rows} columns={columns} checkboxSelection={true}/>
         </div>
       </div>
