@@ -2,6 +2,7 @@ import { Form, Outlet } from "@remix-run/react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState, useRef, forwardRef } from "react";
 import dayjs from "dayjs";
+import { FaSearch } from "react-icons/fa";
 
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
@@ -42,7 +43,7 @@ export default function SentItems() {
     </div>
         </Form> */}
           <div className="my-3 w-full lg:wd-1/2">
-            <div className="flex-col sm:flex-row flex align-middle justify-center">
+            <div className="flex-col sm:flex-row flex align-middle justify-center lg:justify-start">
               <div className="flex  gap-4">
                 <DatePicker
                   label="Start Date"
@@ -64,9 +65,12 @@ export default function SentItems() {
                 <button
                   type="button"
                   disabled={endDate.diff(startDate) < 0}
-                  className=" w-full h-full mt-8 mb-0 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-md px-5 py-2 sm:py-3 disabled:bg-gray-200"
+                  className="flex justify-center align-middle w-full mt-8 mb-0 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-md px-3 py-2 disabled:bg-gray-200"
                 >
-                  View
+                  <div className="flex align-middle justify-center items-center mt-1 lg:mt-0">
+                    <FaSearch />
+                  </div>
+                  <div className="mx-2 lg:hidden">Search</div>
                 </button>
               </div>
             </div>

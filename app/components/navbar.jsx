@@ -52,10 +52,10 @@ export default function Navbar() {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef}>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 shadow-md sm:shadow-none xl:py-5 xl:mb-10">
+      <nav className="bg-white border-gray-200 dark:bg-gray-900 shadow-md sm:shadow-none xl:py-2 xl:mb-0">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <NavLink to="/">
-            <img className="h-12 hidden md:block xl:hidden" src={logo} alt="" />
+            <img className="h-12 hidden md:block" src={logo} alt="" />
             <img className="h-12 md:hidden" src={logosmall} alt="" />
           </NavLink>
 
@@ -269,28 +269,22 @@ export default function Navbar() {
       <div>
         <div
           id="default-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+          className={`absolute lg:relative top-0 left-0 z-40 lg:z-0 w-64 lg:w-full h-screen lg:h-min transition-transform ${
             sidebarVisible ? "" : "-translate-x-full xl:translate-x-0"
           }`}
           aria-label="Sidebar"
         >
-          <div className="h-full px-0 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
-            <ul className="space-y-5 font-medium">
+          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white dark:bg-gray-800 shadow-md lg:shadow-none">
+            <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center">
               <li>
-                <NavLink to="/">
-                  <img
-                    className="pl-8  mt-3 h-12 hidden xl:block"
-                    src={logo}
-                    alt=""
-                  />
-                </NavLink>
-              </li>
-              <li>
-                <div className="my-8 w-full bg-slate-400 h-0.5 opacity-30 hidden xl:block"></div>
                 <NavLink
                   to="/"
                   onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  dark:hover:bg-gray-700 group"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
+                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
+                  }
                 >
                   <BiSolidMessageAdd size={26} />
                   <span className="flex-1 ms-3 whitespace-nowrap">
@@ -302,7 +296,11 @@ export default function Navbar() {
                 <NavLink
                   to="/inbox/table"
                   onClick={toggleSidebar}
-                  className="pl-8  flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
+                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
+                  }
                 >
                   <MdMoveToInbox size={26} />
                   <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
@@ -312,7 +310,11 @@ export default function Navbar() {
                 <NavLink
                   to="/sentitems/table"
                   onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
+                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
+                  }
                 >
                   <IoMdSend size={26} />
                   <span className="flex-1 ms-3 whitespace-nowrap">
@@ -320,11 +322,15 @@ export default function Navbar() {
                   </span>
                 </NavLink>
               </li>
-              <li>
+              <li className="w-120">
                 <NavLink
                   to="/contacts"
                   onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
+                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
+                  }
                 >
                   <RiContactsBook2Fill size={26} />
                   <span className="flex-1 ms-3 whitespace-nowrap">
@@ -336,7 +342,11 @@ export default function Navbar() {
                 <NavLink
                   to="/reports"
                   onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
+                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
+                  }
                 >
                   <HiDocumentReport size={26} />
                   <span className="flex-1 ms-3 whitespace-nowrap">Reports</span>
@@ -345,7 +355,7 @@ export default function Navbar() {
               <li>
                 <NavLink
                   to="/auth"
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
+                  className="pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
                 >
                   <PiSignOutBold size={26} />
                   <span className="flex-1 ms-3 whitespace-nowrap">

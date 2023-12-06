@@ -65,9 +65,12 @@ export default function Inbox() {
                 <button
                   type="button"
                   disabled={endDate.diff(startDate) < 0}
-                  className=" w-full mt-8 mb-0 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-md px-4 py-0 sm:py-3 disabled:bg-gray-200"
+                  className="flex justify-center align-middle w-full mt-8 mb-0 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-md px-4 py-2 disabled:bg-gray-200"
                 >
-                  <FaSearch />
+                  <div className="flex align-middle justify-center items-center mt-1 lg:mt-0">
+                    <FaSearch />
+                  </div>
+                  <div className="mx-2 lg:hidden">Search</div>
                 </button>
               </div>
             </div>
