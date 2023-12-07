@@ -99,7 +99,7 @@ export default function InputForm() {
         <Form method="post" encType="multipart/form-data">
           <div className="mb-5">
             {inputType === "numbers" && (
-              <div className=" flex flex-col align-middle  justify-left mt-8">
+              <div className=" flex flex-col align-middle  justify-left mt-8  animate-fade animate-once animate-duration-300 animate-ease-linear">
                 <p className="mb-2 text-l font-medium text-gray-900 ">
                   Input numbers
                 </p>
@@ -142,7 +142,7 @@ export default function InputForm() {
             {inputType === "file" && (
               <div className="">
                 {inputType === "file" && (
-                  <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8">
+                  <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8 animate-fade animate-once animate-duration-300 animate-ease-linear">
                     <div className=" w-full md:w-4/5">
                       <input
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 "
@@ -185,7 +185,7 @@ export default function InputForm() {
                     <div className="mt-5 text-md font-medium"></div>
                     {Object.values(headers).map((value, index) => (
                       <button
-                        className="bg-secondary text-white m-1 py-0.5 px-2 rounded-md shadow-sm hover:bg-blue-400 text-sm"
+                        className="bg-secondary text-white m-1 py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
                         key={index}
                         type="button"
                         onMouseDown={(e) => handleButtonClick(value, e)}

@@ -206,7 +206,7 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition "
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-gray-300 hover:text-white  group  transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-gray-300 hover:text-white hover:scale-105 group  transition"
                     }
                   >
                     <BiSolidMessageAdd size={26} />
@@ -222,7 +222,7 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <MdMoveToInbox size={26} />
@@ -236,7 +236,7 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-gray-300 hover:text-white  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <IoMdSend size={26} />
@@ -252,7 +252,7 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <RiContactsBook2Fill size={26} />
@@ -268,7 +268,7 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       isActive
                         ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-r-lg group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-gray-300 hover:text-white  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <HiDocumentReport size={26} />

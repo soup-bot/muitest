@@ -25,6 +25,9 @@ export default function SentItems() {
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
+  const search = () => {
+    console.log("search button hit");
+  };
 
   return (
     <div className="h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
@@ -53,6 +56,7 @@ export default function SentItems() {
               <div className="flex align-middle justify-center items-center mb-8 sm:m-0 sm:ml-8">
                 <button
                   type="button"
+                  onClick={search}
                   disabled={endDate.diff(startDate) < 0}
                   className="flex justify-center align-middle w-full mt-8 mb-0 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-md px-3 py-2 disabled:bg-gray-200"
                 >
