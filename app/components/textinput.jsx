@@ -92,9 +92,9 @@ export default function InputForm() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center ">
       <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg md:shadow-lg lg:border-t-4  border-secondary">
-        <h1 className="font-medium text-2xl my-10">Compose a message</h1>
+        <h1 className="font-bold text-2xl my-10 ">Compose a message</h1>
 
         <Form method="post" encType="multipart/form-data">
           <div className="mb-5">

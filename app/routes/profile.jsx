@@ -29,14 +29,14 @@ function Dashboard() {
   return (
     <div className="h-max w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
       <div className=" h-max pb-20 min-h-full rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3">
-        <h1 className="font-medium text-2xl my-10 px-3">Dashboard</h1>
+        <h1 className="font-bold text-2xl my-10 px-3">Dashboard</h1>
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
           <div className="w-full p-3">
             <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-sky-400 to-blue-800 w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
-                <h5 className="text-2xl font-semibold tracking-tight text-white ">
+                <h5 className="text-2xl font-semibold tracking-tight text-white mr-3">
                   1500 Messages
                 </h5>
                 <RiMessage2Fill color="white" size={23} />

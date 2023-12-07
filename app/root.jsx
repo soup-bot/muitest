@@ -42,7 +42,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="overflow-y-scroll">
+      <body className="overflow-y-scroll  font-body">
         {!auth && <Navbar />}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Outlet />

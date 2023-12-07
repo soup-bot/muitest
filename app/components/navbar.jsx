@@ -54,7 +54,7 @@ export default function Navbar() {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef}>
-      <nav className="bg-white border-gray-200 shadow-md  xl:py-2 xl:mb-0">
+      <nav className="bg-white border-gray-200 shadow-md  xl:py-2 xl:mb-0 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
@@ -198,7 +198,7 @@ export default function Navbar() {
         >
           <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none">
             <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center ">
-              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md">
+              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md ">
                 <li>
                   <NavLink
                     to="/"

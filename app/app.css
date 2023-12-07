@@ -3,13 +3,41 @@
 @tailwind utilities;
 
 @layer utilities {
-    /* Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
-    .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-    }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Gotham";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./fonts//GothamBoldItalic.ttf") format("woff2"),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+      url("./fonts//GothamBoldItalic.ttf") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+  font-display: swap;
+  font-family: "Gotham";
+  font-style: bold;
+  font-weight: 700;
+  src: url("./fonts//GothamLightItalic.ttf") format("woff2"),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+      url("./fonts//GothamLightItalic.ttf") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+  font-display: swap;
+  font-family: "Gotham";
+  font-style: black;
+  font-weight: 900;
+  src: url("./fonts//Gotham-XLightItalic.otf") format("woff2"),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+      url("./fonts//Gotham-XLightItalic.otf") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }

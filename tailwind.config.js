@@ -10,6 +10,9 @@ module.exports = {
     require("tailwindcss-animated"),
   ],
   theme: {
+    fontFamily: {
+      body: ["Gotham"],
+    },
     extend: {
       colors: {
         primary: "#F26940",
