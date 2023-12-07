@@ -10,6 +10,8 @@ import { PiSignOutBold } from "react-icons/pi";
 import { FaUserCircle } from "react-icons/fa";
 import { json } from "@remix-run/node";
 import { BiSolidMessageAdd } from "react-icons/bi";
+import { MdSms } from "react-icons/md";
+import { FaCoins } from "react-icons/fa";
 
 export default function Navbar() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -52,8 +54,8 @@ export default function Navbar() {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef}>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 shadow-md sm:shadow-none xl:py-2 xl:mb-0">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <nav className="bg-white border-gray-200 shadow-md  xl:py-2 xl:mb-0">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
             <img className="h-12 md:hidden" src={logosmall} alt="" />
@@ -63,11 +65,17 @@ export default function Navbar() {
             ref={dropdownRef}
             className="flex gap-4 items-center justify-items-center"
           >
+            <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-yellow-300  align-center justify-center hidden lg:flex">
+              <p className="drop-shadow-md mx-2">1500</p>
+              <div className="flex align-middle justify-center items-center mr-1">
+                <FaCoins />
+              </div>
+            </div>
             <button
               onClick={toggleSidebar}
               data-collapse-toggle="navbar-default"
               type="button"
-              className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary rounded-lg xl:hidden  dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
+              className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary rounded-lg lg:hidden   transition-all duration-300"
               aria-controls="navbar-default"
               aria-expanded={sidebarVisible ? "true" : "false"}
             >
@@ -106,13 +114,12 @@ export default function Navbar() {
                 </svg>
               )}
             </button>
-
             <div className="relative">
               <div>
                 <div>
                   <FaUserCircle
                     className="cursor-pointer hover:scale-110 transition-all"
-                    size={27}
+                    size={32}
                     color={"#F05425"}
                     onClick={toggledropdownVisible}
                   />
@@ -123,17 +130,17 @@ export default function Navbar() {
                 id="userDropdown"
                 className={` ${
                   dropdownVisible ? "" : "hidden"
-                } z-10 absolute right-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+                } z-10 absolute right-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 `}
               >
                 <ul
-                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                  className="py-2 text-sm text-gray-700 "
                   aria-labelledby="avatarButton"
                 >
                   <li>
                     <NavLink
                       to="/profile"
                       onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 hover:bg-gray-100 "
                     >
                       My Profile
                     </NavLink>
@@ -142,7 +149,7 @@ export default function Navbar() {
                     <NavLink
                       to="/settings"
                       onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 hover:bg-gray-100 "
                     >
                       Settings
                     </NavLink>{" "}
@@ -151,20 +158,28 @@ export default function Navbar() {
                     <a
                       href="#"
                       onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      className="block px-4 py-2 hover:bg-gray-100 "
                     >
                       Help
                     </a>
                   </li>
+                  <li className="lg:hidden">
+                    <div className="px-2 py-2 text-white font-semibold bg-gradient-to-tl from-primary to-yellow-300 flex align-center justify-left">
+                      <p className="drop-shadow-md mx-2">Balance: 1500 </p>
+                      <div className="flex align-middle justify-center items-center mr-1">
+                        <FaCoins />
+                      </div>
+                    </div>
+                  </li>
                 </ul>
                 <div className="py-1">
-                  <a
-                    href="#"
+                  <NavLink
+                    to="/auth"
                     onClick={toggledropdownVisible}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Sign out
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -173,196 +188,96 @@ export default function Navbar() {
       </nav>
 
       {/* SIDEBAR */}
-
-      {/* <div>
-        <div
-          id="default-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            sidebarVisible ? "" : "-translate-x-full xl:translate-x-0"
-          }`}
-          aria-label="Sidebar"
-        >
-          <div className="h-full px-0 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
-            <ul className="space-y-5 font-medium">
-              <li>
-                <NavLink to="/">
-                  <img
-                    className="pl-8  mt-3 h-12 hidden xl:block"
-                    src={logo}
-                    alt=""
-                  />
-                </NavLink>
-              </li>
-              <li>
-                <div className="my-8 w-full bg-slate-400 h-0.5 opacity-30 hidden xl:block"></div>
-                <NavLink
-                  to="/"
-                  onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  dark:hover:bg-gray-700 group"
-                >
-                  <BiSolidMessageAdd size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    New Message
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/inbox/table"
-                  onClick={toggleSidebar}
-                  className="pl-8  flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
-                >
-                  <MdMoveToInbox size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/sentitems/table"
-                  onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
-                >
-                  <IoMdSend size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    Sent items
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/contacts"
-                  onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
-                >
-                  <RiContactsBook2Fill size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    Contacts
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/reports"
-                  onClick={toggleSidebar}
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
-                >
-                  <HiDocumentReport size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">Reports</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/auth"
-                  className="pl-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
-                >
-                  <PiSignOutBold size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    Sign Out
-                  </span>
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div> */}
-
       <div>
         <div
           id="default-sidebar"
           className={`absolute lg:relative top-0 left-0 z-40 lg:z-0 w-64 lg:w-full h-screen lg:h-min transition-transform ${
-            sidebarVisible ? "" : "-translate-x-full xl:translate-x-0"
+            sidebarVisible ? "" : "-translate-x-full lg:translate-x-0"
           }`}
           aria-label="Sidebar"
         >
-          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white dark:bg-gray-800 shadow-md lg:shadow-none">
-            <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center">
-              <li>
-                <NavLink
-                  to="/"
-                  onClick={toggleSidebar}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
-                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
-                  }
-                >
-                  <BiSolidMessageAdd size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    New Message
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/inbox/table"
-                  onClick={toggleSidebar}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
-                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
-                  }
-                >
-                  <MdMoveToInbox size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/sentitems/table"
-                  onClick={toggleSidebar}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
-                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
-                  }
-                >
-                  <IoMdSend size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    Sent items
-                  </span>
-                </NavLink>
-              </li>
-              <li className="w-120">
-                <NavLink
-                  to="/contacts"
-                  onClick={toggleSidebar}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
-                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
-                  }
-                >
-                  <RiContactsBook2Fill size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    Contacts
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/reports"
-                  onClick={toggleSidebar}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary rounded-lg group"
-                      : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white  group"
-                  }
-                >
-                  <HiDocumentReport size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">Reports</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/auth"
-                  className="pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-gray-700 group"
-                >
-                  <PiSignOutBold size={26} />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    Sign Out
-                  </span>
-                </NavLink>
-              </li>
+          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none">
+            <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center ">
+              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md">
+                <li>
+                  <NavLink
+                    to="/"
+                    onClick={toggleSidebar}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition "
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-gray-300 hover:text-white  group  transition"
+                    }
+                  >
+                    <BiSolidMessageAdd size={26} />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      New Message
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/inbox/table"
+                    onClick={toggleSidebar}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white  group transition"
+                    }
+                  >
+                    <MdMoveToInbox size={26} />
+                    <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/sentitems/table"
+                    onClick={toggleSidebar}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-gray-300 hover:text-white  group transition"
+                    }
+                  >
+                    <IoMdSend size={26} />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      Sent items
+                    </span>
+                  </NavLink>
+                </li>
+                <li className="w-120">
+                  <NavLink
+                    to="/contacts"
+                    onClick={toggleSidebar}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white  group transition"
+                    }
+                  >
+                    <RiContactsBook2Fill size={26} />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      Contacts
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/reports"
+                    onClick={toggleSidebar}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-r-lg group transition"
+                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-gray-300 hover:text-white  group transition"
+                    }
+                  >
+                    <HiDocumentReport size={26} />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      Reports
+                    </span>
+                  </NavLink>
+                </li>
+              </div>
             </ul>
           </div>
         </div>

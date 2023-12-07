@@ -94,49 +94,48 @@ export default function InputForm() {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg md:shadow-lg lg:border-t-4  border-secondary">
-        <h1 className="font-medium text-2xl">Compose a message</h1>
+        <h1 className="font-medium text-2xl my-10">Compose a message</h1>
 
         <Form method="post" encType="multipart/form-data">
           <div className="mb-5">
             {inputType === "numbers" && (
-              <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8">
-                <div className="w-full md:w-4/5">
-                  <label
-                    htmlFor="message"
-                    className="block mb-2 text-l font-medium text-gray-900 dark:text-white"
-                  >
-                    Input numbers
-                  </label>
-                  <TagsInput
-                    classNames={{
-                      tag: "font-medium",
-                      input:
-                        "p-1 font-medium focus:border-transparent focus:ring-0 active:ring-0",
-                    }}
-                    value={selected}
-                    onChange={setSelected}
-                  />
-                  <input type="hidden" name="numbers" value={selected} />
-                </div>
-                <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      value=""
-                      checked={inputType === "file"}
-                      onChange={() =>
-                        handleInputChange(
-                          inputType === "numbers" ? "file" : "numbers"
-                        )
-                      }
-                      className="sr-only peer"
+              <div className=" flex flex-col align-middle  justify-left mt-8">
+                <p className="mb-2 text-l font-medium text-gray-900 ">
+                  Input numbers
+                </p>
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-full md:w-4/5">
+                    <TagsInput
+                      classNames={{
+                        tag: "font-medium",
+                        input:
+                          "p-1 font-medium focus:border-transparent focus:ring-0 active:ring-0",
+                      }}
+                      value={selected}
+                      onChange={setSelected}
                     />
+                    <input type="hidden" name="numbers" value={selected} />
+                  </div>
+                  <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        value=""
+                        checked={inputType === "file"}
+                        onChange={() =>
+                          handleInputChange(
+                            inputType === "numbers" ? "file" : "numbers"
+                          )
+                        }
+                        className="sr-only peer"
+                      />
 
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Upload a file
-                    </span>
-                  </label>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+                      <span className="ms-3 text-sm font-medium text-gray-900 ">
+                        Upload a file
+                      </span>
+                    </label>
+                  </div>
                 </div>
               </div>
             )}
@@ -146,7 +145,7 @@ export default function InputForm() {
                   <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8">
                     <div className=" w-full md:w-4/5">
                       <input
-                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 "
                         aria-describedby="file_input_help"
                         type="file"
                         name="excelFile"
@@ -156,7 +155,7 @@ export default function InputForm() {
                       />
                     </div>
 
-                    <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5">
+                    <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5 align-middle items-center">
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -170,18 +169,15 @@ export default function InputForm() {
                           className="sr-only peer"
                         />
 
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+                        <span className="ms-3 text-sm font-medium text-gray-900 ">
                           Upload a file
                         </span>
                       </label>
                     </div>
                   </div>
                 )}
-                <p
-                  className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                  id="file_input_help"
-                >
+                <p className="mt-1 text-sm text-gray-500 " id="file_input_help">
                   XLSX, XLS, or CSV.
                 </p>
                 {headers ? (
@@ -211,7 +207,7 @@ export default function InputForm() {
           <div>
             <label
               htmlFor="message"
-              className="block mb-2 text-l font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-l font-medium text-gray-900 "
             >
               Your message
             </label>
@@ -223,7 +219,7 @@ export default function InputForm() {
               id="message"
               rows="14"
               maxLength="1531"
-              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 0"
               placeholder="Write your message here..."
             ></textarea>
             <div className="justify-between flex-wrap border-2 align-middle bg-slate-100  rounded-md">
@@ -238,7 +234,7 @@ export default function InputForm() {
             <div className="flex w-full align-middle justify-center mt-10">
               <button
                 type="submit"
-                className="flex align-middle justify-center items-center text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className="flex align-middle justify-center items-center text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
                 {" "}
                 <p className="mr-3">SEND</p>

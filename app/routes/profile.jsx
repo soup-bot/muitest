@@ -34,22 +34,22 @@ function Dashboard() {
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
           <div className="w-full p-3">
-            <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-sky-400 to-blue-800 w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ">
+            <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-sky-400 to-blue-800 w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
-                <h5 className="text-2xl font-semibold tracking-tight text-white dark:text-white mr-2">
+                <h5 className="text-2xl font-semibold tracking-tight text-white ">
                   1500 Messages
                 </h5>
                 <RiMessage2Fill color="white" size={23} />
               </div>
-              <p className="font-medium opacity-70 text-gray-100 dark:text-gray-400">
+              <p className="font-medium opacity-70 text-gray-100 ">
                 My balance
               </p>
             </div>
           </div>
           {/* PACKAGE CARD */}
           <div className="w-full p-3 md:basis-1/2">
-            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl  border-blue-700 rounded-lg  dark:bg-gray-800  dark:border-gray-700">
-              <p className="mb-3  text-gray-700 dark:text-gray-400 font-medium opacity-70">
+            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl  border-blue-700 rounded-lg  ">
+              <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My current plan
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-slate-800">
@@ -92,7 +92,7 @@ function Dashboard() {
           {/* USAGE CARD */}
           <div className="w-full p-3 md:basis-1/2 ">
             <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4 border-hoverprim shadow-2xl rounded-lg">
-              <p className="mb-3  text-gray-700 dark:text-gray-400 font-medium opacity-70">
+              <p className="mb-3  text-gray-700  font-medium opacity-70">
                 Your usage
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>

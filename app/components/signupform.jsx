@@ -214,7 +214,7 @@ export default function SignupForm() {
         <div className="flex align-middle items-center mb-2 ">
           <label
             htmlFor="plan"
-            className="block text-sm font-medium text-gray-500 dark:text-white"
+            className="block text-sm font-medium text-gray-500 "
           >
             Select your plan
           </label>
@@ -234,7 +234,7 @@ export default function SignupForm() {
         <select
           name="plan"
           id="plan"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
         >
           <option>BULK/CORP SMS 3K</option>
           <option>BULK/CORP SMS 5K</option>

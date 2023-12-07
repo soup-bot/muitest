@@ -12,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#F05425",
+        primary: "#F26940",
         secondary: "#0FA5B7",
         hoverprim: "#d9440e",
         hoversec: "#0c8492",

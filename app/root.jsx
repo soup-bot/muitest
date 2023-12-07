@@ -1,9 +1,8 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import Navbar from "./components/navbar"
-import CSS from "./app.css"
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-
+import Navbar from "./components/navbar";
+import CSS from "./app.css";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import {
   Links,
@@ -18,7 +17,7 @@ import { json } from "@remix-run/node";
 import { useLocation } from "react-router-dom";
 
 export function links() {
-  return [{ rel: "stylesheet", href: CSS }]
+  return [{ rel: "stylesheet", href: CSS }];
 }
 // export const loader = async ({ request, params }) => {
 //   // Check if the current route parameters include 'auth'
@@ -29,13 +28,10 @@ export function links() {
 //   };
 // };
 
-
-
 export default function App() {
   const location = useLocation();
-console.log("LOCATION = "+ location.pathname);
-const auth = location.pathname === '/auth';
-
+  console.log("LOCATION = " + location.pathname);
+  const auth = location.pathname === "/auth";
 
   // const {auth} = useLoaderData();
   return (
@@ -46,12 +42,12 @@ const auth = location.pathname === '/auth';
         <Meta />
         <Links />
       </head>
-      <body>
-      {!auth && <Navbar />}
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Outlet />
+      <body className="overflow-y-scroll">
+        {!auth && <Navbar />}
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Outlet />
         </LocalizationProvider>
-        <ScrollRestoration/>
+        <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
