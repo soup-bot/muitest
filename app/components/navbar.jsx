@@ -156,7 +156,8 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="https://www.dhiraagu.com.mv/business/products-solutions/voice-collaboration/bulk-sms-short-code-messaging-service"
+                      target="_blank"
                       onClick={toggledropdownVisible}
                       className="block px-4 py-2 hover:bg-gray-100 "
                     >

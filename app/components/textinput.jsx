@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 import xlsx from "xlsx";
 import { IoSend } from "react-icons/io5";
+import sample from "../assets/sample.png";
+import placeholderimg from "../assets/placeholders.png";
+import { IoClose } from "react-icons/io5";
 
 export default function InputForm() {
   const [text, setText] = useState("");
@@ -12,6 +15,17 @@ export default function InputForm() {
   const [selected, setSelected] = useState(["7637437"]);
   const [headers, setHeaders] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  // Function to open the popup
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  // Function to close the popup
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
 
   const handleInputChange = (type) => {
     setInputType(type);
@@ -93,6 +107,25 @@ export default function InputForm() {
 
   return (
     <div className="w-full flex flex-col items-center ">
+        {/* Popup */}
+        {isPopupOpen && (
+        <div className="border-t-4 border-secondary absolute flex flex-col bg-slate-100  p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+          <div className="w-100 flex align-top  justify-end mb-5 ">
+          <IoClose className="cursor-pointer" size={30} onClick={closePopup}/>
+          </div>
+          <div className="">
+            <ul className= "text-md flex flex-col align-middle justify-center items-center gap-4 px-4">
+          <img src={sample} alt="" className="w-4/5 md:w-3/5 border-2  rounded-md" />
+        
+            <li><p className="">Upload an xlsx, xls or csv file in the above format with your desired columns. Number is required. </p></li>
+         
+          <img src={placeholderimg} alt="" className="w-4/5 md:w-3/5 border-2 rounded-md" />
+          <li><p>The header values of your data sheet will be displayed, and can be added to your messages as placeholders to allow for customized messages. </p></li>
+          </ul>
+        </div>
+        
+        </div>
+      )}
       <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg md:shadow-lg lg:border-t-4  border-secondary">
         <h1 className="font-bold text-2xl my-10 ">Compose a message</h1>
 
@@ -134,6 +167,13 @@ export default function InputForm() {
                       <span className="ms-3 text-sm font-medium text-gray-900 ">
                         Upload a file
                       </span>
+                      <button
+              type="button"
+              onClick={openPopup}
+              className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
+            >
+              ?
+            </button>
                     </label>
                   </div>
                 </div>
@@ -173,6 +213,13 @@ export default function InputForm() {
                         <span className="ms-3 text-sm font-medium text-gray-900 ">
                           Upload a file
                         </span>
+                        <button
+              type="button"
+              onClick={openPopup}
+              className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
+            >
+              ?
+            </button>
                       </label>
                     </div>
                   </div>
@@ -197,7 +244,7 @@ export default function InputForm() {
                 ) : (
                   // ELSE SHOW THAT NO DATA IS AVAILABLE
                   <div className="mt-3 text-md font-medium">
-                    No data available
+                  
                   </div>
                 )}
               </div>
