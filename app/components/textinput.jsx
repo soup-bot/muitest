@@ -109,7 +109,7 @@ export default function InputForm() {
     <div className="w-full flex flex-col items-center ">
         {/* Popup */}
         {isPopupOpen && (
-        <div className="border-t-4 border-secondary absolute flex flex-col bg-slate-100  p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+        <div className="border-t-4 border-secondary absolute flex flex-col backdrop-blur-lg  p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
           <div className="w-100 flex align-top  justify-end mb-5 ">
           <IoClose className="cursor-pointer" size={30} onClick={closePopup}/>
           </div>
@@ -120,7 +120,7 @@ export default function InputForm() {
             <li><p className="">Upload an xlsx, xls or csv file in the above format with your desired columns. Number is required. </p></li>
          
           <img src={placeholderimg} alt="" className="w-4/5 md:w-3/5 border-2 rounded-md" />
-          <li><p>The header values of your data sheet will be displayed, and can be added to your messages as placeholders to allow for customized messages. </p></li>
+          <li><p className="">The header values of your data sheet will be displayed, and can be added to your messages as placeholders to allow for customized messages. </p></li>
           </ul>
         </div>
         
