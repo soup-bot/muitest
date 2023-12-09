@@ -3,6 +3,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState, useRef, forwardRef } from "react";
 import dayjs from "dayjs";
 import { FaSearch } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
 
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
@@ -63,8 +64,11 @@ export default function SentItems() {
                   <div className="flex align-middle justify-center items-center mt-1 lg:mt-0">
                     <FaSearch />
                   </div>
+                  
                   <div className="mx-2 lg:hidden">Search</div>
                 </button>
+             
+                
               </div>
             </div>
           </div>
