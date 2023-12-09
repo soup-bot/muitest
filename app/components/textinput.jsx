@@ -109,7 +109,8 @@ export default function InputForm() {
     <div className="w-full flex flex-col items-center ">
         {/* Popup */}
         {isPopupOpen && (
-        <div className="border-t-4 border-secondary absolute flex flex-col backdrop-blur-lg  p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+       
+        <div className="border-t-4 border-secondary bg-white absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
           <div className="w-100 flex align-top  justify-end mb-5 ">
           <IoClose className="cursor-pointer" size={30} onClick={closePopup}/>
           </div>
@@ -126,7 +127,7 @@ export default function InputForm() {
         
         </div>
       )}
-      <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg md:shadow-lg lg:border-t-4  border-secondary">
+      <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg lg:shadow-lg lg:border-t-4  border-secondary">
         <h1 className="font-bold text-2xl my-10 ">Compose a message</h1>
 
         <Form method="post" encType="multipart/form-data">
