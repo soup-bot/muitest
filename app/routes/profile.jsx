@@ -33,7 +33,7 @@ function Dashboard() {
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
-          <div className="w-full p-3">
+          <div className="w-full py-3 md:p-3">
             <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-sky-400 to-blue-800 w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
                 <h5 className="text-2xl font-semibold tracking-tight text-white mr-3">
@@ -47,7 +47,7 @@ function Dashboard() {
             </div>
           </div>
           {/* PACKAGE CARD */}
-          <div className="w-full p-3 md:basis-1/2">
+          <div className="w-full p-0  py-3  md:p-3 md:basis-1/2">
             <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl  border-blue-700 rounded-lg  ">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My current plan
@@ -57,18 +57,16 @@ function Dashboard() {
               </h5>
 
               <ul className="my-4 list-disc mx-4">
-                <li className="text-sm font-semibold">
-                  SMS Allowance per month -110,000{" "}
-                </li>
-                <li className="text-sm font-semibold">
+                <li className="text-md ">SMS Allowance per month -110,000 </li>
+                <li className="text-md">
                   {" "}
                   Excess SMS Allowance per month -200,000
                 </li>
-                <li className="text-sm font-semibold">
+                <li className="text-md">
                   Excess Allowance Charge (MVR) - 0.15
                 </li>
               </ul>
-              <button className="inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-blue-800 rounded-lg hover:bg-blue-900">
+              <button className=" inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-blue-800 self-end rounded-lg hover:bg-blue-900">
                 Manage plan
                 <svg
                   className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
@@ -90,15 +88,15 @@ function Dashboard() {
           </div>
 
           {/* USAGE CARD */}
-          <div className="w-full p-3 md:basis-1/2 ">
+          <div className="w-full p-0  py-3  md:p-3 md:basis-1/2 ">
             <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4 border-hoverprim shadow-2xl rounded-lg">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
-                Your usage
+                My usage
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
 
               <ul className="my-4">
-                <li className="text-sm font-semibold">
+                <li className="text-md font-semibold">
                   Generate my usage report{" "}
                 </li>
               </ul>
@@ -120,7 +118,7 @@ function Dashboard() {
                 {/* <p>DIFFERENCE: {startDate && endDate && (endDate.diff(startDate))}</p> */}
               </div>
               <button
-                className="mt-12 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary disabled:bg-gray-400 rounded-lg hover:bg-hoverprim"
+                className="mt-12 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary disabled:bg-gray-400 self-end  rounded-lg hover:bg-hoverprim"
                 disabled={endDate.diff(startDate) < 0}
               >
                 Generate report

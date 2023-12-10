@@ -12,10 +12,11 @@ export default function InputForm() {
   const [text, setText] = useState("");
   const [numMessages, setNumMessages] = useState(0);
   const [inputType, setInputType] = useState("numbers");
-  const [selected, setSelected] = useState(["7637437"]);
+  const [selected, setSelected] = useState([]);
   const [headers, setHeaders] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [validNum, setValidNum] = useState(true);
 
   // Function to open the popup
   const openPopup = () => {
@@ -105,26 +106,71 @@ export default function InputForm() {
     calculateMessages(e.target.value);
   };
 
+  //PHONE NUMBER VALIDATION
+  const validatePhoneNumber = (phoneNumber) => {
+    // Check if the phone number has exactly 7 characters
+    // and starts with either 7 or 9
+    return /^[79]\d{6}$/.test(phoneNumber);
+  };
+
+  const beforeAddValidate = (tag, existingTags) => {
+    // Check if the length is less than 10 and the phone number is valid
+    const isValidPhoneNumber = selected.length < 10 && validatePhoneNumber(tag);
+
+    isValidPhoneNumber ? setValidNum(true) : setValidNum(false);
+    // Set the error message for Snackbar
+
+    return isValidPhoneNumber;
+
+    // } else {
+    //   setSnackbarText(
+    //     "Invalid phone number. Please enter a valid 7-digit number starting with 7 or 9."
+    //   );
+    //   setOpen(true);
+    // }
+  };
+
   return (
     <div className="w-full flex flex-col items-center ">
-        {/* Popup */}
-        {isPopupOpen && (
-       
+      {/* Popup */}
+      {isPopupOpen && (
         <div className="border-t-4 border-secondary bg-white absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
           <div className="w-100 flex align-top  justify-end mb-5 ">
-          <IoClose className="cursor-pointer" size={30} onClick={closePopup}/>
+            <IoClose
+              className="cursor-pointer"
+              size={30}
+              onClick={closePopup}
+            />
           </div>
           <div className="">
-            <ul className= "text-md flex flex-col align-middle justify-center items-center gap-4 px-4">
-          <img src={sample} alt="" className="w-4/5 md:w-3/5 border-2  rounded-md" />
-        
-            <li><p className="">Upload an xlsx, xls or csv file in the above format with your desired columns. Number is required. </p></li>
-         
-          <img src={placeholderimg} alt="" className="w-4/5 md:w-3/5 border-2 rounded-md" />
-          <li><p className="">The header values of your data sheet will be displayed, and can be added to your messages as placeholders to allow for customized messages. </p></li>
-          </ul>
-        </div>
-        
+            <ul className="text-md flex flex-col align-middle justify-center items-center gap-4 px-4">
+              <img
+                src={sample}
+                alt=""
+                className="w-4/5 md:w-3/5 border-2  rounded-md"
+              />
+
+              <li>
+                <p className="">
+                  Upload an xlsx, xls or csv file in the above format with your
+                  desired columns. Number is required.{" "}
+                </p>
+              </li>
+
+              <img
+                src={placeholderimg}
+                alt=""
+                className="w-4/5 md:w-3/5 border-2 rounded-md"
+              />
+              <li>
+                <p className="">
+                  The header values of your data sheet will be displayed, and
+                  can be added to your messages as placeholders to allow for
+                  customized messages.{" "}
+                </p>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
       <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg lg:shadow-lg lg:border-t-4  border-secondary">
@@ -147,9 +193,13 @@ export default function InputForm() {
                       }}
                       value={selected}
                       onChange={setSelected}
+                      beforeAddValidate={beforeAddValidate}
+                      onlyUnique={true}
                     />
+
                     <input type="hidden" name="numbers" value={selected} />
                   </div>
+
                   <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
@@ -169,15 +219,23 @@ export default function InputForm() {
                         Upload a file
                       </span>
                       <button
-              type="button"
-              onClick={openPopup}
-              className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
-            >
-              ?
-            </button>
+                        type="button"
+                        onClick={openPopup}
+                        className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
+                      >
+                        ?
+                      </button>
                     </label>
                   </div>
                 </div>
+                {!validNum && (
+                  <div className="">
+                    <span className="font-medium text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                      Invalid phone number. Please enter a valid 7-digit number
+                      starting with 7 or 9.
+                    </span>
+                  </div>
+                )}
               </div>
             )}
             {inputType === "file" && (
@@ -215,12 +273,12 @@ export default function InputForm() {
                           Upload a file
                         </span>
                         <button
-              type="button"
-              onClick={openPopup}
-              className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
-            >
-              ?
-            </button>
+                          type="button"
+                          onClick={openPopup}
+                          className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
+                        >
+                          ?
+                        </button>
                       </label>
                     </div>
                   </div>
@@ -244,9 +302,7 @@ export default function InputForm() {
                   </>
                 ) : (
                   // ELSE SHOW THAT NO DATA IS AVAILABLE
-                  <div className="mt-3 text-md font-medium">
-                  
-                  </div>
+                  <div className="mt-3 text-md font-medium"></div>
                 )}
               </div>
             )}
@@ -273,7 +329,11 @@ export default function InputForm() {
             <div className="justify-between flex-wrap border-2 align-middle bg-slate-100  rounded-md">
               <div className="flex font-medium text-sm justify-between p-2">
                 <p className="">{text.length} characters used</p>
-                <p className={`${numMessages > 10 ? "errortxt" : ""}`}>
+                <p
+                  className={`${
+                    numMessages > 10 ? "text-red-600 font-black" : ""
+                  }`}
+                >
                   {numMessages}/10 messages
                 </p>
               </div>
@@ -282,7 +342,8 @@ export default function InputForm() {
             <div className="flex w-full align-middle justify-center mt-10">
               <button
                 type="submit"
-                className="flex align-middle justify-center items-center text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                disabled={numMessages > 10}
+                className="flex align-middle justify-center items-center disabled:bg-gray-300 text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
                 {" "}
                 <p className="mr-3">SEND</p>
