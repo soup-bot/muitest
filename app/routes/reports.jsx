@@ -36,7 +36,7 @@ export default function Reports() {
         <h1 className="font-bold text-2xl my-10">Reports</h1>
 
         <label
-          for="countries"
+          htmlFor="countries"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Report type
