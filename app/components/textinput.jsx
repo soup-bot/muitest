@@ -152,7 +152,7 @@ export default function InputForm() {
 
               <li>
                 <p className="">
-                  Upload an xlsx, xls or csv file in the above format with your
+                  Upload an xlsx or csv file in the above format with your
                   desired columns. Number is required.{" "}
                 </p>
               </li>
@@ -249,7 +249,7 @@ export default function InputForm() {
                         type="file"
                         name="excelFile"
                         id="excelFile"
-                        accept=".xlsx, .xls, .csv"
+                        accept=".xlsx, .csv"
                         onChange={handleFileChange}
                       />
                     </div>
@@ -284,7 +284,7 @@ export default function InputForm() {
                   </div>
                 )}
                 <p className="mt-1 text-sm text-gray-500 " id="file_input_help">
-                  XLSX, XLS, or CSV.
+                  .xlsx or .csv
                 </p>
                 {headers ? (
                   <>
