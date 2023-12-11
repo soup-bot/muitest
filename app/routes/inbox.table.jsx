@@ -1,5 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { MdError } from "react-icons/md";
+import { useState, useCallback } from "react";
+import { MdDelete } from "react-icons/md";
 
 const rows = [
   { id: 1, col1: "User 1", col2: "Message 1", col3: "5-12-2023 15:42" },
@@ -21,26 +23,31 @@ const columns = [
 ];
 
 export default function InboxTable() {
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const handleDeleteClick = () => {
+    console.log("Deleting rows:", selectedRows);
+  };
+
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <button
+          disabled={selectedRows.length === 0}
+          onClick={handleDeleteClick}
+          className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md"
+        >
+          <MdDelete size={20} />
+        </button>
+      </div>
+
       <DataGrid
         density="compact"
         rows={rows}
         columns={columns}
-        checkboxSelection={true}
+        onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
+        checkboxSelection
       />
     </>
-  );
-}
-
-export function ErrorBoundary({}) {
-  return (
-    <main className="flex flex-col  align-middle items-center justify-center font-medium text-xl m-10">
-      <div className="bg-white p-10 rounded-2xl shadow-md">
-        <h4 className="text-red-800 flex flex-col md:flex-row align-middle justify-center items-center gap-3">
-          <MdError size={25} /> There was an error retrieving your data
-        </h4>
-      </div>
-    </main>
   );
 }

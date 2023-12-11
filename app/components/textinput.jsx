@@ -342,8 +342,11 @@ export default function InputForm() {
             <div className="flex w-full align-middle justify-center mt-10">
               <button
                 type="submit"
-                disabled={numMessages > 10}
-                className="flex align-middle justify-center items-center disabled:bg-gray-300 text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                disabled={
+                  !((text && selected.length > 0) || (text && uploadedFile)) ||
+                  numMessages > 10
+                }
+                className="flex align-middle justify-center items-center disabled:bg-gray-400 text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
                 {" "}
                 <p className="mr-3">SEND</p>

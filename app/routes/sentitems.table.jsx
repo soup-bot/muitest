@@ -1,6 +1,8 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { MdError } from "react-icons/md";
-
+import { useState, useCallback } from "react";
+import { MdDelete } from "react-icons/md";
+import Modal from "@mui/material/Modal";
 // const rows = [
 //   {
 //     id: 1,
@@ -274,19 +276,53 @@ const columns = [
 ];
 
 export default function SentTable() {
-  const checkedRows = (rowSelectionModel) => {
-    console.log("Row change");
-    console.log(rowSelectionModel);
+  // const checkedRows = (rowSelectionModel) => {
+  //   console.log("Row change");
+  //   console.log(rowSelectionModel);
+  // };
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleDeleteClick = () => {
+    console.log("Deleting rows:", selectedRows);
   };
 
   return (
     <>
+      <div className="flex justify-end mb-4">
+        {/* <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          className="flex items-center align-middle justify-center"
+        >
+          <div className="bg-white">
+            <p>
+              Are you sure you want to delete {selectedRows.length} messages
+            </p>
+            <button>No</button>
+            <button>Delete</button>
+          </div>
+        </Modal> */}
+
+        <button
+          disabled={selectedRows.length === 0}
+          // onClick={handleOpen}
+          onClick={handleDeleteClick}
+          className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md"
+        >
+          <MdDelete size={20} />
+        </button>
+      </div>
       <DataGrid
         density="compact"
         rows={rows}
         columns={columns}
-        checkboxSelection={true}
-        onRowSelectionModelChange={checkedRows}
+        onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
+        checkboxSelection
       />
     </>
   );

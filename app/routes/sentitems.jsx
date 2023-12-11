@@ -64,11 +64,9 @@ export default function SentItems() {
                   <div className="flex align-middle justify-center items-center mt-1 lg:mt-0">
                     <FaSearch />
                   </div>
-                  
+
                   <div className="mx-2 lg:hidden">Search</div>
                 </button>
-             
-                
               </div>
             </div>
           </div>
