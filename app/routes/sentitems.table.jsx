@@ -283,35 +283,53 @@ export default function SentTable() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleDeleteClick = () => {
     console.log("Deleting rows:", selectedRows);
+    handleClose();
   };
 
   return (
     <>
       <div className="flex justify-end mb-4">
-        {/* <Modal
+        <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
           className="flex items-center align-middle justify-center"
         >
-          <div className="bg-white">
-            <p>
-              Are you sure you want to delete {selectedRows.length} messages
+          <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md">
+            <p className="text-black mt-4 mb-12">
+              Are you sure you want to delete{" "}
+              <span className="font-black">{selectedRows.length}</span>{" "}
+              messages?
             </p>
-            <button>No</button>
-            <button>Delete</button>
+            <div className="flex gap-1 w-full">
+              <button
+                onClick={handleClose}
+                type="button"
+                className="text-white bg-slate-400 hover:bg-slate-700 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+              >
+                No
+              </button>
+              <button
+                onClick={handleDeleteClick}
+                type="button"
+                className="text-white bg-red-500 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+              >
+                Delete
+              </button>
+            </div>
           </div>
-        </Modal> */}
+        </Modal>
 
         <button
           disabled={selectedRows.length === 0}
-          // onClick={handleOpen}
-          onClick={handleDeleteClick}
+          onClick={handleOpen}
           className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md"
         >
           <MdDelete size={20} />
