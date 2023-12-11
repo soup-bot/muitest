@@ -44,9 +44,9 @@ export default function InboxTable() {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          className="flex items-center align-middle justify-center"
+          className="flex items-center align-middle justify-center "
         >
-          <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md">
+          <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md ">
             <p className="text-black mt-4 mb-12">
               Are you sure you want to delete{" "}
               <span className="font-black">{selectedRows.length}</span>{" "}
@@ -56,14 +56,14 @@ export default function InboxTable() {
               <button
                 onClick={handleClose}
                 type="button"
-                className="text-white bg-slate-400 hover:bg-slate-700 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+                className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
               >
                 No
               </button>
               <button
                 onClick={handleDeleteClick}
                 type="button"
-                className="text-white bg-red-500 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+                className="text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
               >
                 Delete
               </button>

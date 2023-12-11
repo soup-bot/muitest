@@ -163,7 +163,7 @@ export default function Contacts() {
         if (isInEditMode) {
           return [
             <GridActionsCellItem
-              icon={<FaSave />}
+              icon={<FaSave size={20} />}
               label="Save"
               sx={{
                 color: "primary.main",
@@ -171,7 +171,7 @@ export default function Contacts() {
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
-              icon={<MdCancel />}
+              icon={<MdCancel size={20} />}
               label="Cancel"
               className="textPrimary"
               onClick={handleCancelClick(id)}
@@ -182,14 +182,14 @@ export default function Contacts() {
 
         return [
           <GridActionsCellItem
-            icon={<MdEdit />}
+            icon={<MdEdit size={20} />}
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<MdDelete />}
+            icon={<MdDelete size={20} />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
