@@ -48,7 +48,7 @@ function Dashboard() {
           </div>
           {/* PACKAGE CARD */}
           <div className="w-full p-0  py-3  md:p-3 md:basis-1/2">
-            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl  border-blue-700 rounded-lg  ">
+            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl  border-primary rounded-lg  ">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My current plan
               </p>
@@ -66,7 +66,7 @@ function Dashboard() {
                   Excess Allowance Charge (MVR) - 0.15
                 </li>
               </ul>
-              <button className=" inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-blue-800 self-end rounded-lg hover:bg-blue-900">
+              <button className=" inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim">
                 Manage plan
                 <svg
                   className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
@@ -88,7 +88,7 @@ function Dashboard() {
           </div>
 
           {/* USAGE CARD */}
-          <div className="w-full p-0  py-3  md:p-3 md:basis-1/2 ">
+          {/* <div className="w-full p-0  py-3  md:p-3 md:basis-1/2 ">
             <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4 border-hoverprim shadow-2xl rounded-lg">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My usage
@@ -115,7 +115,6 @@ function Dashboard() {
                   value={endDate}
                   onChange={handleEndDateChange}
                 />
-                {/* <p>DIFFERENCE: {startDate && endDate && (endDate.diff(startDate))}</p> */}
               </div>
               <button
                 className="mt-12 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary disabled:bg-gray-400 self-end  rounded-lg hover:bg-hoverprim"
@@ -139,7 +138,7 @@ function Dashboard() {
                 </svg>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

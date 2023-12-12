@@ -155,7 +155,7 @@ export default function Reports() {
           onChange={(event) => navigate(`/reports/${event.target.value}`)}
         >
           {" "}
-          <option value="" selected>
+          <option value="" defaultValue={""}>
             Choose a report type
           </option>
           <option value="usage">Usage Summary Report</option>

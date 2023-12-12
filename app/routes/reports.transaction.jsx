@@ -5,8 +5,10 @@ import dayjs from "dayjs";
 import { FaSearch } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { TbReportSearch } from "react-icons/tb";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { useNavigate } from "@remix-run/react";
+import { MdDelete } from "react-icons/md";
+import Modal from "@mui/material/Modal";
 
 const tr_columns = [
   { field: "col1", headerName: "Report Name", width: 150 },
@@ -48,14 +50,68 @@ const tr_rows = [
 ];
 
 function TransactionReport() {
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteClick = () => {
+    console.log("Deleting rows:", selectedRows);
+    handleClose();
+  };
   return (
     <div className="mt-10">
-      <DataGrid
-        density="compact"
-        rows={tr_rows}
-        columns={tr_columns}
-        hideFooter
-      />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="flex items-center align-middle justify-center"
+      >
+        <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md animate-jump-in animate-once animate-duration-200 animate-ease-in">
+          <p className="text-black mt-4 mb-12">
+            Are you sure you want to delete{" "}
+            <span className="font-black">{selectedRows.length}</span> reports?
+          </p>
+          <div className="flex gap-1 w-full">
+            <button
+              onClick={handleClose}
+              type="button"
+              className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+            >
+              No
+            </button>
+            <button
+              onClick={handleDeleteClick}
+              type="button"
+              className="text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <div className="flex flex-col">
+        <button
+          disabled={selectedRows.length === 0}
+          onClick={handleOpen}
+          className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md self-end mb-4"
+        >
+          <MdDelete size={20} />
+        </button>
+        <DataGrid
+          density="compact"
+          rows={tr_rows}
+          columns={tr_columns}
+          hideFooter
+          onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
+          checkboxSelection
+        />
+      </div>
+      <div className="w-full bg-slate-100 h-0.5 mt-20"></div>
       <Outlet></Outlet>
     </div>
   );

@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { FaSearch } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { TbReportSearch } from "react-icons/tb";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useNavigate } from "@remix-run/react";
 
 const usr_rows = [
@@ -39,6 +39,7 @@ function UsageReport() {
         rows={usr_rows}
         columns={usr_columns}
         hideFooter
+        slots={{ toolbar: GridToolbar }}
       />
     </div>
   );
