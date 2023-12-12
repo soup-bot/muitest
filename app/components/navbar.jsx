@@ -21,9 +21,11 @@ export default function Navbar() {
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
+    setdropdownVisible(false);
   };
   const toggledropdownVisible = () => {
     setdropdownVisible(!dropdownVisible);
+    setSidebarVisible(false);
   };
   const closeSidebar = () => {
     setSidebarVisible(false);
@@ -130,7 +132,7 @@ export default function Navbar() {
                 id="userDropdown"
                 className={` ${
                   dropdownVisible ? "" : "hidden"
-                } z-10 absolute right-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 `}
+                } z-10 absolute right-1 bg-white  rounded-lg shadow w-44 `}
               >
                 <ul
                   className="py-2 text-sm text-gray-700 "
@@ -165,7 +167,7 @@ export default function Navbar() {
                     </a>
                   </li>
                   <li className="lg:hidden">
-                    <div className="px-2 py-2 text-white font-semibold bg-gradient-to-tl from-primary to-yellow-300 flex align-center justify-left">
+                    <div className="my-1 mb-0 px-2 py-3 text-white font-semibold bg-gradient-to-tl from-primary to-yellow-300 flex align-center justify-left">
                       <p className="drop-shadow-md mx-2">Balance: 1500 </p>
                       <div className="flex align-middle justify-center items-center mr-1">
                         <FaCoins />
@@ -173,7 +175,7 @@ export default function Navbar() {
                     </div>
                   </li>
                 </ul>
-                <div className="py-1">
+                <div className="py-0">
                   <NavLink
                     to="/auth"
                     onClick={toggledropdownVisible}
@@ -206,8 +208,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition "
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-gray-300 hover:text-white hover:scale-105 group  transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition "
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-gray-300 hover:text-white hover:scale-105 group  transition"
                     }
                   >
                     <BiSolidMessageAdd size={26} />
@@ -222,8 +224,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <MdMoveToInbox size={26} />
@@ -236,8 +238,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <IoMdSend size={26} />
@@ -252,8 +254,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <RiContactsBook2Fill size={26} />
@@ -268,8 +270,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-r-lg group transition"
-                        : "pl-8 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-r-lg group transition"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-gray-300 hover:text-white hover:scale-105  group transition"
                     }
                   >
                     <HiDocumentReport size={26} />

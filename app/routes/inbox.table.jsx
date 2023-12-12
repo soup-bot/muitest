@@ -49,8 +49,8 @@ export default function InboxTable() {
           <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md ">
             <p className="text-black mt-4 mb-12">
               Are you sure you want to delete{" "}
-              <span className="font-black">{selectedRows.length}</span>{" "}
-              messages?
+              <span className="font-black">{selectedRows.length}</span> message
+              {selectedRows.length > 1 && <span>s</span>}?
             </p>
             <div className="flex gap-1 w-full">
               <button

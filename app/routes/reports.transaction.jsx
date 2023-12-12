@@ -73,20 +73,21 @@ function TransactionReport() {
         <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md animate-jump-in animate-once animate-duration-200 animate-ease-in">
           <p className="text-black mt-4 mb-12">
             Are you sure you want to delete{" "}
-            <span className="font-black">{selectedRows.length}</span> reports?
+            <span className="font-black">{selectedRows.length}</span> report
+            {selectedRows.length > 1 && <span>s</span>}?
           </p>
-          <div className="flex gap-1 w-full">
+          <div className="flex gap-1 w-full justify-end">
             <button
               onClick={handleClose}
               type="button"
-              className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+              className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
             >
               No
             </button>
             <button
               onClick={handleDeleteClick}
               type="button"
-              className="text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+              className="text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
             >
               Delete
             </button>
@@ -106,7 +107,6 @@ function TransactionReport() {
           density="compact"
           rows={tr_rows}
           columns={tr_columns}
-          hideFooter
           onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
           checkboxSelection
         />
