@@ -7,6 +7,7 @@ import { IoSend } from "react-icons/io5";
 import sample from "../assets/sample.png";
 import placeholderimg from "../assets/placeholders.png";
 import { IoClose } from "react-icons/io5";
+import Modal from "@mui/material/Modal";
 
 export default function InputForm() {
   const [text, setText] = useState("");
@@ -17,6 +18,11 @@ export default function InputForm() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [validNum, setValidNum] = useState(true);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // Function to open the popup
   const openPopup = () => {
@@ -129,17 +135,24 @@ export default function InputForm() {
     //   setOpen(true);
     // }
   };
-
+  // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     <div className="w-full flex flex-col items-center ">
       {/* Popup */}
-      {isPopupOpen && (
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="flex items-center align-middle justify-center"
+      >
         <div className="border-t-4 border-secondary bg-white absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
           <div className="w-100 flex align-top  justify-end mb-5 ">
             <IoClose
               className="cursor-pointer"
               size={30}
-              onClick={closePopup}
+              onClick={handleClose}
             />
           </div>
           <div className="">
@@ -172,7 +185,8 @@ export default function InputForm() {
             </ul>
           </div>
         </div>
-      )}
+      </Modal>
+
       <div className="w-full lg:w-3/5 justify-center items-center mt-10  p-10 py-3 pb-4 rounded-lg lg:shadow-lg lg:border-t-4  border-secondary">
         <h1 className="font-bold text-2xl my-10 ">Compose a message</h1>
 
@@ -220,7 +234,7 @@ export default function InputForm() {
                       </span>
                       <button
                         type="button"
-                        onClick={openPopup}
+                        onClick={handleOpen}
                         className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
                       >
                         ?
