@@ -52,18 +52,18 @@ export default function InboxTable() {
               <span className="font-black">{selectedRows.length}</span> message
               {selectedRows.length > 1 && <span>s</span>}?
             </p>
-            <div className="flex gap-1 w-full">
+            <div className="flex gap-1 justify-end w-full">
               <button
                 onClick={handleClose}
                 type="button"
-                className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+                className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
                 No
               </button>
               <button
                 onClick={handleDeleteClick}
                 type="button"
-                className="text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-1/2"
+                className="text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
                 Delete
               </button>
