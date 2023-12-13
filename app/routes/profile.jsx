@@ -34,13 +34,13 @@ function Dashboard() {
 
   return (
     <div className="h-max w-full flex justify-center 2xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
-      <div className=" h-max pb-20 min-h-full rounded-lg 2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 mt-4 2xl:w-2/3 ">
+      <div className=" h-max pb-20 min-h-full rounded-lg 2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 mt-4 2xl:w-2/3 bg-slate-50">
         <h1 className="font-bold text-2xl my-10 px-3">Dashboard</h1>
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
           <div className="w-full py-3 lg:p-3">
-            <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-sky-400 to-blue-800 w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
+            <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
                 <h5 className="text-2xl font-semibold tracking-tight text-white mr-3">
                   1500 Messages
@@ -54,7 +54,7 @@ function Dashboard() {
           </div>
           {/* PACKAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl  border-primary rounded-lg  ">
+            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg  ">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My current plan
               </p>
@@ -94,8 +94,8 @@ function Dashboard() {
           </div>
 
           {/* USAGE CARD */}
-          <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4 border-hoverprim shadow-2xl rounded-lg">
+          <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2 backdrop-blur-xl">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-2xl rounded-lg ">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My usage
               </p>
@@ -138,8 +138,9 @@ function Dashboard() {
               </div>
             </div>
           </div>
+
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border shadow-2xl rounded-lg flex flex-col">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border shadow-2xl rounded-lg flex flex-col ">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 Help & Support
               </p>
@@ -172,7 +173,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-2 h-full bg-white border shadow-2xl rounded-lg bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-green-300 via-blue-500 to-purple-600">
+            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white border shadow-2xl rounded-lg bg-gradient-to-bl from-blue-200 to-secondary">
               <div className="text-md bg-white rounded-md p-3 divide-y">
                 <p className="mb-3  font-medium opacity-70 text-gray-800">
                   Account Details
