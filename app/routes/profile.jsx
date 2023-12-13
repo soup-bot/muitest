@@ -33,14 +33,14 @@ function Dashboard() {
   };
 
   return (
-    <div className="h-max w-full flex justify-center 2xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
+    <div className="h-max w-full flex justify-center 2xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in bg-slate-50 lg:bg-white bg-red-400">
       <div className=" h-max pb-20 min-h-full rounded-lg 2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 mt-4 2xl:w-2/3 bg-slate-50">
         <h1 className="font-bold text-2xl my-10 px-3">Dashboard</h1>
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
           <div className="w-full py-3 lg:p-3">
-            <div className="transition hover:scale-[1.01] bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
+            <div className="transition hover:scale-[1.01]  bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
                 <h5 className="text-2xl font-semibold tracking-tight text-white mr-3">
                   1500 Messages
@@ -145,26 +145,30 @@ function Dashboard() {
                 Help & Support
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
-              <a
-                href="https://www.dhiraagu.com.mv/personal/support/faqs/voice-collaboration/bulk-sms"
-                target="_blank"
-                className="font-black text-secondary"
-              >
-                FAQ
-              </a>
+              <div>
+                {" "}
+                <a
+                  href="https://www.dhiraagu.com.mv/personal/support/faqs/voice-collaboration/bulk-sms"
+                  target="_blank"
+                  className="font-black text-secondary min-w-min"
+                >
+                  FAQ
+                </a>
+              </div>
+
               <div className="bg-slate-100 rounded-md px-5 mt-8 pt-2 justify-self-end w-full h-full flex flex-col justify-center ">
                 <p className="text-sm font-black text-slate-800 mb-3">
                   Contact us
                 </p>
                 <div className="flex gap-2 p-2 align-middle">
                   <div className="flex align-middle justify-center items-center text-ellipsis ">
-                    <MdEmail />
+                    <MdEmail color="#d9440e" />
                   </div>
                   <p className="text-sm"> support@example.com </p>
                 </div>
                 <div className="flex gap-2 p-2 align-middle">
                   <div className="flex align-middle justify-center items-center">
-                    <FaPhone />
+                    <FaPhone color="#d9440e" />
                   </div>
                   <p className="text-sm"> XXX-XXX-XXXX </p>
                 </div>
