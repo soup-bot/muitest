@@ -7,7 +7,7 @@ import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
-import bg from "../assets/haha.svg";
+
 
 const palette = ["#F26940", "#0FA5B7"];
 

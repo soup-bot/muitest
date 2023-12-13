@@ -137,7 +137,7 @@ export default function InputForm() {
   };
   // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
-    <div className="w-full flex flex-col items-center ">
+    <div className="w-full flex flex-col items-center">
       {/* Popup */}
 
       <Modal
@@ -147,7 +147,7 @@ export default function InputForm() {
         aria-describedby="modal-modal-description"
         className="flex items-center align-middle justify-center"
       >
-        <div className="border-t-4 border-secondary bg-white  absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+        <div className="border-t-4 border-secondary bg-white  absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
           <div className="w-100 flex align-top  justify-end mb-5 ">
             <IoClose
               className="cursor-pointer"
@@ -288,7 +288,7 @@ export default function InputForm() {
                         </span>
                         <button
                           type="button"
-                          onClick={openPopup}
+                          onClick={handleOpen}
                           className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
                         >
                           ?
