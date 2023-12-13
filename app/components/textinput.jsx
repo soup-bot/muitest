@@ -187,7 +187,7 @@ export default function InputForm() {
         </div>
       </Modal>
 
-      <div className="w-full lg:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg lg:shadow-lg lg:border-t-4  border-secondary bg-white">
+      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border-t-4  border-secondary bg-white">
         <h1 className="font-bold text-2xl my-10 ">Compose a message</h1>
 
         <Form method="post" encType="multipart/form-data">
