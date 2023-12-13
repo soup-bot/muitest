@@ -3,6 +3,7 @@ import Navbar from "./components/navbar";
 import CSS from "./app.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import bg2 from "./assets/crop.svg";
 
 import {
   Links,
@@ -44,6 +45,8 @@ export default function App() {
       </head>
       <body className="overflow-y-scroll  font-body">
         {!auth && <Navbar />}
+        {/* <img src={bg} alt="" className=" absolute left-0 max-w-full max-h-full" /> */}
+        <img src={bg2} alt="" className=" left-12 bottom-0 scale-150 hidden lg:flex absolute" />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Outlet />
         </LocalizationProvider>

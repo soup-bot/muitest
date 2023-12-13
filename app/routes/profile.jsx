@@ -7,6 +7,7 @@ import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
+import bg from "../assets/haha.svg";
 
 const palette = ["#F26940", "#0FA5B7"];
 
@@ -33,8 +34,12 @@ function Dashboard() {
   };
 
   return (
-    <div className="h-max w-full flex justify-center 2xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in bg-slate-50 lg:bg-white bg-red-400">
-      <div className=" h-max pb-20 min-h-full rounded-lg 2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 mt-4 2xl:w-2/3 bg-slate-50">
+    <div className="h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ">
+    
+
+
+
+      <div className=" h-max pb-20 min-h-full rounded-lg 2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 mt-4 2xl:w-2/3 bg-white z-10">
         <h1 className="font-bold text-2xl my-10 px-3">Dashboard</h1>
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
@@ -94,7 +99,7 @@ function Dashboard() {
           </div>
 
           {/* USAGE CARD */}
-          <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2 backdrop-blur-xl">
+          <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
             <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-2xl rounded-lg ">
               <p className="mb-3  text-gray-700  font-medium opacity-70">
                 My usage
