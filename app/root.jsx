@@ -46,8 +46,22 @@ export default function App() {
       <body className="overflow-y-scroll  font-body ">
         {!auth && <Navbar />}
         {/* <img src={bg} alt="" className=" absolute left-0 max-w-full max-h-full" /> */}
-        <img src={bg2} alt="" className=" left-12 bottom-0 scale-150 hidden lg:flex absolute opacity-80" />
-        <img src={bg2} alt="" className=" right-0 bottom-0 scale-100 hidden lg:flex absolute rotate-180 opacity-80" />
+
+        {!auth && (
+          <img
+            src={bg2}
+            alt=""
+            className=" left-12 bottom-0 scale-150 hidden xl:flex absolute opacity-80"
+          />
+        )}
+        {!auth && (
+          <img
+            src={bg2}
+            alt=""
+            className=" right-0 bottom-0 scale-100 hidden xl:flex absolute rotate-180 opacity-80"
+          />
+        )}
+
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Outlet />
         </LocalizationProvider>
