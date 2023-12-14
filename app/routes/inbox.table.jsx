@@ -73,13 +73,14 @@ export default function InboxTable() {
         <button
           disabled={selectedRows.length === 0}
           onClick={handleOpen}
-          className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md"
+          className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md dark:disabled:bg-slate-600"
         >
           <MdDelete size={20} />
         </button>
       </div>
 
       <DataGrid
+        className="dark:bg-slate-700 bg-slate-50"
         density="compact"
         rows={rows}
         columns={columns}

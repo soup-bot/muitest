@@ -147,7 +147,7 @@ export default function InputForm() {
         aria-describedby="modal-modal-description"
         className="flex items-center align-middle justify-center"
       >
-        <div className="border-t-4 border-secondary bg-white  absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+        <div className=" border-t-4 border-secondary bg-white   absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in ">
           <div className="w-100 flex align-top  justify-end mb-5 ">
             <IoClose
               className="cursor-pointer"
@@ -187,14 +187,16 @@ export default function InputForm() {
         </div>
       </Modal>
 
-      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border-t-4  border-secondary bg-white">
-        <h1 className="font-bold text-2xl my-10 ">Compose a message</h1>
+      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border-t-4  border-secondary bg-white dark:bg-slate-800 ">
+        <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
+          Compose a message
+        </h1>
 
         <Form method="post" encType="multipart/form-data">
           <div className="mb-5">
             {inputType === "numbers" && (
               <div className=" flex flex-col align-middle  justify-left mt-8  animate-fade animate-once animate-duration-300 animate-ease-linear">
-                <p className="mb-2 text-l font-medium text-gray-900 ">
+                <p className="mb-2 text-l font-medium text-gray-900 dark:text-slate-300">
                   Input numbers
                 </p>
                 <div className="flex flex-col md:flex-row">
@@ -229,7 +231,7 @@ export default function InputForm() {
                       />
 
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
-                      <span className="ms-3 text-sm font-medium text-gray-900 ">
+                      <span className="ms-3 text-sm font-medium text-gray-900 dark:text-slate-300">
                         Upload a file
                       </span>
                       <button
@@ -283,7 +285,7 @@ export default function InputForm() {
                         />
 
                         <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
-                        <span className="ms-3 text-sm font-medium text-gray-900 ">
+                        <span className="ms-3 text-sm font-medium text-gray-900 dark:text-slate-300">
                           Upload a file
                         </span>
                         <button
@@ -297,7 +299,10 @@ export default function InputForm() {
                     </div>
                   </div>
                 )}
-                <p className="mt-1 text-sm text-gray-500 " id="file_input_help">
+                <p
+                  className="mt-1 text-sm text-gray-500 dark:text-slate-300"
+                  id="file_input_help"
+                >
                   .xlsx or .csv
                 </p>
                 {headers ? (
@@ -325,7 +330,7 @@ export default function InputForm() {
           <div>
             <label
               htmlFor="message"
-              className="block mb-2 text-l font-medium text-gray-900 "
+              className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
             >
               Your message
             </label>
@@ -337,11 +342,11 @@ export default function InputForm() {
               id="message"
               rows="14"
               maxLength="1531"
-              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 0"
+              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-slate-200 dark:border-none"
               placeholder="Write your message here..."
             ></textarea>
-            <div className="justify-between flex-wrap border-2 align-middle bg-slate-100  rounded-md">
-              <div className="flex font-medium text-sm justify-between p-2">
+            <div className="justify-between flex-wrap border-2 align-middle bg-slate-100 dark:bg-slate-600 rounded-md dark:border-slate-500 dark:text-slate-200">
+              <div className="flex font-medium text-sm justify-between p-2 ">
                 <p className="">{text.length} characters used</p>
                 <p
                   className={`${

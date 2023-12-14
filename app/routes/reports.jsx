@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { TbReportSearch } from "react-icons/tb";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "@remix-run/react";
+import { useDarkMode } from "../components/DarkModeContext";
 
 const usr_rows = [
   {
@@ -80,7 +81,7 @@ export default function Reports() {
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
-
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const today = dayjs().format("DD/MM/YYYY");
 
   const handleStartDateChange = (date) => {
@@ -139,19 +140,25 @@ export default function Reports() {
   // };
 
   return (
-    <div className="h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
-      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white">
-        <h1 className="font-bold text-2xl my-10">Reports</h1>
+    <div
+      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${
+        isDarkMode ? "dark " : ""
+      }`}
+    >
+      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-800">
+        <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
+          Reports
+        </h1>
 
         <label
           htmlFor="reportType"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-200"
         >
           Report type
         </label>
         <select
           id="reportType"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full md:w-2/3 lg:w-1/3 p-2.5 mb-4"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full md:w-2/3 lg:w-1/3 p-2.5 mb-4 dark:bg-slate-600 dark:text-slate-300"
           onChange={(event) => navigate(`/reports/${event.target.value}`)}
         >
           {" "}

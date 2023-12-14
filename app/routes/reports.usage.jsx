@@ -35,6 +35,7 @@ function UsageReport() {
   return (
     <div className="mt-10">
       <DataGrid
+        className="dark:bg-slate-700 bg-slate-50"
         density="compact"
         rows={usr_rows}
         columns={usr_columns}

@@ -12,10 +12,14 @@ import { json } from "@remix-run/node";
 import { BiSolidMessageAdd } from "react-icons/bi";
 import { MdSms } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
+import { MdDarkMode } from "react-icons/md";
+import { MdLightMode } from "react-icons/md";
+import { useDarkMode } from "./DarkModeContext";
 
 export default function Navbar() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const sidebarRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -55,8 +59,8 @@ export default function Navbar() {
     };
   }, [sidebarRef, dropdownRef]);
   return (
-    <div ref={sidebarRef}>
-      <nav className="bg-white border-gray-200 shadow-sm xl:py-2 xl:mb-0 ">
+    <div ref={sidebarRef} className={`${isDarkMode ? "dark" : ""}`}>
+      <nav className="bg-white border-gray-200 shadow-sm xl:py-2 xl:mb-0 dark:bg-slate-900 transition-[background-color]">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
@@ -65,7 +69,7 @@ export default function Navbar() {
 
           <div
             ref={dropdownRef}
-            className="flex gap-4 items-center justify-items-center"
+            className="flex gap-4 items-center justify-items-center "
           >
             <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-yellow-300  align-center justify-center hidden lg:flex">
               <p className="drop-shadow-md mx-2">1500</p>
@@ -132,7 +136,7 @@ export default function Navbar() {
                 id="userDropdown"
                 className={` ${
                   dropdownVisible ? "" : "hidden"
-                } z-10 absolute right-1 bg-white  rounded-lg shadow w-44 `}
+                } z-10 absolute right-1 bg-white  rounded-lg shadow w-44 dark:bg-slate-800 `}
               >
                 <ul
                   className="py-2 text-sm text-gray-700 "
@@ -142,7 +146,7 @@ export default function Navbar() {
                     <NavLink
                       to="/profile"
                       onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 "
+                      className="block px-4 py-2 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
                     >
                       My Profile
                     </NavLink>
@@ -151,7 +155,7 @@ export default function Navbar() {
                     <NavLink
                       to="/settings"
                       onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 "
+                      className="block px-4 py-2 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
                     >
                       Settings
                     </NavLink>{" "}
@@ -161,10 +165,22 @@ export default function Navbar() {
                       href="https://www.dhiraagu.com.mv/business/products-solutions/voice-collaboration/bulk-sms-short-code-messaging-service"
                       target="_blank"
                       onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 "
+                      className="block px-4 py-2 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
                     >
                       Help
                     </a>
+                  </li>
+                  <li>
+                    <button
+                      className="block p-2 pl-3 pt-3 pb-3  hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600 rounded-lg w-full "
+                      onClick={toggleDarkMode}
+                    >
+                      {isDarkMode ? (
+                        <MdLightMode size={20} />
+                      ) : (
+                        <MdDarkMode size={20} />
+                      )}
+                    </button>
                   </li>
                   <li className="lg:hidden">
                     <div className="my-1 mb-0 px-2 py-3 text-white font-semibold bg-gradient-to-tl from-primary to-yellow-300 flex align-center justify-left">
@@ -175,11 +191,11 @@ export default function Navbar() {
                     </div>
                   </li>
                 </ul>
-                <div className="py-0">
+                <div className="">
                   <NavLink
                     to="/auth"
                     onClick={toggledropdownVisible}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 pb-3 text-sm text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
                   >
                     Sign out
                   </NavLink>
@@ -199,17 +215,17 @@ export default function Navbar() {
           }`}
           aria-label="Sidebar"
         >
-          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none">
-            <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center ">
-              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md ">
+          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-900 dark:bg-slate-700 transition-[background-color]">
+            <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center dark:text-white ">
+              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
                 <li>
                   <NavLink
                     to="/"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition "
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition dark:text-white"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition dark:text-white dark:hover:bg-slate-600"
                     }
                   >
                     <BiSolidMessageAdd size={26} />
@@ -224,8 +240,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition dark:text-white"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                     }
                   >
                     <MdMoveToInbox size={26} />
@@ -238,8 +254,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-slate-100  hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition dark:text-white"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                     }
                   >
                     <IoMdSend size={26} />
@@ -254,8 +270,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  group transition dark:text-white"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                     }
                   >
                     <RiContactsBook2Fill size={26} />
@@ -270,8 +286,8 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-r-lg group transition"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-slate-100  hover:scale-105  group transition"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-r-lg group transition dark:text-white"
+                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                     }
                   >
                     <HiDocumentReport size={26} />

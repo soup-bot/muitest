@@ -17,6 +17,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { useDarkMode } from "../components/DarkModeContext";
 
 function EditGroupsToolbar({ setGroups, groups }) {
   const handleClick = () => {
@@ -79,6 +80,7 @@ function EditToolbar({ setRows, setRowModesModel }) {
 }
 
 export default function Contacts() {
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [contactsRowModesModel, setContactsRowModesModel] = React.useState({});
   const [groupsRowModesModel, setGroupsRowModesModel] = React.useState({});
   const [rows, setRows] = React.useState(initialRows);
@@ -200,12 +202,19 @@ export default function Contacts() {
   ];
 
   return (
-    <div className="h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
-      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white">
-        <h1 className="font-bold text-2xl my-10">Contacts</h1>
+    <div
+      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${
+        isDarkMode ? "dark " : ""
+      }`}
+    >
+      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-800">
+        <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
+          Contacts
+        </h1>
 
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
+            className="dark:bg-slate-700 bg-slate-50"
             rows={rows}
             columns={columns}
             editMode="row"

@@ -4,6 +4,7 @@ import { useState, useRef, forwardRef } from "react";
 import dayjs from "dayjs";
 import { FaSearch } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import { useDarkMode } from "../components/DarkModeContext";
 
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
@@ -17,7 +18,7 @@ const getLastDayOfMonth = () => {
 export default function SentItems() {
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
-
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const today = dayjs().format("DD/MM/YYYY");
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -31,13 +32,19 @@ export default function SentItems() {
   };
 
   return (
-    <div className="h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in">
-      <div className=" h-min min-h-full rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white">
-        <h1 className="font-bold text-2xl my-10">Sent items</h1>
+    <div
+      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${
+        isDarkMode ? "dark " : ""
+      }`}
+    >
+      <div className=" h-min min-h-full rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-800">
+        <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
+          Sent items
+        </h1>
         <div className="flex flex-col lg:flex-row w-full">
           <div className="my-3 w-full lg:wd-1/2">
             <div className="flex-col sm:flex-row flex align-middle justify-center md:justify-start">
-              <div className="flex  gap-4">
+              <div className="flex  gap-4 ">
                 <DatePicker
                   label="Start Date"
                   defaultValue={today}

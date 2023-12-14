@@ -7,7 +7,7 @@ import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
-
+import { useDarkMode } from "../components/DarkModeContext";
 
 const palette = ["#F26940", "#0FA5B7"];
 
@@ -23,6 +23,7 @@ const getLastDayOfMonth = () => {
 function Dashboard() {
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const today = dayjs().format("DD/MM/YYYY");
   const handleStartDateChange = (date) => {
@@ -34,13 +35,15 @@ function Dashboard() {
   };
 
   return (
-    <div className="h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ">
-    
-
-
-
-      <div className=" h-max pb-20 min-h-full rounded-lg 2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 mt-4 2xl:w-2/3 bg-white z-10">
-        <h1 className="font-bold text-2xl my-10 px-3">Dashboard</h1>
+    <div
+      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
+        isDarkMode ? "dark " : ""
+      }`}
+    >
+      <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-800">
+        <h1 className="font-bold text-2xl my-10 px-3 dark:text-slate-200">
+          Dashboard
+        </h1>
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
@@ -59,25 +62,27 @@ function Dashboard() {
           </div>
           {/* PACKAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg  ">
-              <p className="mb-3  text-gray-700  font-medium opacity-70">
+            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-600 ">
+              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
                 My current plan
               </p>
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-slate-800">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-200">
                 BULK/CORP SMS 15K
               </h5>
 
               <ul className="my-4 list-disc mx-4">
-                <li className="text-md ">SMS Allowance per month -110,000 </li>
-                <li className="text-md">
+                <li className="text-md dark:text-slate-200">
+                  SMS Allowance per month -110,000{" "}
+                </li>
+                <li className="text-md dark:text-slate-200">
                   {" "}
                   Excess SMS Allowance per month -200,000
                 </li>
-                <li className="text-md">
+                <li className="text-md dark:text-slate-200">
                   Excess Allowance Charge (MVR) - 0.15
                 </li>
               </ul>
-              <button className=" inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim">
+              <button className=" inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim ">
                 Manage plan
                 <svg
                   className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
@@ -100,8 +105,8 @@ function Dashboard() {
 
           {/* USAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-2xl rounded-lg ">
-              <p className="mb-3  text-gray-700  font-medium opacity-70">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-2xl rounded-lg dark:bg-slate-600">
+              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
                 My usage
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
@@ -145,8 +150,8 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border shadow-2xl rounded-lg flex flex-col ">
-              <p className="mb-3  text-gray-700  font-medium opacity-70">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border shadow-2xl rounded-lg flex flex-col dark:bg-slate-600">
+              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
                 Help & Support
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
@@ -182,35 +187,45 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white border shadow-2xl rounded-lg bg-gradient-to-bl from-blue-200 to-secondary">
-              <div className="text-md bg-white rounded-md p-3 divide-y">
-                <p className="mb-3  font-medium opacity-70 text-gray-800">
+            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white border shadow-2xl rounded-lg bg-gradient-to-bl from-blue-200 to-secondary dark:bg-slate-600">
+              <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-600">
+                <p className="mb-3  font-medium opacity-70 text-gray-800 dark:text-slate-200">
                   Account Details
                 </p>
                 <div className="flex gap-2   p-2 align-middle">
-                  <p className="font-bold self-center">Email:</p>
+                  <p className="font-bold self-center dark:text-slate-200">
+                    Email:
+                  </p>
                   <p className="bg-slate-100 px-2 py-1 rounded-md">
                     user1@gmail.com
                   </p>
                 </div>
                 <div className="flex gap-2 p-2">
-                  <p className="font-bold self-center">Account type:</p>
+                  <p className="font-bold self-center dark:text-slate-200">
+                    Account type:
+                  </p>
                   <p className="bg-slate-100 px-2 py-1 rounded-md">Prepaid</p>
                 </div>
                 <div className="flex gap-2  p-2">
-                  <p className="font-bold self-center">Service level: </p>
+                  <p className="font-bold self-center dark:text-slate-200">
+                    Service level:{" "}
+                  </p>
                   <p className="bg-slate-100 px-2 py-1 rounded-md">
                     BULK/CORP SMS 15K
                   </p>
                 </div>
                 <div className="flex gap-2  p-2">
-                  <p className="font-bold self-center">Account Status:</p>
+                  <p className="font-bold self-center dark:text-slate-200">
+                    Account Status:
+                  </p>
                   <p className="bg-green-400 text-white px-2 py-1 rounded-md">
                     Active
                   </p>
                 </div>
                 <div className="flex gap-2  p-2">
-                  <p className="font-bold self-center">Contact Number: </p>
+                  <p className="font-bold self-center dark:text-slate-200">
+                    Contact Number:{" "}
+                  </p>
                   <p className="bg-slate-100 px-2 py-1 rounded-md">XXXXXXX</p>
                 </div>
               </div>
