@@ -144,11 +144,11 @@ export default function Navbar() {
                 >
                   <li>
                     <NavLink
-                      to="/profile"
+                      to="/dashboard"
                       onClick={toggledropdownVisible}
                       className="block px-4 py-2 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
                     >
-                      My Profile
+                      Dashboard
                     </NavLink>
                   </li>
                   {/* <li>

@@ -195,7 +195,7 @@ export default function InputForm() {
               <div className="basis-1/2 my-3 md:mr-8">
                 <label
                   htmlFor="countries"
-                  class="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
+                  className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
                 >
                   Your Sender ID
                 </label>
@@ -214,7 +214,7 @@ export default function InputForm() {
               <div className="basis-1/2  my-3 transition-all">
                 <label
                   htmlFor="countries"
-                  class="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
+                  className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
                 >
                   Input type
                 </label>
@@ -253,7 +253,7 @@ export default function InputForm() {
                   <div className="w-full md:w-full ">
                     <TagsInput
                       classNames={{
-                        tag: "font-medium",
+                        tag: "font-medium bg-black",
                         input:
                           "p-1 font-medium focus:border-transparent focus:ring-0 active:ring-0",
                       }}
@@ -317,7 +317,7 @@ export default function InputForm() {
                   <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8 animate-fade animate-once animate-duration-300 animate-ease-linear">
                     <div className=" w-full md:w-full">
                       <input
-                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 "
+                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
                         aria-describedby="file_input_help"
                         type="file"
                         name="excelFile"

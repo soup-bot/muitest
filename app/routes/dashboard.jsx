@@ -40,7 +40,7 @@ function Dashboard() {
         isDarkMode ? "dark " : ""
       }`}
     >
-      <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4  border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-800">
+      <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-800">
         <h1 className="font-bold text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>
@@ -105,7 +105,7 @@ function Dashboard() {
 
           {/* USAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-2xl rounded-lg dark:bg-slate-600">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-lg rounded-lg dark:bg-slate-600">
               <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
                 My usage
               </p>
@@ -150,7 +150,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border shadow-2xl rounded-lg flex flex-col dark:bg-slate-600">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white shadow-lg rounded-lg flex flex-col dark:bg-slate-600">
               <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
                 Help & Support
               </p>
@@ -187,7 +187,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white border shadow-2xl rounded-lg   dark:bg-slate-600">
+            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white  shadow-lg rounded-lg   dark:bg-slate-600">
               <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-600">
                 <p className="mb-3  font-medium opacity-70 text-gray-800 dark:text-slate-200">
                   Account Details
@@ -227,6 +227,56 @@ function Dashboard() {
                     Contact Number:{" "}
                   </p>
                   <p className="bg-slate-100 px-2 py-1 rounded-md">XXXXXXX</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full p-0  py-3  lg:p-3 ">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white  shadow-lg rounded-lg flex flex-col dark:bg-slate-700">
+              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
+                Shortcode URL Forwarding
+              </p>
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
+
+              <div>
+                <label
+                  htmlFor="shortcode"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Select a shortcode
+                </label>
+                <select
+                  id="shortcode"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="US">1111</option>
+                  <option value="CA">2222</option>
+                  <option value="FR">4444</option>
+                </select>
+                <label
+                  htmlFor="default-input"
+                  className="block mt-4 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Set a URL
+                </label>
+                <div className="flex w-full flex-col md:flex-row">
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      id="default-input"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className=" md:mx-4">
+                    <button
+                      type="button"
+                      className="text-white bg-secondary hover:bg-hoversec font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2  w-full mt-9 md:mt-0"
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
