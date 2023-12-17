@@ -48,7 +48,7 @@ function Dashboard() {
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
           <div className="w-full py-3 lg:p-3">
-            <div className="transition hover:scale-[1.01]  bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xl  hover:bg-gray-100 ">
+            <div className="transition hover:scale-[1.01]  bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white  rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
                 <h5 className="text-2xl font-semibold tracking-tight text-white mr-3">
                   1500 Messages
@@ -187,7 +187,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white border shadow-2xl rounded-lg bg-gradient-to-bl from-blue-200 to-secondary dark:bg-slate-600">
+            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white border shadow-2xl rounded-lg   dark:bg-slate-600">
               <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-600">
                 <p className="mb-3  font-medium opacity-70 text-gray-800 dark:text-slate-200">
                   Account Details

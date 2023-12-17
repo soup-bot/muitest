@@ -71,7 +71,7 @@ export default function Navbar() {
             ref={dropdownRef}
             className="flex gap-4 items-center justify-items-center "
           >
-            <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-yellow-300  align-center justify-center hidden lg:flex">
+            <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-hoverprim align-center justify-center hidden lg:flex">
               <p className="drop-shadow-md mx-2">1500</p>
               <div className="flex align-middle justify-center items-center mr-1">
                 <FaCoins />
@@ -151,7 +151,7 @@ export default function Navbar() {
                       My Profile
                     </NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <NavLink
                       to="/settings"
                       onClick={toggledropdownVisible}
@@ -159,7 +159,7 @@ export default function Navbar() {
                     >
                       Settings
                     </NavLink>{" "}
-                  </li>
+                  </li> */}
                   <li>
                     <a
                       href="https://www.dhiraagu.com.mv/business/products-solutions/voice-collaboration/bulk-sms-short-code-messaging-service"
@@ -183,7 +183,7 @@ export default function Navbar() {
                     </button>
                   </li>
                   <li className="lg:hidden">
-                    <div className="my-1 mb-0 px-2 py-3 text-white font-semibold bg-gradient-to-tl from-primary to-yellow-300 flex align-center justify-left">
+                    <div className="my-1 mb-0 px-2 py-3 text-white font-semibold bg-gradient-to-tl from-primary to-hoverprim  flex align-center justify-left">
                       <p className="drop-shadow-md mx-2">Balance: 1500 </p>
                       <div className="flex align-middle justify-center items-center mr-1">
                         <FaCoins />

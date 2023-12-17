@@ -28,7 +28,7 @@ export default function Auth() {
             <div className="h-7 w-0.5 bg-gray-500 opacity-25"></div>
             <h3 className=" text-2xl font-bold  text-secondary">Bulk SMS</h3>
           </div>
-          <div className="text-2xl font-bold mt-8 text-gray-700">
+          <div className="text-2xl font-bold mt-8 text-gray-700 dark:text-slate-200">
             Reach your customers with a simple click.
           </div>
         </div>
