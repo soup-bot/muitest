@@ -12,6 +12,7 @@ import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
+import { FaPhoneAlt } from "react-icons/fa";
 
 export default function InputForm() {
   const [text, setText] = useState("");
@@ -320,6 +321,7 @@ export default function InputForm() {
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
                             <Chip
+                              icon={<FaPhoneAlt />}
                               key={index}
                               label={
                                 typeof option === "object"
@@ -332,6 +334,7 @@ export default function InputForm() {
                                 marginRight: "8px",
                                 marginTop: "4px",
                                 marginBottom: "4px",
+                                paddingLeft: "5px",
                               }}
                             />
                           ))
