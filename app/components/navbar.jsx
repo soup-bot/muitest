@@ -220,6 +220,7 @@ export default function Navbar() {
               <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
                 <li>
                   <NavLink
+                    prefetch="intent"
                     to="/"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
@@ -236,6 +237,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <NavLink
+                    prefetch="intent"
                     to="/inbox/table"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
@@ -250,6 +252,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <NavLink
+                    prefetch="intent"
                     to="/sentitems/table"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
@@ -266,6 +269,7 @@ export default function Navbar() {
                 </li>
                 <li className="w-120">
                   <NavLink
+                    prefetch="intent"
                     to="/contacts"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
@@ -282,6 +286,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <NavLink
+                    prefetch="intent"
                     to="/reports"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>

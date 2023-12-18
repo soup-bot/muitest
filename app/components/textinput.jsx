@@ -1,7 +1,5 @@
-import { json, redirect } from "@remix-run/node";
 import { Form, useNavigation, useActionData } from "@remix-run/react";
-import React, { useState, useEffect, useRef } from "react";
-import { TagsInput } from "react-tag-input-component";
+import { useState, useRef } from "react";
 import xlsx from "xlsx";
 import { IoSend } from "react-icons/io5";
 import sample from "../assets/sample.png";
@@ -9,9 +7,9 @@ import placeholderimg from "../assets/placeholders.png";
 import { IoClose } from "react-icons/io5";
 import Modal from "@mui/material/Modal";
 import Chip from "@mui/material/Chip";
+
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
 import { FaPhoneAlt } from "react-icons/fa";
 
 export default function InputForm() {
@@ -19,7 +17,6 @@ export default function InputForm() {
   const [numMessages, setNumMessages] = useState(0);
   const [inputType, setInputType] = useState("numbers");
   const [selected, setSelected] = useState([]);
-  let actionData = useActionData();
   const [headers, setHeaders] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [validNum, setValidNum] = useState(true);
@@ -82,22 +79,16 @@ export default function InputForm() {
     }
   };
 
-  const handleSelectInputChange = (event) => {
-    setInputType(event.target.value);
-  };
-  const sampleOptions = ["7000000", "9000000", "7000023", "7000012", "7000044"];
-
-  const sampleOptions2 = [
+  const sampleContacts = [
     { label: "John Doe", value: "9000000" },
     { label: "Jane Smith", value: "7000000" },
     { label: "Bob Johnson", value: "7000012" },
-    // Add more options as needed
+    { label: "Ameer", value: "7634476" },
   ];
 
   const handleButtonClick = (value, event) => {
     event.preventDefault();
     setText((prevText) => `${prevText} @@${value} `);
-    // calculateMessages(text)
     calculateMessages(text + " @@" + value);
   };
 
@@ -173,7 +164,7 @@ export default function InputForm() {
         aria-describedby="modal-modal-description"
         className="flex items-center align-middle justify-center"
       >
-        <div className=" border-t-4 border-secondary bg-white   absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in ">
+        <div className=" border-t-4 border-secondary bg-white  absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in ">
           <div className="w-100 flex align-top  justify-end mb-5 ">
             <IoClose
               className="cursor-pointer"
@@ -302,7 +293,7 @@ export default function InputForm() {
                       <Autocomplete
                         multiple
                         id="tags-filled"
-                        options={sampleOptions2}
+                        options={sampleContacts}
                         defaultValue={[]}
                         limitTags={4}
                         freeSolo
