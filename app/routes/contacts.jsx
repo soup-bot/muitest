@@ -11,32 +11,15 @@ import {
 import { IoIosArrowDown } from "react-icons/io";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-
+import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
-
-function EditGroupsToolbar({ setGroups, groups }) {
-  const handleClick = () => {
-    const id = Date.now();
-    setGroups((oldGroups) => [
-      ...oldGroups,
-      { id, name: "", members: 0, isNew: true },
-    ]);
-  };
-
-  return (
-    <GridToolbarContainer className="flex justify-between">
-      <Button startIcon={<Button>Add Group</Button>} onClick={handleClick}>
-        Add Group
-      </Button>
-      <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
-    </GridToolbarContainer>
-  );
-}
+import GroupsModal from "../components/groupsmodal";
+import { FaEdit } from "react-icons/fa";
 
 const initialRows = [
   {
@@ -80,9 +63,40 @@ function EditToolbar({ setRows, setRowModesModel }) {
 }
 
 export default function Contacts() {
+  function EditGroupsToolbar({
+    setGroups,
+    groups,
+    openGroupsModal,
+    setRows,
+    setRowModesModel,
+  }) {
+    const handleClick = () => {
+      const id = Date.now(); // Using timestamp as a unique ID
+      setRows((oldRows) => [
+        ...oldRows,
+        { id, name: "", number: "", group: "", isNew: true },
+      ]);
+      setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+      }));
+    };
+
+    return (
+      <GridToolbarContainer className="flex flex-col sm:flex-row justify-between bg-slate-200  dark:bg-slate-600 ">
+        <Button startIcon={<IoMdAddCircle />} onClick={handleClick}>
+          Add Contact
+        </Button>
+        <Button startIcon={<FaEdit />} onClick={() => setGroupsModalOpen(true)}>
+          Manage Groups
+        </Button>
+        <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
+      </GridToolbarContainer>
+    );
+  }
+
+  const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const [contactsRowModesModel, setContactsRowModesModel] = React.useState({});
-  const [groupsRowModesModel, setGroupsRowModesModel] = React.useState({});
   const [rows, setRows] = React.useState(initialRows);
   const [groups, setGroups] = React.useState([
     "Market",
@@ -90,6 +104,14 @@ export default function Contacts() {
     "Development",
   ]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+
+  const closeGroupsModal = () => {
+    setGroupsModalOpen(false);
+  };
+
+  const openGroupsModal = () => {
+    setGroupsModalOpen(true);
+  };
 
   const handleCellEditCommit = React.useCallback(
     ({ id, field, props }) => {
@@ -211,7 +233,7 @@ export default function Contacts() {
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
-
+        {/* <Button onClick={() => setGroupsModalOpen(true)}>Manage Groups</Button> */}
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             className="dark:bg-slate-700 bg-slate-50"
@@ -225,12 +247,18 @@ export default function Contacts() {
             onRowModesModelChange={handleRowModesModelChange}
             processRowUpdate={processRowUpdate}
             slots={{
-              toolbar: EditToolbar,
+              toolbar: EditGroupsToolbar,
             }}
             slotProps={{
               toolbar: { setRows, setRowModesModel },
             }}
           ></DataGrid>
+          <GroupsModal
+            isOpen={isGroupsModalOpen}
+            onClose={closeGroupsModal}
+            groups={groups}
+            setGroups={setGroups}
+          />
         </div>
       </div>
     </div>

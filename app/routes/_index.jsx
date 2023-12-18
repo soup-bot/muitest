@@ -26,37 +26,37 @@ export const action = async ({ request }) => {
     console.log(`${key}: ${value}`);
   }
 
-  const destinationAddress = numbers.split(",");
+  // const destinationAddress = numbers.split(",");
 
-  // Create the payload for the API request
-  const payload = {
-    sourceAddress: "TEXT",
-    destinationAddress,
-    dlr: true,
-    smsMessage: text,
-    AuthorizationKey: "bWVzc2FnZW93bDpvV2xNRGhJUjY=",
-  };
+  // // Create the payload for the API request
+  // const payload = {
+  //   sourceAddress: "TEXT",
+  //   destinationAddress,
+  //   dlr: true,
+  //   smsMessage: text,
+  //   AuthorizationKey: "bWVzc2FnZW93bDpvV2xNRGhJUjY=",
+  // };
 
-  // Make the API request
-  const response = await fetch(
-    "http://api02.dhiraagu.io:8080/v1/dcb/notif/sms",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    }
-  );
+  // // Make the API request
+  // const response = await fetch(
+  //   "http://api02.dhiraagu.io:8080/v1/dcb/notif/sms",
+  //   {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(payload),
+  //   }
+  // );
 
-  // Check the response status
-  if (response.ok) {
-    console.log("API request successful");
-    const status = "success";
-  } else {
-    console.error("API request failed");
-    const status = "fail";
-  }
+  // // Check the response status
+  // if (response.ok) {
+  //   console.log("API request successful");
+  //   const status = "success";
+  // } else {
+  //   console.error("API request failed");
+  //   const status = "fail";
+  // }
 
   // Redirect to the specified URL
   return redirect("/");
