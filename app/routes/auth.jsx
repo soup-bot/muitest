@@ -6,16 +6,22 @@ import { Link, useActionData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { validateCredentials } from "../data/validation.server";
 import backdrop from "../assets/test.jpg";
+import { useDarkMode } from "../components/DarkModeContext";
 
 export default function Auth() {
   const [signupMode, setSignupMode] = useState(false);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const toggleMode = () => {
     setSignupMode(!signupMode);
   };
 
   return (
-    <div className="h-screen flex flex-col lg:flex-row">
+    <div
+      className={`h-screen flex flex-col lg:flex-row ${
+        isDarkMode ? "dark " : ""
+      }`}
+    >
       <div
         className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 ${
           signupMode ? "" : "justify-center"

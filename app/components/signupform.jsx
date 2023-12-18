@@ -1,11 +1,13 @@
 import { Form, useActionData } from "@remix-run/react";
 import { Carousel } from "flowbite-react";
+import { useDarkMode } from "../components/DarkModeContext";
 
 export default function SignupForm() {
   const validationErrors = useActionData();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
-    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row ">
+    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
       <Form className="space-y-6" method="POST" noValidate>
         {/* {validationErrors && (
             <ul className='my-7'>
@@ -45,7 +47,7 @@ export default function SignupForm() {
                 placeholder=" "
                 required
                 pattern="[A-Za-z\s]+"
-                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
               disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
               invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -71,7 +73,7 @@ export default function SignupForm() {
                 placeholder=" "
                 pattern="[A-Za-z\s]+"
                 required
-                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -99,7 +101,7 @@ export default function SignupForm() {
                   type="number"
                   placeholder=" "
                   required
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
                     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -123,7 +125,7 @@ export default function SignupForm() {
                   name="businessPhone"
                   type="number"
                   placeholder=" "
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
                     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -148,8 +150,10 @@ export default function SignupForm() {
                 name="companyName"
                 type="text"
                 autoComplete="organization"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
-                     placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
+                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
               />
             </div>
           </div>
@@ -170,7 +174,7 @@ export default function SignupForm() {
               placeholder=" "
               required
               autoComplete="email"
-              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
@@ -201,7 +205,7 @@ export default function SignupForm() {
               placeholder=" "
               pattern=".{5,}"
               required
-              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
               disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
               invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer `}
@@ -234,7 +238,7 @@ export default function SignupForm() {
         <select
           name="plan"
           id="plan"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
         >
           <option>BULK/CORP SMS 3K</option>
           <option>BULK/CORP SMS 5K</option>

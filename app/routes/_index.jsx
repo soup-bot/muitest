@@ -26,16 +26,16 @@ export const action = async ({ request }) => {
     console.log(`${key}: ${value}`);
   }
 
-  const destinationAddress = numbers.split(",");
+  // const destinationAddress = numbers.split(",");
 
   // Create the payload for the API request
-  const payload = {
-    sourceAddress: "TEXT",
-    destinationAddress,
-    dlr: true,
-    smsMessage: text,
-    AuthorizationKey: "bWVzc2FnZW93bDpvV2xNRGhJUjY=",
-  };
+  // const payload = {
+  //   sourceAddress: "TEXT",
+  //   destinationAddress,
+  //   dlr: true,
+  //   smsMessage: text,
+  //   AuthorizationKey: "bWVzc2FnZW93bDpvV2xNRGhJUjY=",
+  // };
 
   // Make the API request
   // const response = await fetch(

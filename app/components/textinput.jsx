@@ -21,12 +21,11 @@ export default function InputForm() {
   let actionData = useActionData();
   const [headers, setHeaders] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [validNum, setValidNum] = useState(true);
+  const [validFileSize, setValidFileSize] = useState(true);
   const [open, setOpen] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const uniqueNumbers = [...new Set(selected)];
   const navigation = useNavigation();
-  const [disableInput, setDisableInput] = useState(selected.length >= 10);
   const handleOpen = () => setOpen(true);
   let $form = useRef();
   const handleClose = () => {
@@ -34,14 +33,6 @@ export default function InputForm() {
   };
 
   // Function to open the popup
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  // Function to close the popup
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
 
   const handleInputChange = (type) => {
     setInputType(type);
@@ -52,14 +43,21 @@ export default function InputForm() {
     setNumMessages(0);
   };
   const handleFileChange = async (e) => {
+    // if (e.target.files[0].size > 60000) {
+    //   setValidFileSize(false);
+    //   e.target.value = "";
+    // }
+
     setHeaders(null);
     const file = e.target.files[0];
+
     setUploadedFile(file);
     if (!file) {
       return;
     }
 
     try {
+      setValidFileSize(true);
       const arrayBuffer = await file.arrayBuffer();
       const data = new Uint8Array(arrayBuffer);
       const workbook = xlsx.read(data, { type: "array" });
@@ -293,7 +291,7 @@ export default function InputForm() {
                       onlyUnique={true}
                     />
 */}
-                    <input type="hidden" name="numbers" value={selected} />
+                    <input type="hidden" name="numbers" value={uniqueNumbers} />
 
                     <Autocomplete
                       multiple
@@ -305,21 +303,23 @@ export default function InputForm() {
                       value={selected}
                       onChange={(e, value) => {
                         const validValues = value.filter(beforeAddValidate);
+
                         const updatedSelected = validValues.map((item) =>
                           typeof item === "object" ? item.value : item
                         );
                         setSelected(updatedSelected);
                       }}
-                      getOptionLabel={(option) => option.label}
+                      getOptionLabel={(option) =>
+                        typeof option === "string" ? option : option.label
+                      }
                       renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
                           <Chip
                             key={index}
-                            variant="outlined"
                             label={
                               typeof option === "object" ? option.value : option
                             }
-                            size="large"
+                            size="medium"
                             onDelete={() => handleTagDelete(index)}
                             style={{
                               marginRight: "8px",
@@ -440,12 +440,25 @@ export default function InputForm() {
                     </div>
                   </div>
                 )}
-                <p
+
+                {validFileSize ? (
+                  <p
+                    className="mt-1 text-sm text-gray-500 dark:text-slate-300"
+                    id="file_input_help"
+                  >
+                    .xlsx or .csv
+                  </p>
+                ) : (
+                  <p className="font-medium text-sm text-red-500 ">
+                    Your file is too big!
+                  </p>
+                )}
+                {/* <p
                   className="mt-1 text-sm text-gray-500 dark:text-slate-300"
                   id="file_input_help"
                 >
                   .xlsx or .csv
-                </p>
+                </p> */}
                 {headers ? (
                   <>
                     <div className="mt-5 text-md font-medium"></div>
