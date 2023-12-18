@@ -87,9 +87,9 @@ export default function InputForm() {
   const sampleOptions = ["7000000", "9000000", "7000023", "7000012", "7000044"];
 
   const sampleOptions2 = [
-    // { label: "John Doe", value: "9000000" },
-    // { label: "Jane Smith", value: "7000000" },
-    // { label: "Bob Johnson", value: "7000012" },
+    { label: "John Doe", value: "9000000" },
+    { label: "Jane Smith", value: "7000000" },
+    { label: "Bob Johnson", value: "7000012" },
     // Add more options as needed
   ];
 
@@ -272,14 +272,15 @@ export default function InputForm() {
               </div> */}
             </div>
 
-            {inputType === "numbers" && (
-              <div className=" flex flex-col align-middle  justify-left mt-5  animate-fade animate-once animate-duration-300 animate-ease-linear">
-                <p className="mb-2 text-l font-medium text-gray-900 dark:text-slate-300">
-                  Input numbers
-                </p>
-                <div className="flex flex-col md:flex-row ">
-                  <div className="w-full md:w-full ">
-                    {/* <TagsInput
+            <div className="">
+              {inputType === "numbers" && (
+                <div className=" flex flex-col align-middle  justify-left mt-5  animate-fade animate-once animate-duration-300 animate-ease-linear">
+                  <p className="mb-2 text-l font-medium text-gray-900 dark:text-slate-300">
+                    Input numbers
+                  </p>
+                  <div className="flex flex-col md:flex-row ">
+                    <div className="w-full md:w-full ">
+                      {/* <TagsInput
                       classNames={{
                         tag: "font-medium bg-black",
                         input:
@@ -291,127 +292,72 @@ export default function InputForm() {
                       onlyUnique={true}
                     />
 */}
-                    <input type="hidden" name="numbers" value={uniqueNumbers} />
-
-                    <Autocomplete
-                      multiple
-                      id="tags-filled"
-                      options={sampleOptions2}
-                      defaultValue={[]}
-                      limitTags={4}
-                      freeSolo
-                      value={selected}
-                      onChange={(e, value) => {
-                        const validValues = value.filter(beforeAddValidate);
-
-                        const updatedSelected = validValues.map((item) =>
-                          typeof item === "object" ? item.value : item
-                        );
-                        setSelected(updatedSelected);
-                      }}
-                      getOptionLabel={(option) =>
-                        typeof option === "string" ? option : option.label
-                      }
-                      renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip
-                            key={index}
-                            label={
-                              typeof option === "object" ? option.value : option
-                            }
-                            size="medium"
-                            onDelete={() => handleTagDelete(index)}
-                            style={{
-                              marginRight: "8px",
-                              marginTop: "4px",
-                              marginBottom: "4px",
-                            }}
-                          />
-                        ))
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="Add a number by pressing enter"
-                          onKeyDown={(e) => {
-                            if (
-                              e.key === "Enter" &&
-                              e.target.value.trim() !== ""
-                            ) {
-                              const enteredValue = e.target.value.trim();
-                              if (beforeAddValidate(enteredValue)) {
-                                setSelected([...selected, enteredValue]);
-                                e.target.value = ""; // Clear the input after adding
-                              }
-                            }
-                          }}
-                        />
-                      )}
-                    />
-                  </div>
-
-                  <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
-                    <label className="relative inline-flex items-center cursor-pointer">
                       <input
-                        type="checkbox"
-                        value=""
-                        checked={inputType === "file"}
-                        onChange={() =>
-                          handleInputChange(
-                            inputType === "numbers" ? "file" : "numbers"
-                          )
-                        }
-                        className="sr-only peer"
+                        type="hidden"
+                        name="numbers"
+                        value={uniqueNumbers}
                       />
 
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
-                      <span className="ms-3 text-sm font-medium text-gray-900 dark:text-slate-300">
-                        Upload a file
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleOpen}
-                        className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
-                      >
-                        ?
-                      </button>
-                    </label>
-                  </div>
-                </div>
-                {!validNum && (
-                  <div className="mt-3">
-                    <span className="font-medium text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                      Please enter a valid 7-digit number starting with 7 or 9
-                      <span className="font-black ml-2">(max 10 numbers)</span>.
-                    </span>
-                  </div>
-                )}
-                {selected.length > 10 && (
-                  <div className="mt-3">
-                    <span className="font-medium text-sm text-red-500 ">
-                      You can enter a maximum of 10 numbers.
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
-            {inputType === "file" && (
-              <div className="">
-                {inputType === "file" && (
-                  <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8 animate-fade animate-once animate-duration-300 animate-ease-linear">
-                    <div className=" w-full md:w-full">
-                      <input
-                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
-                        aria-describedby="file_input_help"
-                        type="file"
-                        name="excelFile"
-                        id="excelFile"
-                        accept=".xlsx, .csv"
-                        onChange={handleFileChange}
+                      <Autocomplete
+                        multiple
+                        id="tags-filled"
+                        options={sampleOptions2}
+                        defaultValue={[]}
+                        limitTags={4}
+                        freeSolo
+                        value={selected}
+                        onChange={(e, value) => {
+                          const validValues = value.filter(beforeAddValidate);
+
+                          const updatedSelected = validValues.map((item) =>
+                            typeof item === "object" ? item.value : item
+                          );
+                          setSelected(updatedSelected);
+                        }}
+                        getOptionLabel={(option) =>
+                          typeof option === "string" ? option : option.label
+                        }
+                        renderTags={(value, getTagProps) =>
+                          value.map((option, index) => (
+                            <Chip
+                              key={index}
+                              label={
+                                typeof option === "object"
+                                  ? option.value
+                                  : option
+                              }
+                              size="medium"
+                              onDelete={() => handleTagDelete(index)}
+                              style={{
+                                marginRight: "8px",
+                                marginTop: "4px",
+                                marginBottom: "4px",
+                              }}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            placeholder="Add a number by pressing enter"
+                            onKeyDown={(e) => {
+                              if (
+                                e.key === "Enter" &&
+                                e.target.value.trim() !== ""
+                              ) {
+                                const enteredValue = e.target.value.trim();
+                                if (beforeAddValidate(enteredValue)) {
+                                  setSelected([...selected, enteredValue]);
+                                  e.target.value = ""; // Clear the input after adding
+                                }
+                              }
+                            }}
+                          />
+                        )}
                       />
                     </div>
 
-                    <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5 align-middle items-center">
+                    <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -439,48 +385,112 @@ export default function InputForm() {
                       </label>
                     </div>
                   </div>
-                )}
+                  {!validNum && (
+                    <div className="mt-3">
+                      <span className="font-medium text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                        Please enter a valid 7-digit number starting with 7 or 9
+                        <span className="font-black ml-2">
+                          (max 10 numbers)
+                        </span>
+                        .
+                      </span>
+                    </div>
+                  )}
+                  {selected.length > 10 && (
+                    <div className="mt-3">
+                      <span className="font-medium text-sm text-red-500 ">
+                        You can enter a maximum of 10 numbers.
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {inputType === "file" && (
+                <div className="">
+                  {inputType === "file" && (
+                    <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8 animate-fade animate-once animate-duration-300 animate-ease-linear">
+                      <div className=" w-full md:w-full">
+                        <input
+                          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
+                          aria-describedby="file_input_help"
+                          type="file"
+                          name="excelFile"
+                          id="excelFile"
+                          accept=".xlsx, .csv"
+                          onChange={handleFileChange}
+                        />
+                      </div>
 
-                {validFileSize ? (
-                  <p
-                    className="mt-1 text-sm text-gray-500 dark:text-slate-300"
-                    id="file_input_help"
-                  >
-                    .xlsx or .csv
-                  </p>
-                ) : (
-                  <p className="font-medium text-sm text-red-500 ">
-                    Your file is too big!
-                  </p>
-                )}
-                {/* <p
+                      <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5 align-middle items-center">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            value=""
+                            checked={inputType === "file"}
+                            onChange={() =>
+                              handleInputChange(
+                                inputType === "numbers" ? "file" : "numbers"
+                              )
+                            }
+                            className="sr-only peer"
+                          />
+
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+                          <span className="ms-3 text-sm font-medium text-gray-900 dark:text-slate-300">
+                            Upload a file
+                          </span>
+                          <button
+                            type="button"
+                            onClick={handleOpen}
+                            className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
+                          >
+                            ?
+                          </button>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {validFileSize ? (
+                    <p
+                      className="mt-1 text-sm text-gray-500 dark:text-slate-300"
+                      id="file_input_help"
+                    >
+                      .xlsx or .csv
+                    </p>
+                  ) : (
+                    <p className="font-medium text-sm text-red-500 ">
+                      Your file is too big!
+                    </p>
+                  )}
+                  {/* <p
                   className="mt-1 text-sm text-gray-500 dark:text-slate-300"
                   id="file_input_help"
                 >
                   .xlsx or .csv
                 </p> */}
-                {headers ? (
-                  <>
-                    <div className="mt-5 text-md font-medium"></div>
-                    {Object.values(headers).map((value, index) => (
-                      <button
-                        className="bg-secondary text-white m-1 py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
-                        key={index}
-                        type="button"
-                        onMouseDown={(e) => handleButtonClick(value, e)}
-                      >
-                        {value}
-                      </button>
-                    ))}
-                  </>
-                ) : (
-                  // ELSE SHOW THAT NO DATA IS AVAILABLE
-                  <div className="mt-3 text-md font-medium"></div>
-                )}
-              </div>
-            )}
+                  {headers ? (
+                    <>
+                      <div className="mt-5 text-md font-medium"></div>
+                      {Object.values(headers).map((value, index) => (
+                        <button
+                          className="bg-secondary text-white m-1 py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
+                          key={index}
+                          type="button"
+                          onMouseDown={(e) => handleButtonClick(value, e)}
+                        >
+                          {value}
+                        </button>
+                      ))}
+                    </>
+                  ) : (
+                    // ELSE SHOW THAT NO DATA IS AVAILABLE
+                    <div className="mt-3 text-md font-medium"></div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-
           <div>
             <label
               htmlFor="message"
