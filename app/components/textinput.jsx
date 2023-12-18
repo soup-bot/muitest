@@ -86,6 +86,7 @@ export default function InputForm() {
   const handleSelectInputChange = (event) => {
     setInputType(event.target.value);
   };
+  const sampleOptions = ["7000000", "9000000", "7000023", "7000012", "7000044"];
 
   const handleButtonClick = (value, event) => {
     event.preventDefault();
@@ -209,7 +210,7 @@ export default function InputForm() {
         <Form method="post" encType="multipart/form-data">
           <div className="mb-5">
             <div className="flex w-100 flex-col md:flex-row ">
-              <div className="basis-1/2 my-3 md:mr-8">
+              <div className="w-full my-3 md:mr-8">
                 <label
                   htmlFor="countries"
                   className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
@@ -228,7 +229,7 @@ export default function InputForm() {
                 </select>
               </div>
 
-              <div className="basis-1/2  my-3 transition-all">
+              {/* <div className="basis-1/2  my-3 transition-all">
                 <label
                   htmlFor="countries"
                   className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
@@ -258,7 +259,7 @@ export default function InputForm() {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {inputType === "numbers" && (
@@ -285,14 +286,16 @@ export default function InputForm() {
                     <Autocomplete
                       multiple
                       id="tags-filled"
-                      options={[]}
+                      options={sampleOptions}
                       defaultValue={[]}
+                      limitTags={4}
                       freeSolo
                       value={selected}
                       onChange={(e, value) => {
                         const validNumbers = value.filter(beforeAddValidate);
                         setSelected(validNumbers);
                       }}
+                      getOptionLabel={(option) => option}
                       renderTags={(value, getTagProps) =>
                         value
                           .filter((option) => validatePhoneNumber(option))
@@ -307,7 +310,7 @@ export default function InputForm() {
                                 marginRight: "8px",
                                 marginTop: "4px",
                                 marginBottom: "4px",
-                              }} // Adjust these values
+                              }}
                             />
                           ))
                       }
@@ -315,12 +318,24 @@ export default function InputForm() {
                         <TextField
                           {...params}
                           placeholder="Add a number by pressing enter"
+                          onKeyDown={(e) => {
+                            if (
+                              e.key === "Enter" &&
+                              e.target.value.trim() !== ""
+                            ) {
+                              const enteredNumber = e.target.value.trim();
+                              if (beforeAddValidate(enteredNumber)) {
+                                setSelected([...selected, enteredNumber]);
+                                e.target.value = ""; // Clear the input after adding
+                              }
+                            }
+                          }}
                         />
                       )}
                     />
                   </div>
 
-                  {/* <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
+                  <div className="w-full md:ml-7 md:w-2/5 lg:1/5 flex justify-left my-5">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -346,7 +361,7 @@ export default function InputForm() {
                         ?
                       </button>
                     </label>
-                  </div> */}
+                  </div>
                 </div>
                 {!validNum && (
                   <div className="mt-3">
@@ -381,7 +396,7 @@ export default function InputForm() {
                       />
                     </div>
 
-                    {/* <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5 align-middle items-center">
+                    <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5 align-middle items-center">
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -407,7 +422,7 @@ export default function InputForm() {
                           ?
                         </button>
                       </label>
-                    </div> */}
+                    </div>
                   </div>
                 )}
                 <p
