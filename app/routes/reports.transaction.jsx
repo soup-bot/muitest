@@ -112,7 +112,7 @@ function TransactionReport() {
           checkboxSelection
         />
       </div>
-      <div className="w-full bg-slate-100 h-0.5 mt-20"></div>
+      <div className="w-full bg-slate-100 dark:bg-slate-700 h-0.5 mt-20"></div>
       <Outlet></Outlet>
     </div>
   );

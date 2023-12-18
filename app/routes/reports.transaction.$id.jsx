@@ -73,7 +73,7 @@ function ReportDetails() {
 
   return (
     <div className="mt-10">
-      <h1 className="mb-8 ">Report details </h1>
+      <h1 className="mb-8 dark:text-slate-200">Report details </h1>
 
       <DataGrid
         className="dark:bg-slate-700 bg-slate-50"
