@@ -172,7 +172,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <button
-                      className="block p-2 pl-3 pt-3 pb-3  hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600 rounded-lg w-full "
+                      className="block p-2 pl-3 pt-3 pb-3  hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600  w-full "
                       onClick={toggleDarkMode}
                     >
                       {isDarkMode ? (
@@ -195,7 +195,7 @@ export default function Navbar() {
                   <NavLink
                     to="/auth"
                     onClick={toggledropdownVisible}
-                    className="block px-4 py-2 pb-3 text-sm text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
+                    className="block px-4 py-2 pb-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg dark:text-slate-300 dark:hover:bg-slate-600"
                   >
                     Sign out
                   </NavLink>

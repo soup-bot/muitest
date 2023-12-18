@@ -87,9 +87,9 @@ export default function InputForm() {
   const sampleOptions = ["7000000", "9000000", "7000023", "7000012", "7000044"];
 
   const sampleOptions2 = [
-    { label: "John Doe", value: "9000000" },
-    { label: "Jane Smith", value: "7000000" },
-    { label: "Bob Johnson", value: "7000012" },
+    // { label: "John Doe", value: "9000000" },
+    // { label: "Jane Smith", value: "7000000" },
+    // { label: "Bob Johnson", value: "7000012" },
     // Add more options as needed
   ];
 
