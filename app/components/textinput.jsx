@@ -88,6 +88,13 @@ export default function InputForm() {
   };
   const sampleOptions = ["7000000", "9000000", "7000023", "7000012", "7000044"];
 
+  const sampleOptions2 = [
+    { label: "John Doe", value: "9000000" },
+    { label: "Jane Smith", value: "7000000" },
+    { label: "Bob Johnson", value: "7000012" },
+    // Add more options as needed
+  ];
+
   const handleButtonClick = (value, event) => {
     event.preventDefault();
     setText((prevText) => `${prevText} @@${value} `);
@@ -142,13 +149,18 @@ export default function InputForm() {
   };
 
   const beforeAddValidate = (tag, existingTags) => {
-    // Check if the length is less than 10 and the phone number is valid
-    const isValidPhoneNumber = validatePhoneNumber(tag);
+    // Check if the tag is a string (manually entered number) or an object (contact)
+    const isString = typeof tag === "string";
 
-    isValidPhoneNumber ? setValidNum(true) : setValidNum(false);
-    // Set the error message for Snackbar
+    // If it's a string, perform phone number validation
+    if (isString) {
+      const isValidPhoneNumber = validatePhoneNumber(tag);
+      isValidPhoneNumber ? setValidNum(true) : setValidNum(false);
+      return isValidPhoneNumber;
+    }
 
-    return isValidPhoneNumber;
+    // If it's an object, consider it valid
+    return true;
   };
   // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
@@ -286,33 +298,36 @@ export default function InputForm() {
                     <Autocomplete
                       multiple
                       id="tags-filled"
-                      options={sampleOptions}
+                      options={sampleOptions2}
                       defaultValue={[]}
                       limitTags={4}
                       freeSolo
                       value={selected}
                       onChange={(e, value) => {
-                        const validNumbers = value.filter(beforeAddValidate);
-                        setSelected(validNumbers);
+                        const validValues = value.filter(beforeAddValidate);
+                        const updatedSelected = validValues.map((item) =>
+                          typeof item === "object" ? item.value : item
+                        );
+                        setSelected(updatedSelected);
                       }}
-                      getOptionLabel={(option) => option}
+                      getOptionLabel={(option) => option.label}
                       renderTags={(value, getTagProps) =>
-                        value
-                          .filter((option) => validatePhoneNumber(option))
-                          .map((option, index) => (
-                            <Chip
-                              key={index}
-                              variant="outlined"
-                              label={option}
-                              size="large"
-                              onDelete={() => handleTagDelete(index)}
-                              style={{
-                                marginRight: "8px",
-                                marginTop: "4px",
-                                marginBottom: "4px",
-                              }}
-                            />
-                          ))
+                        value.map((option, index) => (
+                          <Chip
+                            key={index}
+                            variant="outlined"
+                            label={
+                              typeof option === "object" ? option.value : option
+                            }
+                            size="large"
+                            onDelete={() => handleTagDelete(index)}
+                            style={{
+                              marginRight: "8px",
+                              marginTop: "4px",
+                              marginBottom: "4px",
+                            }}
+                          />
+                        ))
                       }
                       renderInput={(params) => (
                         <TextField
@@ -323,9 +338,9 @@ export default function InputForm() {
                               e.key === "Enter" &&
                               e.target.value.trim() !== ""
                             ) {
-                              const enteredNumber = e.target.value.trim();
-                              if (beforeAddValidate(enteredNumber)) {
-                                setSelected([...selected, enteredNumber]);
+                              const enteredValue = e.target.value.trim();
+                              if (beforeAddValidate(enteredValue)) {
+                                setSelected([...selected, enteredValue]);
                                 e.target.value = ""; // Clear the input after adding
                               }
                             }
