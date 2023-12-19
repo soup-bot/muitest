@@ -1,12 +1,4 @@
-import { Form, Link, Outlet } from "@remix-run/react";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useState, useRef, forwardRef } from "react";
-import dayjs from "dayjs";
-import { FaSearch } from "react-icons/fa";
-import { MdDeleteForever } from "react-icons/md";
-import { TbReportSearch } from "react-icons/tb";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useNavigate } from "@remix-run/react";
 
 const usr_rows = [
   {

@@ -104,45 +104,6 @@ export default function Reports() {
     console.log("search button hit");
   };
 
-  // const renderDataGrid = () => {
-  //   if (selectedReportType === "usage") {
-  //     // Render Transaction Report DataGrid
-  //     return (
-  //       <div>
-  //         <DataGrid
-  //           density="compact"
-  //           rows={usr_rows}
-  //           columns={usr_columns}
-  //           hideFooter
-  //         />
-  //       </div>
-  //     );
-  //   } else if (selectedReportType === "transaction") {
-  //     // Render Usage Summary Report DataGrid
-  //     return (
-  //       <div>
-  //         <DataGrid
-  //           density="compact"
-  //           rows={tr_rows}
-  //           columns={tr_columns}
-  //           hideFooter
-  //         />
-  //         <Outlet />
-  //       </div>
-  //     );
-  //   }
-  //   // Default case: Render a placeholder or default DataGrid
-  //   return (
-  //     <DataGrid
-  //       density="compact"
-  //       rows={[]}
-  //       columns={[]}
-  //       hideFooter
-  //       autoHeight
-  //     />
-  //   );
-  // };
-
   return (
     <div
       className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${

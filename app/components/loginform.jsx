@@ -12,17 +12,6 @@ export default function LoginForm() {
         <input type="hidden" name="formType" value="login" />
 
         <div>
-          {/* {validationErrors && (
-  <ul className='my-7'>
-    {Object.keys(validationErrors)
-      .filter(key => key === 'password' || key === "email")// Adjust the condition as needed
-      .map((key) => (
-        <li className="font-medium text-red-600 text-sm" key={key}>
-          {validationErrors[key]}
-        </li>
-      ))}
-  </ul>
-)} */}
           <label
             htmlFor="email"
             className="block text-sm font-medium leading-6 text-gray-500 dark:text-slate-200"

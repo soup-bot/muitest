@@ -6,11 +6,8 @@ import { MdMoveToInbox } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
 import { RiContactsBook2Fill } from "react-icons/ri";
 import { HiDocumentReport } from "react-icons/hi";
-import { PiSignOutBold } from "react-icons/pi";
 import { FaUserCircle } from "react-icons/fa";
-import { json } from "@remix-run/node";
 import { BiSolidMessageAdd } from "react-icons/bi";
-import { MdSms } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
@@ -29,12 +26,6 @@ export default function Navbar() {
   };
   const toggledropdownVisible = () => {
     setdropdownVisible(!dropdownVisible);
-    setSidebarVisible(false);
-  };
-  const closeSidebar = () => {
-    setSidebarVisible(false);
-  };
-  const closeDropDown = () => {
     setSidebarVisible(false);
   };
 
@@ -151,15 +142,7 @@ export default function Navbar() {
                       Dashboard
                     </NavLink>
                   </li>
-                  {/* <li>
-                    <NavLink
-                      to="/settings"
-                      onClick={toggledropdownVisible}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600"
-                    >
-                      Settings
-                    </NavLink>{" "}
-                  </li> */}
+
                   <li>
                     <a
                       href="https://www.dhiraagu.com.mv/business/products-solutions/voice-collaboration/bulk-sms-short-code-messaging-service"

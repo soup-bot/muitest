@@ -1,5 +1,5 @@
 import { Form, useActionData } from "@remix-run/react";
-import { Carousel } from "flowbite-react";
+
 import { useDarkMode } from "../components/DarkModeContext";
 
 export default function SignupForm() {
@@ -9,26 +9,6 @@ export default function SignupForm() {
   return (
     <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex flex-row">
       <Form className="space-y-6" method="POST" noValidate>
-        {/* {validationErrors && (
-            <ul className='my-7'>
-              {Object.values(validationErrors).map((error) => (
-                <li className="font-medium text-red-600 text-sm" key={error}>{error}</li>
-              ))}
-            </ul>
-          )} */}
-
-        {/* {validationErrors && (
-  <ul className='my-7'>
-    {Object.keys(validationErrors)
-      .filter(key => key === 'newEmail' || key === "firstName" || key === "lastName" || key === "newPassword") // Adjust the condition as needed
-      .map((key) => (
-        <li className="font-medium text-red-600 text-sm" key={key}>
-          {validationErrors[key]}
-        </li>
-      ))}
-  </ul>
-)} */}
-
         <input type="hidden" name="formType" value="signup" />
         <div className="flex">
           <div className="mr-4">

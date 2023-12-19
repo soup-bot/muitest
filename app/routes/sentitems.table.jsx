@@ -276,10 +276,6 @@ const columns = [
 ];
 
 export default function SentTable() {
-  // const checkedRows = (rowSelectionModel) => {
-  //   console.log("Row change");
-  //   console.log(rowSelectionModel);
-  // };
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
