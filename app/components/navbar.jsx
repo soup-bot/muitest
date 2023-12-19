@@ -71,7 +71,7 @@ export default function Navbar() {
             ref={dropdownRef}
             className="flex gap-4 items-center justify-items-center "
           >
-            <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-hoverprim align-center justify-center hidden lg:flex">
+            <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-hoverprim  align-center justify-center hidden lg:flex">
               <p className="drop-shadow-md mx-2">1500</p>
               <div className="flex align-middle justify-center items-center mr-1">
                 <FaCoins />

@@ -47,7 +47,7 @@ function App() {
         </head>
         <body
           className={`transition-[background-color] overflow-y-scroll  font-body ${
-            isDarkMode ? "bg-slate-950 xl:bg-slate-950" : ""
+            isDarkMode ? "bg-slate-900 xl:bg-slate-950" : ""
           }`}
         >
           {!auth && <Navbar />}
