@@ -22,6 +22,10 @@ import GroupsModal from "../components/groupsmodal";
 import { FaEdit } from "react-icons/fa";
 import { MdGroupAdd } from "react-icons/md";
 
+export const meta = () => {
+  return [{ title: "Contacts" }];
+};
+
 const initialRows = [
   {
     id: 1,

@@ -5,6 +5,10 @@ import { Outlet } from "@remix-run/react";
 import { FaSearch } from "react-icons/fa";
 import { useDarkMode } from "../components/DarkModeContext";
 
+export const meta = () => {
+  return [{ title: "Inbox" }];
+};
+
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
 };

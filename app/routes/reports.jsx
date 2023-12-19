@@ -9,6 +9,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "@remix-run/react";
 import { useDarkMode } from "../components/DarkModeContext";
 
+export const meta = () => {
+  return [{ title: "Reports" }];
+};
+
 const usr_rows = [
   {
     id: 1,

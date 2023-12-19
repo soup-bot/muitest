@@ -138,6 +138,10 @@ export default function InputForm() {
     });
   };
 
+  const handleSubmit = () => {
+    setText("");
+    setNumMessages(0);
+  };
   const beforeAddValidate = (tag, existingTags) => {
     // Check if the tag is a string (manually entered number) or an object (contact)
     const isString = typeof tag === "string";
@@ -209,7 +213,11 @@ export default function InputForm() {
           Compose a message
         </h1>
 
-        <Form method="post" encType="multipart/form-data">
+        <Form
+          method="post"
+          encType="multipart/form-data"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-5">
             <div className="flex w-100 flex-col md:flex-row ">
               <div className="w-full my-3 md:mr-8">
@@ -494,13 +502,14 @@ export default function InputForm() {
             </label>
 
             <textarea
+              disabled={navigation.state === "submitting"}
               value={text}
               onChange={handleTextChange}
               name="text"
               id="message"
               rows="14"
               maxLength="1531"
-              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-none"
+              className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-none"
               placeholder="Write your message here..."
             ></textarea>
             <div className="justify-between flex-wrap align-middle   rounded-md  dark:text-slate-200 mt-2">

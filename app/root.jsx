@@ -8,6 +8,10 @@ import CSS from "./app.css";
 
 import { DarkModeProvider, useDarkMode } from "./components/DarkModeContext";
 
+export const meta = () => {
+  return [{ title: "Bulk SMS Portal" }];
+};
+
 import {
   Links,
   LiveReload,

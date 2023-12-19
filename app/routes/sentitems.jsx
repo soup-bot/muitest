@@ -6,6 +6,10 @@ import { FaSearch } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 
+export const meta = () => {
+  return [{ title: "Sent Items" }];
+};
+
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
 };

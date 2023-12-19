@@ -107,6 +107,7 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
 
           <div className="w-full flex align-middle justify-center mt-3 px-4">
             <input
+              maxLength={30}
               type="text"
               value={newGroupName}
               onChange={(e) => setNewGroupName(e.target.value)}

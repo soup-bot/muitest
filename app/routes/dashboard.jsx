@@ -9,6 +9,10 @@ import { MdEmail } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 
+export const meta = () => {
+  return [{ title: "Dashboard" }];
+};
+
 const palette = ["#F26940", "#0FA5B7"];
 
 const getFirstDayOfMonth = () => {
