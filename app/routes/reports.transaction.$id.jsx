@@ -76,7 +76,7 @@ function ReportDetails() {
       <h1 className="mb-8 dark:text-slate-200">Report details </h1>
 
       <DataGrid
-        className="dark:bg-slate-700 bg-slate-50"
+        className="dark:bg-slate-800 bg-slate-50"
         density="compact"
         rows={reportRows}
         columns={columns}

@@ -104,7 +104,7 @@ function TransactionReport() {
           <MdDelete size={20} />
         </button>
         <DataGrid
-          className="dark:bg-slate-700 bg-slate-50"
+          className="dark:bg-slate-800 bg-slate-50"
           density="compact"
           rows={tr_rows}
           columns={tr_columns}
@@ -112,7 +112,7 @@ function TransactionReport() {
           checkboxSelection
         />
       </div>
-      <div className="w-full bg-slate-100 dark:bg-slate-700 h-0.5 mt-20"></div>
+      <div className="w-full bg-slate-100 dark:bg-slate-800 h-0.5 mt-20"></div>
       <Outlet></Outlet>
     </div>
   );

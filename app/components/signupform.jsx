@@ -47,7 +47,7 @@ export default function SignupForm() {
                 placeholder=" "
                 required
                 pattern="[A-Za-z\s]+"
-                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
               disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
               invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -73,7 +73,7 @@ export default function SignupForm() {
                 placeholder=" "
                 pattern="[A-Za-z\s]+"
                 required
-                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300  dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -101,7 +101,7 @@ export default function SignupForm() {
                   type="number"
                   placeholder=" "
                   required
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
                     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -125,7 +125,7 @@ export default function SignupForm() {
                   name="businessPhone"
                   type="number"
                   placeholder=" "
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
                     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
@@ -150,7 +150,7 @@ export default function SignupForm() {
                 name="companyName"
                 type="text"
                 autoComplete="organization"
-                className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
+                className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
                 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
@@ -174,7 +174,7 @@ export default function SignupForm() {
               placeholder=" "
               required
               autoComplete="email"
-              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
+              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
@@ -205,7 +205,7 @@ export default function SignupForm() {
               placeholder=" "
               pattern=".{5,}"
               required
-              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
+              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300  dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white rounded-md text-sm shadow-sm placeholder-slate-400
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
               disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
               invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer `}
@@ -238,7 +238,7 @@ export default function SignupForm() {
         <select
           name="plan"
           id="plan"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
         >
           <option>BULK/CORP SMS 3K</option>
           <option>BULK/CORP SMS 5K</option>

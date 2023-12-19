@@ -336,7 +336,7 @@ export default function SentTable() {
         </button>
       </div>
       <DataGrid
-        className="dark:bg-slate-700 bg-slate-50"
+        className="dark:bg-slate-800 bg-slate-50"
         density="compact"
         rows={rows}
         columns={columns}

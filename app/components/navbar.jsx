@@ -60,7 +60,7 @@ export default function Navbar() {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef} className={`${isDarkMode ? "dark" : ""}`}>
-      <nav className="bg-white border-gray-200 shadow-sm xl:py-2 xl:mb-0 dark:bg-slate-900 transition-[background-color]">
+      <nav className="bg-white border-gray-200 shadow-sm xl:py-2 xl:mb-0 dark:bg-slate-950 transition-[background-color]">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
@@ -215,9 +215,9 @@ export default function Navbar() {
           }`}
           aria-label="Sidebar"
         >
-          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-900 dark:bg-slate-700 transition-[background-color]">
+          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-950 dark:bg-slate-950 transition-[background-color]">
             <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center dark:text-white ">
-              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
+              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-950 lg:dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
                 <li>
                   <NavLink
                     prefetch="intent"

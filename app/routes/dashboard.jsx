@@ -40,7 +40,7 @@ function Dashboard() {
         isDarkMode ? "dark " : ""
       }`}
     >
-      <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-800">
+      <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
         <h1 className="font-bold text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>
@@ -62,11 +62,11 @@ function Dashboard() {
           </div>
           {/* PACKAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-600 ">
-              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
+            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-800 ">
+              <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 My current plan
               </p>
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-200">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-200">
                 BULK/CORP SMS 15K
               </h5>
 
@@ -105,8 +105,8 @@ function Dashboard() {
 
           {/* USAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-lg rounded-lg dark:bg-slate-600">
-              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-lg rounded-lg dark:bg-slate-800">
+              <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 My usage
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
@@ -150,8 +150,8 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white shadow-lg rounded-lg flex flex-col dark:bg-slate-600">
-              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white shadow-lg rounded-lg flex flex-col dark:bg-slate-800">
+              <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 Help & Support
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
@@ -167,7 +167,7 @@ function Dashboard() {
               </div>
 
               <div className="bg-slate-100 rounded-md px-5 mt-8 pt-2 justify-self-end w-full h-full flex flex-col justify-center ">
-                <p className="text-sm font-black text-slate-800 mb-3">
+                <p className="text-sm font-black text-slate-900 mb-3">
                   Contact us
                 </p>
                 <div className="flex gap-2 p-2 align-middle">
@@ -187,8 +187,8 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white  shadow-lg rounded-lg   dark:bg-slate-600">
-              <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-600">
+            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white  shadow-lg rounded-lg   dark:bg-slate-800">
+              <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-800">
                 <p className="mb-3  font-medium opacity-70 text-gray-800 dark:text-slate-200">
                   Account Details
                 </p>
@@ -233,8 +233,8 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white  shadow-lg rounded-lg flex flex-col dark:bg-slate-700">
-              <p className="mb-3  text-gray-700  font-medium opacity-70 dark:text-slate-200">
+            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white  shadow-lg rounded-lg flex flex-col dark:bg-slate-800">
+              <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 Shortcode URL Forwarding
               </p>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-hoverprim"></h5>
@@ -248,7 +248,7 @@ function Dashboard() {
                 </label>
                 <select
                   id="shortcode"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="US">1111</option>
                   <option value="CA">2222</option>
@@ -265,7 +265,7 @@ function Dashboard() {
                     <input
                       type="text"
                       id="default-input"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
                   </div>
 

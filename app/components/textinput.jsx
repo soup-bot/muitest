@@ -204,7 +204,7 @@ export default function InputForm() {
         </div>
       </Modal>
 
-      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border-t-4  border-secondary bg-white dark:bg-slate-800 ">
+      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border-t-4  border-secondary bg-white dark:bg-slate-900 ">
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Compose a message
         </h1>
@@ -222,7 +222,7 @@ export default function InputForm() {
                 <select
                   id="senderID"
                   name="senderID"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="SID1">SID1</option>
                   <option value="SID2">SID2</option>
@@ -243,7 +243,7 @@ export default function InputForm() {
                     id="inputType"
                     value={inputType}
                     onChange={handleSelectInputChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                     <option value="numbers">Numbers</option>
                     <option value="file">File</option>
@@ -405,7 +405,7 @@ export default function InputForm() {
                     <div className=" flex flex-col md:flex-row align-middle items-center justify-center mt-8 animate-fade animate-once animate-duration-300 animate-ease-linear">
                       <div className=" w-full md:w-full">
                         <input
-                          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
+                          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
                           aria-describedby="file_input_help"
                           type="file"
                           name="excelFile"
@@ -500,7 +500,7 @@ export default function InputForm() {
               id="message"
               rows="14"
               maxLength="1531"
-              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-slate-200 dark:border-none"
+              className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-none"
               placeholder="Write your message here..."
             ></textarea>
             <div className="justify-between flex-wrap align-middle   rounded-md  dark:text-slate-200 mt-2">

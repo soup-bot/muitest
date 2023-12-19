@@ -237,14 +237,14 @@ export default function Contacts() {
         isDarkMode ? "dark " : ""
       }`}
     >
-      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-800">
+      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
         {/* <Button onClick={() => setGroupsModalOpen(true)}>Manage Groups</Button> */}
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
-            className="dark:bg-slate-700 bg-slate-50"
+            className="dark:bg-slate-800 bg-slate-50"
             rows={rows}
             columns={columns}
             editMode="row"

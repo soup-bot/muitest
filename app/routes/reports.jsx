@@ -145,7 +145,7 @@ export default function Reports() {
         isDarkMode ? "dark " : ""
       }`}
     >
-      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-800">
+      <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border-t-4 border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Reports
         </h1>
@@ -158,7 +158,7 @@ export default function Reports() {
         </label>
         <select
           id="reportType"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full md:w-2/3 lg:w-1/3 p-2.5 mb-4 dark:bg-slate-600 dark:text-slate-300"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full md:w-2/3 lg:w-1/3 p-2.5 mb-4 dark:bg-slate-800 dark:text-slate-300"
           onChange={(event) => navigate(`/reports/${event.target.value}`)}
         >
           {" "}
