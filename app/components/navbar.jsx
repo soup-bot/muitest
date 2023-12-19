@@ -208,7 +208,7 @@ export default function Navbar() {
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary lg:rounded-l-lg group transition dark:text-white"
+                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary  lg:rounded-l-lg group transition dark:text-white"
                         : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition dark:text-white dark:hover:bg-slate-600"
                     }
                   >

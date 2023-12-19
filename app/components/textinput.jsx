@@ -30,8 +30,6 @@ export default function InputForm() {
     setOpen(false);
   };
 
-  // Function to open the popup
-
   const handleInputChange = (type) => {
     setInputType(type);
     setText("");
@@ -255,6 +253,7 @@ export default function InputForm() {
                       />
 
                       <Autocomplete
+                        className="dark:bg-slate-800 bg-slate-50 focus:border-none"
                         multiple
                         id="tags-filled"
                         options={sampleContacts}
@@ -298,6 +297,7 @@ export default function InputForm() {
                           <TextField
                             {...params}
                             placeholder="Add a number by pressing enter"
+                            sx={{ fontWeight: "bold" }}
                             onKeyDown={(e) => {
                               if (
                                 e.key === "Enter" &&
