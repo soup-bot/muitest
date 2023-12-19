@@ -130,7 +130,7 @@ export default function Navbar() {
                 } z-10 absolute right-1 bg-white  rounded-lg shadow w-44 dark:bg-slate-800 `}
               >
                 <ul
-                  className="py-2 text-sm text-gray-700 "
+                  className="pt-2 text-sm text-gray-700 "
                   aria-labelledby="avatarButton"
                 >
                   <li>
@@ -178,7 +178,7 @@ export default function Navbar() {
                   <NavLink
                     to="/auth"
                     onClick={toggledropdownVisible}
-                    className="block px-4 py-2 pb-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg dark:text-slate-300 dark:hover:bg-slate-600"
+                    className="block px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg dark:text-slate-300 dark:hover:bg-slate-600"
                   >
                     Sign out
                   </NavLink>
