@@ -20,6 +20,7 @@ import { MdCancel } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 import GroupsModal from "../components/groupsmodal";
 import { FaEdit } from "react-icons/fa";
+import { MdGroupAdd } from "react-icons/md";
 
 const initialRows = [
   {
@@ -83,14 +84,21 @@ export default function Contacts() {
     };
 
     return (
-      <GridToolbarContainer className="flex flex-col sm:flex-row justify-between bg-slate-200  dark:bg-slate-600 ">
-        <Button startIcon={<IoMdAddCircle />} onClick={handleClick}>
-          Add Contact
-        </Button>
-        <Button startIcon={<FaEdit />} onClick={() => setGroupsModalOpen(true)}>
-          Manage Groups
-        </Button>
-        <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
+      <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
+        <div>
+          <Button startIcon={<IoMdAddCircle />} onClick={handleClick}>
+            <p className="hidden sm:block mr-5">Add Contact</p>
+          </Button>
+          <Button
+            startIcon={<MdGroupAdd />}
+            onClick={() => setGroupsModalOpen(true)}
+          >
+            <p className="hidden sm:block">Manage Groups</p>
+          </Button>
+        </div>
+        <GridToolbarExport printOptions={{ disableToolbarButton: true }}>
+          <p className="hidden sm:block">Export</p>
+        </GridToolbarExport>
       </GridToolbarContainer>
     );
   }
