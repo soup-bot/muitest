@@ -96,7 +96,7 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
 
           {/* Pagination */}
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+            rowsPerPageOptions={[5]}
             component="div"
             count={groups.length}
             rowsPerPage={rowsPerPage}
