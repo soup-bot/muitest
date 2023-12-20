@@ -28,6 +28,7 @@ import GroupsModal from "../components/groupsmodal";
 import { FaEdit } from "react-icons/fa";
 import { MdGroupAdd } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { FaUserEdit } from "react-icons/fa";
 
 export const meta = () => {
   return [{ title: "Contacts - Dhiraagu Bulk SMS" }];
@@ -53,6 +54,8 @@ export default function Contacts() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidContact, setIsValidContact] = useState(true);
   const [isModalOpen, setModalOpen] = React.useState(false);
+  const [isGroupModalOpen, setGroupModalOpen] = React.useState(false);
+  const [newGroup, setNewGroup] = React.useState("");
   const [newContact, setNewContact] = React.useState({
     name: "",
     number: "",
@@ -74,6 +77,8 @@ export default function Contacts() {
 
   const closeModal = () => {
     setModalOpen(false);
+    setGroupModalOpen(false);
+    setNewGroup("");
     // Reset new contact form
     setNewContact({ name: "", number: "", group: "" });
     setIsValidContact(true);
@@ -147,14 +152,14 @@ export default function Contacts() {
   };
 
   //handle group change for selected rows
-  // const handleGroupChange = (newGroup) => {
-  //   // Update the group for selected rows
-  //   setRows((oldRows) =>
-  //     oldRows.map((row) =>
-  //       selectedRows.includes(row.id) ? { ...row, group: newGroup } : row
-  //     )
-  //   );
-  // };
+  const handleGroupChange = (newGroup) => {
+    // Update the group for selected rows
+    setRows((oldRows) =>
+      oldRows.map((row) =>
+        selectedRows.includes(row.id) ? { ...row, group: newGroup } : row
+      )
+    );
+  };
   //-----------------------------------------------------
 
   const columns = [
@@ -227,6 +232,7 @@ export default function Contacts() {
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
+        <p>{selectedRows}</p>
         {/* <p className="dark:text-white">{selectedRows}</p> */}
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
@@ -251,8 +257,17 @@ export default function Contacts() {
                       startIcon={<MdGroupAdd />}
                       onClick={() => setGroupsModalOpen(true)}
                     >
-                      <p className="hidden sm:block">Manage Groups</p>
+                      <p className="hidden sm:block mr-5">Manage Groups</p>
                     </Button>
+
+                    {selectedRows.length > 0 && (
+                      <Button
+                        startIcon={<FaUserEdit />}
+                        onClick={() => setGroupModalOpen(true)}
+                      >
+                        <p className="hidden sm:block">Change Group</p>
+                      </Button>
+                    )}
                   </div>
                   <GridToolbarExport
                     printOptions={{ disableToolbarButton: true }}
@@ -343,6 +358,51 @@ export default function Contacts() {
               <div
                 className="text-white bg-secondary hover:bg-hoversec w-full md:w-min font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
                 onClick={handleAddContact}
+              >
+                <div> Add</div>
+                <div className="flex align-middle justify-center ml-2">
+                  <IoMdAdd
+                    className="self-middle justify-self-center "
+                    size={20}
+                  />
+                </div>
+              </div>
+            </div>
+          </Box>
+        </Modal>
+        <Modal
+          open={isGroupModalOpen}
+          onClose={closeModal}
+          className={`flex items-center align-middle justify-center ${
+            isDarkMode ? "dark " : ""
+          }`}
+        >
+          <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+            <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
+              Change groups
+            </h2>
+            <div>
+              <FormControl variant="standard" fullWidth margin="normal">
+                <InputLabel id="group-label">Group</InputLabel>
+                <Select
+                  labelId="group-label"
+                  id="group"
+                  value={newGroup}
+                  onChange={(e) => setNewGroup(e.target.value)}
+                >
+                  <MenuItem value="">None</MenuItem>
+                  {groups.map((group) => (
+                    <MenuItem key={group} value={group}>
+                      {group}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            <div className="mt-12 flex justify-end ">
+              <div
+                className="text-white bg-secondary hover:bg-hoversec w-full md:w-min font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
+                onClick={() => handleGroupChange(newGroup)}
               >
                 <div> Add</div>
                 <div className="flex align-middle justify-center ml-2">
