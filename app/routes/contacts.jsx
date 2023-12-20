@@ -269,17 +269,26 @@ export default function Contacts() {
             </h2>
             <TextField
               error={!isValidContact && !newContact.name}
-              label="Name*"
+              label="Name"
               variant="standard"
+              inputProps={{ maxLength: 30 }}
               value={newContact.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
               fullWidth
+              required
               margin="normal"
             />
             <TextField
               error={!isValidContact && !newContact.number}
-              label="Number*"
+              label="Number"
               variant="standard"
+              required
+              onInput={(e) => {
+                e.target.value = Math.max(0, parseInt(e.target.value))
+                  .toString()
+                  .slice(0, 7);
+              }}
+              type="number"
               value={newContact.number}
               onChange={(e) => handleInputChange("number", e.target.value)}
               fullWidth
