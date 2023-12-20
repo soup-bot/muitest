@@ -30,7 +30,7 @@ import { MdGroupAdd } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 
 export const meta = () => {
-  return [{ title: "Contacts" }];
+  return [{ title: "Contacts - Dhiraagu Bulk SMS" }];
 };
 
 const initialRows = [

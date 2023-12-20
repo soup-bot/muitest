@@ -7,7 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 
 export const meta = () => {
-  return [{ title: "Sent Items" }];
+  return [{ title: "Sent Items - Dhiraagu Bulk SMS" }];
 };
 
 const getFirstDayOfMonth = () => {

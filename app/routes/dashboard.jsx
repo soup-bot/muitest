@@ -10,7 +10,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 
 export const meta = () => {
-  return [{ title: "Dashboard" }];
+  return [{ title: "Dashboard - Dhiraagu Bulk SMS" }];
 };
 
 const palette = ["#F26940", "#0FA5B7"];

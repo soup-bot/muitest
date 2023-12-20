@@ -6,7 +6,7 @@ import { FaSearch } from "react-icons/fa";
 import { useDarkMode } from "../components/DarkModeContext";
 
 export const meta = () => {
-  return [{ title: "Inbox" }];
+  return [{ title: "Inbox - Dhiraagu Bulk SMS" }];
 };
 
 const getFirstDayOfMonth = () => {

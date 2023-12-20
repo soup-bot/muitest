@@ -4,6 +4,10 @@ import React, { useState } from "react";
 
 import { useDarkMode } from "../components/DarkModeContext";
 
+export const meta = () => {
+  return [{ title: "Compose Message - Dhiraagu Bulk SMS" }];
+};
+
 export default function Index() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   return (

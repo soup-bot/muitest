@@ -10,7 +10,7 @@ import { useNavigate } from "@remix-run/react";
 import { useDarkMode } from "../components/DarkModeContext";
 
 export const meta = () => {
-  return [{ title: "Reports" }];
+  return [{ title: "Reports - Dhiraagu Bulk SMS" }];
 };
 
 const usr_rows = [
