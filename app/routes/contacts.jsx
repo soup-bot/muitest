@@ -11,6 +11,12 @@ import {
 import { IoIosArrowDown } from "react-icons/io";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
@@ -43,47 +49,14 @@ const initialRows = [
 ];
 
 export default function Contacts() {
-  function EditGroupsToolbar({
-    setGroups,
-    groups,
-    openGroupsModal,
-    setRows,
-    setRowModesModel,
-  }) {
-    const handleClick = () => {
-      const id = Date.now(); // Using timestamp as a unique ID
-      setRows((oldRows) => [
-        ...oldRows,
-        { id, name: "", number: "", group: "", isNew: true },
-      ]);
-      setRowModesModel((oldModel) => ({
-        ...oldModel,
-        [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-      }));
-    };
-
-    return (
-      <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
-        <div>
-          <Button startIcon={<IoMdAddCircle />} onClick={handleClick}>
-            <p className="hidden sm:block mr-5">Add Contact</p>
-          </Button>
-          <Button
-            startIcon={<MdGroupAdd />}
-            onClick={() => setGroupsModalOpen(true)}
-          >
-            <p className="hidden sm:block">Manage Groups</p>
-          </Button>
-        </div>
-        <GridToolbarExport printOptions={{ disableToolbarButton: true }}>
-          <p className="hidden sm:block">Export</p>
-        </GridToolbarExport>
-      </GridToolbarContainer>
-    );
-  }
-
-  const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [isValidContact, setIsValidContact] = useState(true);
+  const [isModalOpen, setModalOpen] = React.useState(false);
+  const [newContact, setNewContact] = React.useState({
+    name: "",
+    number: "",
+    group: "",
+  });
   const [rows, setRows] = React.useState(initialRows);
   const [groups, setGroups] = React.useState([
     "Market",
@@ -91,13 +64,34 @@ export default function Contacts() {
     "Development",
   ]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
 
-  const closeGroupsModal = () => {
-    setGroupsModalOpen(false);
+  const openModal = () => {
+    setModalOpen(true);
   };
 
-  const openGroupsModal = () => {
-    setGroupsModalOpen(true);
+  const closeModal = () => {
+    setModalOpen(false);
+    // Reset new contact form
+    setNewContact({ name: "", number: "", group: "" });
+    setIsValidContact(true);
+  };
+
+  const handleInputChange = (field, value) => {
+    setNewContact((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddContact = () => {
+    // Validate and add the new contact
+    if (newContact.name.trim() && newContact.number.trim()) {
+      const id = Date.now(); // Using timestamp as a unique ID
+      setRows((oldRows) => [...oldRows, { id, ...newContact, isNew: true }]);
+      closeModal();
+    } else {
+      // Handle validation error
+      // alert("Name and number are required.");
+      setIsValidContact(false);
+    }
   };
 
   const handleCellEditCommit = React.useCallback(
@@ -220,7 +214,6 @@ export default function Contacts() {
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
-        {/* <Button onClick={() => setGroupsModalOpen(true)}>Manage Groups</Button> */}
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             className="dark:bg-slate-800 bg-slate-50"
@@ -233,20 +226,93 @@ export default function Contacts() {
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             processRowUpdate={processRowUpdate}
-            slots={{
-              toolbar: EditGroupsToolbar,
-            }}
-            slotProps={{
-              toolbar: { setRows, setRowModesModel },
+            components={{
+              Toolbar: () => (
+                <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
+                  <div>
+                    <Button startIcon={<IoMdAddCircle />} onClick={openModal}>
+                      <p className="hidden sm:block mr-5">Add Contact</p>
+                    </Button>
+                    <Button
+                      startIcon={<MdGroupAdd />}
+                      onClick={() => setGroupsModalOpen(true)}
+                    >
+                      <p className="hidden sm:block">Manage Groups</p>
+                    </Button>
+                  </div>
+                  <GridToolbarExport
+                    printOptions={{ disableToolbarButton: true }}
+                  >
+                    <p className="hidden sm:block">Export</p>
+                  </GridToolbarExport>
+                </GridToolbarContainer>
+              ),
             }}
           ></DataGrid>
-          <GroupsModal
-            isOpen={isGroupsModalOpen}
-            onClose={closeGroupsModal}
-            groups={groups}
-            setGroups={setGroups}
-          />
         </div>
+        <GroupsModal
+          isOpen={isGroupsModalOpen}
+          onClose={() => setGroupsModalOpen(false)}
+          groups={groups}
+          setGroups={setGroups}
+        />
+        <Modal
+          open={isModalOpen}
+          onClose={closeModal}
+          className={`flex items-center align-middle justify-center ${
+            isDarkMode ? "dark " : ""
+          }`}
+        >
+          <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+            <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
+              Add Contact
+            </h2>
+            <TextField
+              error={!isValidContact && !newContact.name}
+              label="Name*"
+              variant="standard"
+              value={newContact.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              error={!isValidContact && !newContact.number}
+              label="Number*"
+              variant="standard"
+              value={newContact.number}
+              onChange={(e) => handleInputChange("number", e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+            <div>
+              <FormControl variant="standard" fullWidth margin="normal">
+                <InputLabel id="group-label">Group</InputLabel>
+                <Select
+                  labelId="group-label"
+                  id="group"
+                  value={newContact.group}
+                  onChange={(e) => handleInputChange("group", e.target.value)}
+                >
+                  <MenuItem value="">None</MenuItem>
+                  {groups.map((group) => (
+                    <MenuItem key={group} value={group}>
+                      {group}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            <div className="mt-5 flex justify-center">
+              <button
+                className="text-white bg-secondary hover:bg-hoversec  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2  "
+                onClick={handleAddContact}
+              >
+                Add Contact
+              </button>
+            </div>
+          </Box>
+        </Modal>
       </div>
     </div>
   );
