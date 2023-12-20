@@ -127,7 +127,16 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
               <TextField
                 error={!isValidGroup}
                 label="Name"
-                helperText={!isValidGroup ? "Group name already exists" : " "}
+                // helperText={!isValidGroup ? "Group name already exists" : " "}
+                helperText={
+                  (!isValidGroup &&
+                    newGroupName !== "" &&
+                    "Group name already exists") ||
+                  (!isValidGroup &&
+                    !newGroupName &&
+                    "Please enter a group name") ||
+                  " "
+                }
                 value={newGroupName}
                 inputProps={{ maxLength: 30 }}
                 onKeyDown={(e) =>
