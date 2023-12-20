@@ -271,6 +271,11 @@ export default function Contacts() {
             <TextField
               error={!isValidContact && !newContact.name}
               label="Name"
+              className={`${
+                !isValidContact && !newContact.name
+                  ? "animate-shake animate-duration-[120ms] "
+                  : ""
+              }`}
               variant="standard"
               inputProps={{ maxLength: 30 }}
               value={newContact.name}
@@ -282,6 +287,11 @@ export default function Contacts() {
             <TextField
               error={!isValidContact && !newContact.number}
               label="Number"
+              className={`${
+                !isValidContact && !newContact.number
+                  ? "animate-shake animate-duration-[120ms] "
+                  : ""
+              }`}
               variant="standard"
               required
               onInput={(e) => {

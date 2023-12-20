@@ -8,18 +8,20 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 import TablePagination from "@mui/material/TablePagination";
+import { IoMdAddCircle } from "react-icons/io";
 
 const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
   const [paginatedGroups, setPaginatedGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [error, setError] = useState(""); // New state for error message
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [isValidGroup, setIsValidGroup] = useState(true);
 
   const handleCreateGroup = () => {
     const trimmedName = newGroupName.trim();
@@ -27,14 +29,14 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
     if (trimmedName !== "") {
       // Check if the group name already exists
       if (groups.includes(trimmedName)) {
-        setError("Group name already exists.");
+        setIsValidGroup(false);
       } else {
         setGroups([...groups, trimmedName]);
+        setIsValidGroup(true);
         setNewGroupName("");
-        setError(""); // Clear error on successful addition
       }
     } else {
-      setError("Please enter a valid group name.");
+      setIsValidGroup(false);
     }
   };
 
@@ -56,11 +58,17 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleClose = () => {
+    setIsValidGroup(true);
+    // Add any other logic you want to execute on modal close
+    onClose();
+    setNewGroupName("");
+  };
 
   return (
     <Modal
       open={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       className={`flex items-center align-middle justify-center ${
         isDarkMode ? "dark " : ""
       }`}
@@ -105,8 +113,8 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
 
-          <div className="w-full flex align-middle justify-center mt-3 px-4">
-            <input
+          <div className="w-full flex align-middle justify-center px-2">
+            {/* <input
               maxLength={30}
               type="text"
               value={newGroupName}
@@ -114,13 +122,35 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
               onChange={(e) => setNewGroupName(e.target.value)}
               className="bg-gray-50 border mr-3 border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               placeholder="Name"
-            />
-
-            <IconButton onClick={handleCreateGroup}>
-              <IoMdAdd />
-            </IconButton>
+            /> */}
+            <div className="flex align-middle justify-center w-full ">
+              <TextField
+                error={!isValidGroup}
+                label="Name"
+                helperText={!isValidGroup ? "Group name already exists" : " "}
+                value={newGroupName}
+                inputProps={{ maxLength: 30 }}
+                onKeyDown={(e) =>
+                  e.keyCode === 13 ? handleCreateGroup() : null
+                }
+                onChange={(e) => {
+                  setNewGroupName(e.target.value);
+                  setIsValidGroup(true);
+                }}
+                fullWidth
+                required
+                margin="normal"
+              />
+            </div>
+            <div className="flex align-middle justify-center mb-3 0">
+              <button
+                onClick={handleCreateGroup}
+                className="hover:scale-12 text-secondary hover:text-hoversec px-2 active:scale-110 transition"
+              >
+                <IoMdAddCircle size={40} />
+              </button>
+            </div>
           </div>
-          <p className="mt-3 px-4 font-medium text-sm text-red-500">{error}</p>
         </div>
       </Box>
     </Modal>
