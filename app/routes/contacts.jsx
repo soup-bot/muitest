@@ -27,6 +27,7 @@ import { useDarkMode } from "../components/DarkModeContext";
 import GroupsModal from "../components/groupsmodal";
 import { FaEdit } from "react-icons/fa";
 import { MdGroupAdd } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
 
 export const meta = () => {
   return [{ title: "Contacts" }];
@@ -312,13 +313,19 @@ export default function Contacts() {
                 </Select>
               </FormControl>
             </div>
-            <div className="mt-5 flex justify-center">
-              <button
-                className="text-white bg-secondary hover:bg-hoversec  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2  "
+            <div className="mt-12 flex justify-center">
+              <div
+                className="text-white bg-secondary hover:bg-hoversec  font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
                 onClick={handleAddContact}
               >
-                Add Contact
-              </button>
+                <div> Add</div>
+                <div className="flex align-middle justify-center ml-2">
+                  <IoMdAdd
+                    className="self-middle justify-self-center"
+                    size={20}
+                  />
+                </div>
+              </div>
             </div>
           </Box>
         </Modal>
