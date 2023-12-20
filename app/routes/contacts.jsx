@@ -42,31 +42,6 @@ const initialRows = [
   // Other rows...
 ];
 
-function EditToolbar({ setRows, setRowModesModel }) {
-  const handleClick = () => {
-    const id = Date.now(); // Using timestamp as a unique ID
-    setRows((oldRows) => [
-      ...oldRows,
-      { id, name: "", number: "", group: "", isNew: true },
-    ]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-    }));
-  };
-
-  return (
-    <div>
-      <GridToolbarContainer className="flex justify-between">
-        <Button startIcon={<IoMdAddCircle />} onClick={handleClick}>
-          Add Contact
-        </Button>
-        <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
-      </GridToolbarContainer>
-    </div>
-  );
-}
-
 export default function Contacts() {
   function EditGroupsToolbar({
     setGroups,
