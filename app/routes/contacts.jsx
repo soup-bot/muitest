@@ -264,7 +264,7 @@ export default function Contacts() {
             isDarkMode ? "dark " : ""
           }`}
         >
-          <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+          <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Add Contact
             </h2>
@@ -313,15 +313,15 @@ export default function Contacts() {
                 </Select>
               </FormControl>
             </div>
-            <div className="mt-12 flex justify-center">
+            <div className="mt-12 flex justify-end ">
               <div
-                className="text-white bg-secondary hover:bg-hoversec  font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
+                className="text-white bg-secondary hover:bg-hoversec w-full md:w-min font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
                 onClick={handleAddContact}
               >
                 <div> Add</div>
                 <div className="flex align-middle justify-center ml-2">
                   <IoMdAdd
-                    className="self-middle justify-self-center"
+                    className="self-middle justify-self-center "
                     size={20}
                   />
                 </div>
