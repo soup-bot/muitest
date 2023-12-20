@@ -232,7 +232,7 @@ export default function Contacts() {
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
-        <p>{selectedRows}</p>
+
         {/* <p className="dark:text-white">{selectedRows}</p> */}
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
