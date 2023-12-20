@@ -66,6 +66,7 @@ export default function Contacts() {
   ]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const openModal = () => {
     setModalOpen(true);
@@ -145,6 +146,17 @@ export default function Contacts() {
     setRowModesModel(newRowModesModel);
   };
 
+  //handle group change for selected rows
+  // const handleGroupChange = (newGroup) => {
+  //   // Update the group for selected rows
+  //   setRows((oldRows) =>
+  //     oldRows.map((row) =>
+  //       selectedRows.includes(row.id) ? { ...row, group: newGroup } : row
+  //     )
+  //   );
+  // };
+  //-----------------------------------------------------
+
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
     { field: "name", headerName: "Name", width: 150, editable: true },
@@ -215,6 +227,7 @@ export default function Contacts() {
         <h1 className="font-bold text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
+        {/* <p className="dark:text-white">{selectedRows}</p> */}
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             className="dark:bg-slate-800 bg-slate-50"
@@ -225,7 +238,7 @@ export default function Contacts() {
             disableRowSelectionOnClick
             onRowEditStop={handleRowEditStop}
             rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
+            onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
             processRowUpdate={processRowUpdate}
             components={{
               Toolbar: () => (
@@ -312,7 +325,10 @@ export default function Contacts() {
                   labelId="group-label"
                   id="group"
                   value={newContact.group}
-                  onChange={(e) => handleInputChange("group", e.target.value)}
+                  onChange={(e) => {
+                    handleInputChange("group", e.target.value);
+                    // handleGroupChange(e.target.value); // change groups of selected (checked) rows simultaneously
+                  }}
                 >
                   <MenuItem value="">None</MenuItem>
                   {groups.map((group) => (
