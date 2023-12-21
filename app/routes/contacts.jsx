@@ -39,7 +39,7 @@ const initialRows = [
     id: 1,
     name: "John Doe",
     number: "7777303",
-    group: "Market",
+    group: "Marketing",
   },
   {
     id: 2,
@@ -47,7 +47,55 @@ const initialRows = [
     number: "7223053",
     group: "Finance",
   },
-  // Other rows...
+  {
+    id: 3,
+    name: "Alice Johnson",
+    number: "1234567",
+    group: "Development",
+  },
+  {
+    id: 4,
+    name: "Bob Smith",
+    number: "9876543",
+    group: "Marketing",
+  },
+  {
+    id: 5,
+    name: "Eva Martinez",
+    number: "5551234",
+    group: "Sales",
+  },
+  {
+    id: 6,
+    name: "Michael Brown",
+    number: "8765432",
+    group: "HR",
+  },
+  {
+    id: 7,
+    name: "Sophia Clark",
+    number: "2345678",
+    group: "IT",
+  },
+  {
+    id: 8,
+    name: "William Davis",
+    number: "3456789",
+    group: "Finance",
+  },
+  {
+    id: 9,
+    name: "Olivia White",
+    number: "1112233",
+    group: "Sales",
+  },
+  {
+    id: 10,
+    name: "Daniel Wilson",
+    number: "9990001",
+    group: "Marketing",
+  },
+  // Add more rows as needed...
 ];
 
 export default function Contacts() {
@@ -63,9 +111,10 @@ export default function Contacts() {
   });
   const [rows, setRows] = React.useState(initialRows);
   const [groups, setGroups] = React.useState([
-    "Market",
+    "Marketing",
     "Finance",
-    "Development",
+    "Sales",
+    "IT",
   ]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
@@ -159,6 +208,7 @@ export default function Contacts() {
         selectedRows.includes(row.id) ? { ...row, group: newGroup } : row
       )
     );
+    setGroupModalOpen(false);
   };
   //-----------------------------------------------------
 
@@ -234,7 +284,7 @@ export default function Contacts() {
         </h1>
 
         {/* <p className="dark:text-white">{selectedRows}</p> */}
-        <div style={{ height: 400, width: "100%" }}>
+        <div className="h-full">
           <DataGrid
             className="dark:bg-slate-800 bg-slate-50"
             rows={rows}
@@ -260,20 +310,17 @@ export default function Contacts() {
                       <p className="hidden sm:block mr-5">Manage Groups</p>
                     </Button>
 
-                    {selectedRows.length > 0 && (
-                      <Button
-                        startIcon={<FaUserEdit />}
-                        onClick={() => setGroupModalOpen(true)}
-                      >
-                        <p className="hidden sm:block">Change Group</p>
-                      </Button>
-                    )}
+                    <Button
+                      disabled={selectedRows.length <= 0}
+                      startIcon={<FaUserEdit />}
+                      onClick={() => setGroupModalOpen(true)}
+                    >
+                      <p className="hidden sm:block">Change Group</p>
+                    </Button>
                   </div>
                   <GridToolbarExport
                     printOptions={{ disableToolbarButton: true }}
-                  >
-                    <p className="hidden sm:block">Export</p>
-                  </GridToolbarExport>
+                  ></GridToolbarExport>
                 </GridToolbarContainer>
               ),
             }}
@@ -381,6 +428,9 @@ export default function Contacts() {
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Change groups
             </h2>
+            <p className="dark:text-slate-200 mt-10">
+              Change the group of {selectedRows.length} contacts:
+            </p>
             <div>
               <FormControl variant="standard" fullWidth margin="normal">
                 <InputLabel id="group-label">Group</InputLabel>
@@ -404,12 +454,12 @@ export default function Contacts() {
                 className="text-white bg-secondary hover:bg-hoversec w-full md:w-min font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
                 onClick={() => handleGroupChange(newGroup)}
               >
-                <div> Add</div>
+                <div> Save</div>
                 <div className="flex align-middle justify-center ml-2">
-                  <IoMdAdd
+                  {/* <IoMdAdd
                     className="self-middle justify-self-center "
                     size={20}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
