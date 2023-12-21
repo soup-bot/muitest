@@ -346,8 +346,8 @@ export default function SentTable() {
         columns={columns}
         onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
         checkboxSelection
-        components={{
-          Toolbar: () => (
+        slots={{
+          toolbar: () => (
             <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
               <div className="">
                 <Button

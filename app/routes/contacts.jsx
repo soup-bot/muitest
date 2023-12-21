@@ -296,8 +296,8 @@ export default function Contacts() {
             rowModesModel={rowModesModel}
             onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
             processRowUpdate={processRowUpdate}
-            components={{
-              Toolbar: () => (
+            slots={{
+              toolbar: () => (
                 <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
                   <div>
                     <Button
@@ -324,10 +324,7 @@ export default function Contacts() {
                       <p className="hidden sm:block">Change Group</p>
                     </Button>
                   </div>
-                  <GridToolbarExport
-                    color="info"
-                    printOptions={{ disableToolbarButton: true }}
-                  ></GridToolbarExport>
+                  <GridToolbarExport color="info"></GridToolbarExport>
                 </GridToolbarContainer>
               ),
             }}
