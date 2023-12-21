@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "@mui/material/Modal";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -7,7 +9,6 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -73,7 +74,7 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
         isDarkMode ? "dark " : ""
       }`}
     >
-      <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+      <Box className="border  dark:border-slate-500 bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
         <div className="">
           <TableContainer>
             <Table>
@@ -151,13 +152,21 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
                 margin="normal"
               />
             </div>
-            <div className="flex align-middle justify-center mb-3 0">
-              <button
+
+            {/* <button
                 onClick={handleCreateGroup}
                 className="hover:scale-12 text-secondary hover:text-hoversec px-2 active:scale-110 transition"
               >
                 <IoMdAddCircle size={40} />
-              </button>
+              </button> */}
+            <div className="justify-self-center self-center mb-3">
+              <IconButton
+                color="secondary"
+                aria-label="create new group"
+                onClick={handleCreateGroup}
+              >
+                <IoMdAddCircle size={35} />
+              </IconButton>
             </div>
           </div>
         </div>

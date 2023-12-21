@@ -9,6 +9,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import { IoIosArrowDown } from "react-icons/io";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -343,7 +344,7 @@ export default function Contacts() {
             isDarkMode ? "dark " : ""
           }`}
         >
-          <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+          <Box className="border  dark:border-slate-500 bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Add Contact
             </h2>
@@ -406,17 +407,16 @@ export default function Contacts() {
               </FormControl>
             </div>
             <div className="mt-12 flex justify-end ">
-              <div
-                className="text-white bg-secondary hover:bg-hoversec w-full md:w-min font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
-                onClick={handleAddContact}
-              >
-                <div> Add</div>
-                <div className="flex align-middle justify-center ml-2">
-                  <IoMdAdd
-                    className="self-middle justify-self-center "
-                    size={20}
-                  />
-                </div>
+              <div className="flex justify-end w-full md:w-min">
+                <Button
+                  className="w-full"
+                  color="secondary"
+                  variant="contained"
+                  endIcon={<IoMdAdd color="white" />}
+                  onClick={handleAddContact}
+                >
+                  <p className="text-white font-medium">Add</p>
+                </Button>
               </div>
             </div>
           </Box>
@@ -428,7 +428,7 @@ export default function Contacts() {
             isDarkMode ? "dark " : ""
           }`}
         >
-          <Box className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
+          <Box className=" bg-white border  dark:border-slate-500 dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Change groups
             </h2>
@@ -454,17 +454,16 @@ export default function Contacts() {
               </FormControl>
             </div>
             <div className="mt-12 flex justify-end ">
-              <div
-                className="text-white bg-secondary hover:bg-hoversec w-full md:w-min font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-1 align-middle flex justify-center cursor-pointer"
-                onClick={() => handleGroupChange(newGroup)}
-              >
-                <div> Save</div>
-                <div className="flex align-middle justify-center ml-2">
-                  {/* <IoMdAdd
-                    className="self-middle justify-self-center "
-                    size={20}
-                  /> */}
-                </div>
+              <div className="flex align-middle justify-center ml-2 w-full md:w-min">
+                <Button
+                  className="w-full"
+                  variant="contained"
+                  color="secondary"
+                  endIcon={<FaSave color="white" />}
+                  onClick={() => handleGroupChange(newGroup)}
+                >
+                  <p className="text-white">Save</p>
+                </Button>
               </div>
             </div>
           </Box>
