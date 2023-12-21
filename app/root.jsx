@@ -37,6 +37,12 @@ function App() {
     palette: {
       mode: isDarkMode ? "dark" : "light",
       // Add more customizations as needed
+      primary: {
+        main: "#F26940",
+      },
+      secondary: {
+        main: "#0FA5B7",
+      },
     },
   });
 

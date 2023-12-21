@@ -80,20 +80,22 @@ function TransactionReport() {
             {selectedRows.length > 1 && <span>s</span>}?
           </p>
           <div className="flex gap-1 justify-end w-full">
-            <button
+            <Button
+              variant="contained"
+              size="medium"
+              color="info"
               onClick={handleClose}
-              type="button"
-              className="text-white bg-slate-400 hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
             >
-              No
-            </button>
-            <button
+              <p className="text-white">No</p>
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<MdDelete />}
+              size="medium"
               onClick={handleDeleteClick}
-              type="button"
-              className="text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
             >
               Delete
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
@@ -118,6 +120,7 @@ function TransactionReport() {
               <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
                 <div className="">
                   <Button
+                    color="info"
                     disabled={selectedRows.length <= 0}
                     startIcon={<MdDelete size={25} />}
                     onClick={handleOpen}

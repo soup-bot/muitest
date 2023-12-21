@@ -460,7 +460,7 @@ export default function InputForm() {
               id="message"
               rows="14"
               maxLength="1531"
-              className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-none"
+              className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900  bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
               placeholder="Write your message here..."
             ></textarea>
             <div className="justify-between flex-wrap align-middle   rounded-md  dark:text-slate-200 mt-2">

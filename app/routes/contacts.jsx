@@ -300,10 +300,15 @@ export default function Contacts() {
               Toolbar: () => (
                 <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
                   <div>
-                    <Button startIcon={<IoMdAddCircle />} onClick={openModal}>
+                    <Button
+                      startIcon={<IoMdAddCircle />}
+                      onClick={openModal}
+                      color="info"
+                    >
                       <p className="hidden sm:block mr-5">Add Contact</p>
                     </Button>
                     <Button
+                      color="info"
                       startIcon={<MdGroupAdd />}
                       onClick={() => setGroupsModalOpen(true)}
                     >
@@ -311,6 +316,7 @@ export default function Contacts() {
                     </Button>
 
                     <Button
+                      color="info"
                       disabled={selectedRows.length <= 0}
                       startIcon={<FaUserEdit />}
                       onClick={() => setGroupModalOpen(true)}
@@ -319,6 +325,7 @@ export default function Contacts() {
                     </Button>
                   </div>
                   <GridToolbarExport
+                    color="info"
                     printOptions={{ disableToolbarButton: true }}
                   ></GridToolbarExport>
                 </GridToolbarContainer>
