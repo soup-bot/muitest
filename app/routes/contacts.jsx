@@ -428,7 +428,7 @@ export default function Contacts() {
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Change groups
             </h2>
-            <p className="dark:text-slate-200 mt-10">
+            <p className="dark:text-slate-200 mt-10 text-sm">
               Change the group of {selectedRows.length} contacts:
             </p>
             <div>

@@ -1,8 +1,10 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
 import { MdError } from "react-icons/md";
 import { useState, useCallback } from "react";
 import { MdDelete } from "react-icons/md";
 import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import { useDarkMode } from "../components/DarkModeContext";
 
 const rows = [
   { id: 1, col1: "User 1", col2: "Message 1", col3: "5-12-2023 15:42" },
@@ -27,6 +29,7 @@ export default function InboxTable() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const handleClose = () => {
     setOpen(false);
   };
@@ -44,12 +47,14 @@ export default function InboxTable() {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          className="flex items-center align-middle justify-center "
+          className={`flex items-center align-middle justify-center ${
+            isDarkMode ? "dark " : ""
+          }`}
         >
-          <div className="bg-white p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border shadow-md ">
-            <p className="text-black mt-4 mb-12">
+          <div className="bg-white dark:bg-slate-800  p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border-t-4 border-primary shadow-md ">
+            <p className="text-black mt-4 mb-12 dark:text-slate-200">
               Are you sure you want to delete{" "}
-              <span className="font-black">{selectedRows.length}</span> message
+              <span className="font-black ">{selectedRows.length}</span> message
               {selectedRows.length > 1 && <span>s</span>}?
             </p>
             <div className="flex gap-1 justify-end w-full">
@@ -70,13 +75,13 @@ export default function InboxTable() {
             </div>
           </div>
         </Modal>
-        <button
+        {/* <button
           disabled={selectedRows.length === 0}
           onClick={handleOpen}
           className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md dark:disabled:bg-slate-600"
         >
           <MdDelete size={20} />
-        </button>
+        </button> */}
       </div>
 
       <DataGrid
@@ -86,6 +91,21 @@ export default function InboxTable() {
         columns={columns}
         onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
         checkboxSelection
+        components={{
+          Toolbar: () => (
+            <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
+              <div className="">
+                <Button
+                  disabled={selectedRows.length <= 0}
+                  startIcon={<MdDelete size={25} />}
+                  onClick={handleOpen}
+                >
+                  <p className="hidden sm:block">DELETE</p>
+                </Button>
+              </div>
+            </GridToolbarContainer>
+          ),
+        }}
       />
     </>
   );
