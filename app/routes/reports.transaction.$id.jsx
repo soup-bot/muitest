@@ -1,9 +1,14 @@
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { GridToolbar } from "@mui/x-data-grid";
 import { MdError } from "react-icons/md";
 import { useState, useCallback } from "react";
 import { MdDelete } from "react-icons/md";
 import Modal from "@mui/material/Modal";
 import { useParams } from "@remix-run/react";
+import {
+  DataGrid,
+  GridToolbarExport,
+  GridToolbarContainer,
+} from "@mui/x-data-grid";
 
 function ReportDetails() {
   const { id } = useParams();
@@ -70,6 +75,13 @@ function ReportDetails() {
   };
 
   const reportRows = demoReports[id] || [];
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
+        <GridToolbarExport color="info" />
+      </GridToolbarContainer>
+    );
+  }
 
   return (
     <div className="mt-10">
@@ -81,7 +93,7 @@ function ReportDetails() {
         rows={reportRows}
         columns={columns}
         hideFooter
-        slots={{ toolbar: GridToolbar }}
+        slots={{ toolbar: CustomToolbar }}
         sx={{
           "& .MuiDataGrid-columnHeader": {
             fontWeight: "bold",

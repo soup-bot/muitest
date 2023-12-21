@@ -435,8 +435,8 @@ export default function Contacts() {
             <p className="dark:text-slate-200 mt-10 text-sm">
               Change the group of {selectedRows.length} contacts:
             </p>
-            <div>
-              <FormControl variant="standard" fullWidth margin="normal">
+            <div className="mt-3">
+              <FormControl variant="outlined" fullWidth margin="normal">
                 <InputLabel id="group-label">Group</InputLabel>
                 <Select
                   labelId="group-label"

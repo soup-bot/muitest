@@ -7,12 +7,13 @@ import placeholderimg from "../assets/placeholders.png";
 import { IoClose } from "react-icons/io5";
 import Modal from "@mui/material/Modal";
 import Chip from "@mui/material/Chip";
-
+import { useDarkMode } from "../components/DarkModeContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { FaPhoneAlt } from "react-icons/fa";
 
 export default function InputForm() {
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
   const [numMessages, setNumMessages] = useState(0);
   const [inputType, setInputType] = useState("numbers");
@@ -164,12 +165,15 @@ export default function InputForm() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className="flex items-center align-middle justify-center"
+        className={`flex items-center align-middle justify-center ${
+          isDarkMode ? "dark " : ""
+        }`}
       >
-        <div className=" border-t-4 border-secondary bg-white  absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in ">
+        <div className=" border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in ">
           <div className="w-100 flex align-top  justify-end mb-5 ">
             <IoClose
-              className="cursor-pointer"
+              color="0FA5B7"
+              className="cursor-pointer hover:scale-110 transition"
               size={30}
               onClick={handleClose}
             />
@@ -183,7 +187,7 @@ export default function InputForm() {
               />
 
               <li>
-                <p className="">
+                <p className="dark:text-slate-200">
                   Upload an xlsx or csv file in the above format with your
                   desired columns. Number is required.{" "}
                 </p>
@@ -195,7 +199,7 @@ export default function InputForm() {
                 className="w-4/5 md:w-3/5 border-2 rounded-md"
               />
               <li>
-                <p className="">
+                <p className="dark:text-slate-200">
                   The header values of your data sheet will be displayed, and
                   can be added to your messages as placeholders to allow for
                   customized messages.{" "}
