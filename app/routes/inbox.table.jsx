@@ -51,7 +51,7 @@ export default function InboxTable() {
             isDarkMode ? "dark " : ""
           }`}
         >
-          <div className="bg-white dark:bg-slate-800  p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border-t-4 border-primary shadow-md ">
+          <div className="bg-white dark:bg-slate-800  p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border dark:border-slate-600 shadow-md animate-fade animate-duration-[350ms]">
             <p className="text-black mt-4 mb-12 dark:text-slate-200">
               Are you sure you want to delete{" "}
               <span className="font-black ">{selectedRows.length}</span> message
