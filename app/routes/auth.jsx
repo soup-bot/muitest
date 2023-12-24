@@ -7,6 +7,7 @@ import { json, redirect } from "@remix-run/node";
 import { validateCredentials } from "../data/validation.server";
 import backdrop from "../assets/test.jpg";
 import { useDarkMode } from "../components/DarkModeContext";
+import { login } from "../data/authentication.server";
 
 export default function Auth() {
   const [signupMode, setSignupMode] = useState(false);
@@ -73,32 +74,12 @@ export const action = async ({ request }) => {
     console.log(`${key}: ${value}`);
   }
 
-  try {
-    const response = await fetch("http://localhost:5294/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    });
+  const loginResponse = await login(credentials);
 
-    if (response.ok) {
-      const authData = await response.json();
-
-      const { accessToken, refreshToken, expiresIn } = authData;
-
-      return redirect("/", {
-        headers: {
-          "Set-Cookie": [
-            `.AspNetCore.Identity.Application=${accessToken}; Max-Age=${expiresIn}; Path=/; HttpOnly; SameSite=Lax`,
-          ],
-        },
-      });
-    } else {
-      return new Response("Invalid credentials", { status: 401 });
-    }
-  } catch (error) {
-    console.error("Error during login:", error);
-    return new Response("Internal Server Error", { status: 500 });
+  if (loginResponse && loginResponse.status === 302) {
+    return loginResponse;
   }
+
+  // If not a redirect, return null or some other response
+  return null;
 };
