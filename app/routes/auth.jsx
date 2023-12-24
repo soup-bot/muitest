@@ -3,7 +3,7 @@ import LoginForm from "../components/loginform";
 import SignupForm from "../components/signupform";
 import logo from "../assets/logo.svg";
 import { Link, useActionData } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { validateCredentials } from "../data/validation.server";
 import backdrop from "../assets/test.jpg";
 import { useDarkMode } from "../components/DarkModeContext";
@@ -69,14 +69,36 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const credentials = Object.fromEntries(formData);
 
-  try {
-    validateCredentials(credentials);
-  } catch (error) {
-    return error;
-  }
   for (const [key, value] of formData.entries()) {
     console.log(`${key}: ${value}`);
   }
 
-  return redirect("/");
+  try {
+    const response = await fetch("http://localhost:5294/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+
+    if (response.ok) {
+      const authData = await response.json();
+
+      const { accessToken, refreshToken, expiresIn } = authData;
+
+      return redirect("/", {
+        headers: {
+          "Set-Cookie": [
+            `.AspNetCore.Identity.Application=${accessToken}; Max-Age=${expiresIn}; Path=/; HttpOnly; SameSite=Lax`,
+          ],
+        },
+      });
+    } else {
+      return new Response("Invalid credentials", { status: 401 });
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  }
 };

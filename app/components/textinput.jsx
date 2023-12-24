@@ -323,7 +323,8 @@ export default function InputForm() {
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
-                          value=""
+                          value={inputType}
+                          name="payloadType"
                           checked={inputType === "file"}
                           onChange={() =>
                             handleInputChange(
@@ -387,7 +388,8 @@ export default function InputForm() {
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
-                            value=""
+                            value={inputType}
+                            name="payloadType"
                             checked={inputType === "file"}
                             onChange={() =>
                               handleInputChange(
@@ -483,6 +485,8 @@ export default function InputForm() {
             <div className="flex w-full align-middle justify-center md:justify-end mt-10">
               <button
                 type="submit"
+                name="payloadType"
+                value={inputType}
                 disabled={
                   !(
                     (text &&

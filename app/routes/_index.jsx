@@ -22,46 +22,41 @@ export default function Index() {
 }
 
 export const action = async ({ request }) => {
-  console.log("ACTION");
+  const url = "http://localhost:5294/api/BulkSms/uploadng";
+  const bearerToken =
+    "CfDJ8Dadnyzy_adFoFvppVQPN8Q-2sAKs1BKm25guJOnMkn0MkTEg_Cd4X_mJCMO1aawL9OGYE1ynYXcT4NT7DEK85nqnbVFt3Yw4axDU3zZAo2WaqdGqfyMFb0OrI7gavYEWi4-fetLcUgavJnsiLX6oep9mQZIt6dGPekTlK8lM-SmiG2lxPEbqHJp1eafdiFySRF5xFCDYzpGrSp6yK-PINLzlCIfaBBKtx0iAZkx0e31jDBUD6wJ4-O3OcdpCZYggVoCWuH_CxrrmHAWaYRrgG_FUp6VAJWcW93VDFIZhYkql8ao-bElLuAwofgoKZ11sMJ4HBgGXRE436E3Yy1cjcvE6RUtLxv5ELDC6BoowEYfH7PdrPOTF4zKkwRBOB5UIfns6xoMJYsmFOR4jlwN8uGslSdmy-eA39QbDc2Qr-QDfuyuGW40WV6N-8a_mq3xnTVKX4nV3hJ_rEcFGXsZQb4pWPraGNNNysCuqul3QtFt2_bqbtev4J8vmLfGGJMa4irpfScrw6CWblUq6TNR1gRZNvsJQjLtvKz3SgyYJzpTTaf5yWaaAU26pwv7nu-L9KWC30zlOFCKEbGH8HzyhDWQq3yz1xBYBjaGOp4QM1nVgIW4PDc-Cyn0Ys01-cRG6abbXzBivy_Ro0uaZBQqXGmAQ6Zds8RY0yh5hx8-_ij3hbHZ24oFES_2rdQD8218vA";
+
   const formData = await request.formData();
-  const numbers = formData.get("numbers");
-  const text = formData.get("text");
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
+  const excelFile = formData.get("excelFile");
 
-  // const destinationAddress = numbers.split(",");
+  formData.append("File", excelFile);
+  formData.append("Body.Sender", "Test");
+  formData.append("Body.Content", "Hello @@Name");
 
-  // // Create the payload for the API request
-  // const payload = {
-  //   sourceAddress: "TEXT",
-  //   destinationAddress,
-  //   dlr: true,
-  //   smsMessage: text,
-  //   AuthorizationKey: "bWVzc2FnZW93bDpvV2xNRGhJUjY=",
-  // };
+  // const payloadType = formData.get("payloadType");
+  // console.log(payloadType);
 
-  // // Make the API request
-  // const response = await fetch(
-  //   "http://api02.dhiraagu.io:8080/v1/dcb/notif/sms",
-  //   {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(payload),
-  //   }
-  // );
+  fetch(url, {
+    method: "POST",
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${bearerToken}`,
+    },
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.statusText} `);
+      }
+      return response.text(); // Return the promise for the next .then block
+    })
+    .then((data) => {
+      // Check if the response indicates success
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 
-  // // Check the response status
-  // if (response.ok) {
-  //   console.log("API request successful");
-  //   const status = "success";
-  // } else {
-  //   console.error("API request failed");
-  //   const status = "fail";
-  // }
-
-  // Redirect to the specified URL
-  return redirect("/");
+  return null;
 };
