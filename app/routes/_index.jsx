@@ -1,6 +1,8 @@
 import { json, redirect } from "@remix-run/node";
 import InputForm from "../components/textinput";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { useDarkMode } from "../components/DarkModeContext";
 import {
@@ -12,8 +14,32 @@ export const meta = () => {
   return [{ title: "Compose Message - Dhiraagu Bulk SMS" }];
 };
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
+});
+
 export default function Index() {
+  const [open, setOpen] = React.useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+  const actionData = useActionData();
+  const { message } = useActionData() || {};
+  const { type } = useActionData() || {};
+
+  useEffect(() => {
+    if (message) {
+      setOpen(true); // Trigger the alert if there's a success message
+    }
+  }, [actionData]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <div
       className={`animate-fade-up animate-once animate-duration-200 animate-ease-in ${
@@ -21,11 +47,21 @@ export default function Index() {
       }`}
     >
       <InputForm />
+
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
-
-export async function loader({ request }) {
+export const loader = async ({ request }) => {
   const isLoggedIn = await checkUserLoggedIn(request);
 
   if (!isLoggedIn) {
@@ -35,7 +71,7 @@ export async function loader({ request }) {
 
   // User is logged in, do nothing
   return null;
-}
+};
 
 export const action = async ({ request }) => {
   const urlNumbers = "http://localhost:5294/api/BulkSms";
@@ -48,88 +84,91 @@ export const action = async ({ request }) => {
   const payloadType = formData.get("payloadType");
   console.log(payloadType);
 
-  switch (payloadType) {
-    case "numbers":
-      // Handle numbers payload
-      console.log("Processing numbers payload");
+  try {
+    switch (payloadType) {
+      case "numbers":
+        // Handle numbers payload
+        console.log("Processing numbers payload");
 
-      const destinationString = formData.get("numbers");
-      const destination = destinationString ? destinationString.split(",") : [];
-      const content = formData.get("text");
-      const sender = formData.get("sender");
+        const destinationString = formData.get("numbers");
+        const destination = destinationString
+          ? destinationString.split(",")
+          : [];
+        const content = formData.get("text");
+        const sender = formData.get("sender");
 
-      const numbersPayload = {
-        destination: destination,
-        content: content,
-        sender: "Test",
-      };
-      const numbersBlob = new Blob([JSON.stringify(numbersPayload)], {
-        type: "application/json",
-      });
-
-      fetch(urlNumbers, {
-        method: "POST",
-        headers: {
-          accept: "*/*",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: numbersBlob,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.statusText} `);
-          }
-          return response.text();
-        })
-        .then((data) => {
-          console.log("Success:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
+        const numbersPayload = {
+          destination: destination,
+          content: content,
+          sender: "Test",
+        };
+        const numbersBlob = new Blob([JSON.stringify(numbersPayload)], {
+          type: "application/json",
         });
 
-      break;
-
-    case "file":
-      // Handle file payload
-      console.log("Processing file payload");
-
-      const excelFile = formData.get("excelFile");
-
-      formData.append("File", excelFile);
-      formData.append("Body.Sender", "Test");
-      formData.append("Body.Content", "Hello @@Name");
-
-      fetch(urlFile, {
-        method: "POST",
-        headers: {
-          accept: "*/*",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.statusText} `);
-          }
-          return response.text(); // Return the promise for the next .then block
-        })
-        .then((data) => {
-          // Check if the response indicates success
-          console.log("Success:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
+        const response = await fetch(urlNumbers, {
+          method: "POST",
+          headers: {
+            accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: numbersBlob,
         });
 
-      break;
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.statusText} `);
+        }
 
-    default:
-      console.log("Unknown payload type");
-      // Handle the case where payloadType is neither "numbers" nor "file"
-      break;
+        const data = await response.text();
+        console.log("Success:", data);
+        return json({
+          message: "Your message was submitted successfully",
+        });
+
+      case "file":
+        // Handle file payload
+        console.log("Processing file payload");
+
+        const excelFile = formData.get("excelFile");
+        const text = formData.get("text");
+        formData.append("File", excelFile);
+        formData.append("Body.Sender", "Test");
+        formData.append("Body.Content", text);
+
+        const fileResponse = await fetch(urlFile, {
+          method: "POST",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: formData,
+        });
+
+        if (!fileResponse.ok) {
+          throw new Error(`HTTP error! Status: ${fileResponse.statusText} `);
+        }
+
+        const fileData = await fileResponse.text();
+        console.log("File Success:", fileData);
+        return json({
+          type: "success",
+          message: "Your form was submitted successfully",
+        });
+
+      default:
+        console.log("Unknown payload type");
+        // Handle the case where payloadType is neither "numbers" nor "file"
+        return json({
+          type: "error",
+          message: "Unknown payload type",
+        });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return json({
+      type: "error",
+      message: "An error occurred while submitting your message",
+    });
   }
-
-  return null;
 };

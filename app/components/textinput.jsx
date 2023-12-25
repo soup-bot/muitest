@@ -79,10 +79,9 @@ export default function InputForm() {
   };
 
   const sampleContacts = [
-    { label: "John Doe", value: "9000000" },
-    { label: "Jane Smith", value: "7000000" },
-    { label: "Bob Johnson", value: "7000012" },
+    { label: "Samaau", value: "7366626" },
     { label: "Ameer", value: "7634476" },
+    { label: "Jalwan", value: "7574477" },
   ];
 
   const handleButtonClick = (value, event) => {
