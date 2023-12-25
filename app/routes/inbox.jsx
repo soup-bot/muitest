@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import { Outlet } from "@remix-run/react";
 import { FaSearch } from "react-icons/fa";
 import { useDarkMode } from "../components/DarkModeContext";
+import { checkUserLoggedIn } from "../data/authentication.server";
+import { redirect } from "@remix-run/node";
 
 export const meta = () => {
   return [{ title: "Inbox - Dhiraagu Bulk SMS" }];
@@ -17,6 +19,18 @@ const getFirstDayOfMonth = () => {
 const getLastDayOfMonth = () => {
   return dayjs().endOf("month");
 };
+
+export async function loader({ request }) {
+  const isLoggedIn = await checkUserLoggedIn(request);
+
+  if (!isLoggedIn) {
+    // User is not logged in, redirect to /auth
+    return redirect("/auth");
+  }
+
+  // User is logged in, do nothing
+  return null;
+}
 
 export default function Inbox() {
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());

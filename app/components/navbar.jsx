@@ -13,6 +13,8 @@ import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import { useDarkMode } from "./DarkModeContext";
 
+import { logout } from "~/data/authentication.server";
+
 export default function Navbar() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
@@ -27,6 +29,10 @@ export default function Navbar() {
   const toggledropdownVisible = () => {
     setdropdownVisible(!dropdownVisible);
     setSidebarVisible(false);
+  };
+
+  const signOut = async () => {
+    toggledropdownVisible;
   };
 
   useEffect(() => {
@@ -177,7 +183,7 @@ export default function Navbar() {
                 <div className="">
                   <NavLink
                     to="/auth"
-                    onClick={toggledropdownVisible}
+                    onClick={signOut}
                     className="block px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg dark:text-slate-300 dark:hover:bg-slate-600"
                   >
                     Sign out

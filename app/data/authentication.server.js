@@ -59,3 +59,66 @@ export async function login(credentials) {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
+
+export async function checkUserLoggedIn(request) {
+  const accessToken = getAccessTokenFromCookie(request);
+
+  if (!accessToken) {
+    // User is not logged in, redirect to /auth
+    return false;
+  }
+
+  try {
+    const response = await fetch(
+      "http://localhost:5294/api/Identity/GetLoggedInUser",
+      {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      return true; // User is logged in, return user details
+    } else {
+      // User is not logged in or there was an error, redirect to /auth
+      return false;
+    }
+  } catch (error) {
+    console.error("Error checking user login status:", error);
+    // Assume user is not logged in on error, redirect to /auth
+    return false;
+  }
+}
+
+export async function logout(request) {
+  const accessToken = getAccessTokenFromCookie(request);
+
+  if (accessToken) {
+    // Clear the authentication cookie
+    const cookieOptions = {
+      maxAge: 0,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax", // Adjust as needed
+      path: "/", // Adjust as needed
+    };
+
+    const emptyCookieString = serialize(
+      ".AspNetCore.Identity.Application",
+      "",
+      cookieOptions
+    );
+
+    return redirect("/", {
+      headers: {
+        "Set-Cookie": emptyCookieString,
+      },
+    });
+  }
+
+  // If the user is not logged in, redirect to /
+  return redirect("/");
+}

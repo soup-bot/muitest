@@ -5,10 +5,24 @@ import dayjs from "dayjs";
 import { FaSearch } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
+import { checkUserLoggedIn } from "../data/authentication.server";
+import { redirect } from "@remix-run/node";
 
 export const meta = () => {
   return [{ title: "Sent Items - Dhiraagu Bulk SMS" }];
 };
+
+export async function loader({ request }) {
+  const isLoggedIn = await checkUserLoggedIn(request);
+
+  if (!isLoggedIn) {
+    // User is not logged in, redirect to /auth
+    return redirect("/auth");
+  }
+
+  // User is logged in, do nothing
+  return null;
+}
 
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");

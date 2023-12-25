@@ -8,6 +8,20 @@ import { TbReportSearch } from "react-icons/tb";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "@remix-run/react";
 import { useDarkMode } from "../components/DarkModeContext";
+import { checkUserLoggedIn } from "../data/authentication.server";
+import { redirect } from "@remix-run/node";
+
+export async function loader({ request }) {
+  const isLoggedIn = await checkUserLoggedIn(request);
+
+  if (!isLoggedIn) {
+    // User is not logged in, redirect to /auth
+    return redirect("/auth");
+  }
+
+  // User is logged in, do nothing
+  return null;
+}
 
 export const meta = () => {
   return [{ title: "Reports - Dhiraagu Bulk SMS" }];

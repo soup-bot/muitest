@@ -30,6 +30,8 @@ import { FaEdit } from "react-icons/fa";
 import { MdGroupAdd } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaUserEdit } from "react-icons/fa";
+import { checkUserLoggedIn } from "../data/authentication.server";
+import { redirect } from "@remix-run/node";
 
 export const meta = () => {
   return [{ title: "Contacts - Dhiraagu Bulk SMS" }];
@@ -98,6 +100,18 @@ const initialRows = [
   },
   // Add more rows as needed...
 ];
+
+export async function loader({ request }) {
+  const isLoggedIn = await checkUserLoggedIn(request);
+
+  if (!isLoggedIn) {
+    // User is not logged in, redirect to /auth
+    return redirect("/auth");
+  }
+
+  // User is logged in, do nothing
+  return null;
+}
 
 export default function Contacts() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();

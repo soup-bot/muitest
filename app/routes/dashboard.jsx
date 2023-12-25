@@ -8,6 +8,8 @@ import { FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
+import { checkUserLoggedIn } from "../data/authentication.server";
+import { redirect } from "@remix-run/node";
 
 export const meta = () => {
   return [{ title: "Dashboard - Dhiraagu Bulk SMS" }];
@@ -23,6 +25,18 @@ const getFirstDayOfMonth = () => {
 const getLastDayOfMonth = () => {
   return dayjs().endOf("month");
 };
+
+export async function loader({ request }) {
+  const isLoggedIn = await checkUserLoggedIn(request);
+
+  if (!isLoggedIn) {
+    // User is not logged in, redirect to /auth
+    return redirect("/auth");
+  }
+
+  // User is logged in, do nothing
+  return null;
+}
 
 function Dashboard() {
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
