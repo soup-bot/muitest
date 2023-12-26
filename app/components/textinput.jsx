@@ -259,6 +259,12 @@ export default function InputForm() {
                         className="dark:bg-slate-800 bg-slate-50 focus:border-none"
                         multiple
                         id="tags-filled"
+                        sx={{
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "gray",
+                            },
+                        }}
                         options={sampleContacts}
                         defaultValue={[]}
                         limitTags={4}
