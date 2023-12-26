@@ -95,12 +95,12 @@ export const action = async ({ request }) => {
           ? destinationString.split(",")
           : [];
         const content = formData.get("text");
-        const sender = formData.get("sender");
+        const sender = formData.get("senderID");
 
         const numbersPayload = {
           destination: destination,
           content: content,
-          sender: "Test",
+          sender: sender,
         };
         const numbersBlob = new Blob([JSON.stringify(numbersPayload)], {
           type: "application/json",
@@ -132,8 +132,9 @@ export const action = async ({ request }) => {
 
         const excelFile = formData.get("excelFile");
         const text = formData.get("text");
+        const senderID = formData.get("senderID");
         formData.append("File", excelFile);
-        formData.append("Body.Sender", "Test");
+        formData.append("Body.Sender", senderID);
         formData.append("Body.Content", text);
 
         const fileResponse = await fetch(urlFile, {
@@ -153,7 +154,7 @@ export const action = async ({ request }) => {
         console.log("File Success:", fileData);
         return json({
           type: "success",
-          message: "Your form was submitted successfully",
+          message: "Your message was submitted successfully",
         });
 
       default:

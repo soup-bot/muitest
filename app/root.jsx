@@ -61,6 +61,7 @@ function App() {
           }`}
         >
           {!auth && <Navbar />}
+
           {!auth && (
             <img
               src={bg2}
