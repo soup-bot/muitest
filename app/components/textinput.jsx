@@ -263,7 +263,11 @@ export default function InputForm() {
                           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
                             {
                               borderColor: "gray",
+                              borderRadius: "5",
                             },
+                          "& .MuiOutlinedInput-root": {
+                            padding: "2",
+                          },
                         }}
                         options={sampleContacts}
                         defaultValue={[]}

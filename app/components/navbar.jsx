@@ -57,7 +57,7 @@ export default function Navbar() {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef} className={`${isDarkMode ? "dark" : ""}`}>
-      <nav className="bg-white border-gray-200 shadow-sm xl:py-2 xl:mb-0 dark:bg-slate-950 transition-[background-color]">
+      <nav className="bg-white border-gray-200 shadow-md xl:py-2 xl:mb-0 dark:bg-slate-950  transition-[background-color]">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
