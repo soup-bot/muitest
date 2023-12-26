@@ -75,7 +75,7 @@ export const loader = async ({ request }) => {
 
 export const action = async ({ request }) => {
   const urlNumbers = "http://localhost:5294/api/BulkSms";
-  const urlFile = "http://localhost:5294/api/BulkSms/uploadng";
+  const urlFile = "http://localhost:5294/api/BulkSms/upload";
 
   // Retrieve the access token from the cookie
   const accessToken = getAccessTokenFromCookie(request);
