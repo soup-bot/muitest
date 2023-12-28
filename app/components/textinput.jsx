@@ -236,11 +236,11 @@ export default function InputForm() {
           onSubmit={handleSubmit}
         >
           <div className="mb-5 ">
-            <p className="block text-l font-medium text-gray-900 dark:text-slate-300">
+            <p className="block text-l font-medium text-gray-900 dark:text-slate-300 ">
               Your Sender ID
             </p>
-            <div className="flex w-100 flex-col md:flex-row">
-              <div className="w-full my-3 md:mr-8 flex flex-col lg:flex-row">
+            <div className="flex mb-3 w-100 flex-col md:flex-row ">
+              <div className="w-full  md:mr-8 flex flex-col lg:flex-row">
                 <div className="w-full flex items-center">
                   <select
                     id="senderID"
