@@ -270,7 +270,7 @@ export default function InputForm() {
                       className="sr-only peer"
                     />
 
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none   rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-secondary"></div>
                     <span className="ms-3 text-sm font-medium text-gray-900 dark:text-slate-300">
                       Upload a file
                     </span>
@@ -426,7 +426,7 @@ export default function InputForm() {
                       <div className="mt-5 text-md font-medium"></div>
                       {Object.values(headers).map((value, index) => (
                         <button
-                          className="bg-secondary text-white m-1 py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
+                          className="bg-secondary text-white mx-1 border py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
                           key={index}
                           type="button"
                           onMouseDown={(e) => handleButtonClick(value, e)}
@@ -480,18 +480,29 @@ export default function InputForm() {
             </div>
             <div className="justify-between flex-wrap align-middle   rounded-md  dark:text-slate-200 mt-2">
               <div className="flex font-medium text-sm justify-between p-2 ">
-                <p className="">{text.length} characters used</p>
+                <p className="">
+                  {text.length} characters used
+                  {inputType === "file" && <span>*</span>}
+                </p>
                 <p
                   className={`${
                     numMessages > 10 ? "text-red-600 font-black" : ""
                   }`}
                 >
                   {numMessages}/10 messages
+                  {inputType === "file" && <span>*</span>}
                 </p>
               </div>
             </div>
-
-            <div className="flex w-full align-middle justify-center md:justify-end mt-10">
+            <div className="flex w-full flex-col lg:flex-row  align-middle justify-center md:justify-between mt-10 ">
+              <div>
+                {inputType === "file" && (
+                  <p className="text-sm mb-3 dark:text-slate-400 text-gray-400">
+                    *Message/Charge count may vary based on the length of your
+                    file data
+                  </p>
+                )}
+              </div>
               <button
                 type="submit"
                 name="payloadType"
@@ -507,7 +518,7 @@ export default function InputForm() {
                   numMessages > 10 ||
                   navigation.state === "submitting"
                 }
-                className="flex align-middle justify-center items-center disabled:bg-gray-400 text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                className="flex align-middle w-full lg:w-min self-end justify-center justify-self-end items-center disabled:bg-gray-400 text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
                 <p className="mr-3">
                   {navigation.state === "submitting" ? "Sending..." : "Send"}
