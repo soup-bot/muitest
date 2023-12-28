@@ -1,6 +1,11 @@
 import { redirect } from "@remix-run/node";
 import { serialize } from "cookie";
 import { parse } from "cookie";
+import dotenv from "dotenv";
+dotenv.config();
+
+const loginEndpoint = process.env.REACT_APP_LOGIN_EP;
+const getLoggedInEndpoint = process.env.REACT_APP_GET_LOGGED_IN_EP;
 
 // Function to get access token from cookies
 export function getAccessTokenFromCookie(request) {
@@ -38,7 +43,7 @@ export async function createUserSession(accessToken, expiresIn, redirectPath) {
 
 export async function login(credentials) {
   try {
-    const response = await fetch("http://localhost:5294/login", {
+    const response = await fetch(loginEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,16 +74,13 @@ export async function checkUserLoggedIn(request) {
   }
 
   try {
-    const response = await fetch(
-      "http://localhost:5294/api/Identity/GetLoggedInUser",
-      {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await fetch(getLoggedInEndpoint, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (response.ok) {
       return true; // User is logged in, return user details

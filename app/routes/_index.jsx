@@ -3,8 +3,10 @@ import InputForm from "../components/textinput";
 import React, { useState, useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-
 import { useDarkMode } from "../components/DarkModeContext";
+import { fileInputHandler } from "../data/fileInput.server";
+import { numberInputHandler } from "../data/numberInput.server";
+
 import {
   checkUserLoggedIn,
   getAccessTokenFromCookie,
@@ -74,9 +76,6 @@ export const loader = async ({ request }) => {
 };
 
 export const action = async ({ request }) => {
-  const urlNumbers = "http://localhost:5294/api/BulkSms";
-  const urlFile = "http://localhost:5294/api/BulkSms/upload";
-
   // Retrieve the access token from the cookie
   const accessToken = getAccessTokenFromCookie(request);
   const formData = await request.formData();
@@ -87,79 +86,13 @@ export const action = async ({ request }) => {
   try {
     switch (payloadType) {
       case "numbers":
-        // Handle numbers payload
-        console.log("Processing numbers payload");
-
-        const destinationString = formData.get("numbers");
-        const destination = destinationString
-          ? destinationString.split(",")
-          : [];
-        const content = formData.get("text");
-        const sender = formData.get("senderID");
-
-        const numbersPayload = {
-          destination: destination,
-          content: content,
-          sender: sender,
-        };
-        const numbersBlob = new Blob([JSON.stringify(numbersPayload)], {
-          type: "application/json",
-        });
-
-        const response = await fetch(urlNumbers, {
-          method: "POST",
-          headers: {
-            accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: numbersBlob,
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.statusText} `);
-        }
-
-        const data = await response.text();
-        console.log("Success:", data);
-        return json({
-          message: "Your message was submitted successfully",
-        });
+        return numberInputHandler({ formData, accessToken });
 
       case "file":
-        // Handle file payload
-        console.log("Processing file payload");
-
-        const excelFile = formData.get("excelFile");
-        const text = formData.get("text");
-        const senderID = formData.get("senderID");
-        formData.append("File", excelFile);
-        formData.append("Body.Sender", senderID);
-        formData.append("Body.Content", text);
-
-        const fileResponse = await fetch(urlFile, {
-          method: "POST",
-          headers: {
-            accept: "*/*",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: formData,
-        });
-
-        if (!fileResponse.ok) {
-          throw new Error(`HTTP error! Status: ${fileResponse.statusText} `);
-        }
-
-        const fileData = await fileResponse.text();
-        console.log("File Success:", fileData);
-        return json({
-          type: "success",
-          message: "Your message was submitted successfully",
-        });
+        return fileInputHandler({ formData, accessToken });
 
       default:
         console.log("Unknown payload type");
-        // Handle the case where payloadType is neither "numbers" nor "file"
         return json({
           type: "error",
           message: "Unknown payload type",
