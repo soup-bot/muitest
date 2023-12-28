@@ -469,11 +469,11 @@ export default function InputForm() {
                 name="text"
                 id="message"
                 rows="14"
-                maxLength="1531"
+                maxLength="1530"
                 className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900  bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
                 placeholder={
                   textDirection === "rtl"
-                    ? "މެސެޖު ލިޔުއްވާ.."
+                    ? "ބޭނުންފުޅުވާ މެސެޖު ލިޔުއްވާ.."
                     : "Write your message here..."
                 }
               ></textarea>
