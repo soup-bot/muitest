@@ -248,7 +248,7 @@ export default function InputForm() {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                     {/* Use senderNames array to dynamically generate options */}
-                    {senderNames.map((senderName) => (
+                    {senderNames?.map((senderName) => (
                       <option key={senderName} value={senderName}>
                         {senderName}
                       </option>
@@ -277,7 +277,7 @@ export default function InputForm() {
                     <button
                       type="button"
                       onClick={handleOpen}
-                      className="font-bold text-primary border rounded-full px-2 ml-3 shadow-md"
+                      className="font-bold text-primary border rounded-lg px-2 ml-3 "
                     >
                       ?
                     </button>
@@ -471,7 +471,11 @@ export default function InputForm() {
                 rows="14"
                 maxLength="1531"
                 className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900  bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
-                placeholder="Write your message here..."
+                placeholder={
+                  textDirection === "rtl"
+                    ? "މެސެޖު ލިޔުއްވާ.."
+                    : "Write your message here..."
+                }
               ></textarea>
             </div>
             <div className="justify-between flex-wrap align-middle   rounded-md  dark:text-slate-200 mt-2">

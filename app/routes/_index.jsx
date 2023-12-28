@@ -6,6 +6,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useDarkMode } from "../components/DarkModeContext";
 import { fileInputHandler } from "../data/fileInput.server";
 import { numberInputHandler } from "../data/numberInput.server";
+import dotenv from "dotenv";
 
 import {
   checkUserLoggedIn,
@@ -66,6 +67,8 @@ export default function Index() {
   );
 }
 export const loader = async ({ request }) => {
+  dotenv.config();
+  // const getLoggedInEndpoint = process.env.REACT_APP_GET_SENDERS_EP;
   const { isLoggedIn, userId } = await checkUserLoggedIn(request);
   const accessToken = getAccessTokenFromCookie(request);
   if (!isLoggedIn) {
@@ -75,7 +78,9 @@ export const loader = async ({ request }) => {
   console.log(userId);
   // User is logged in, make a request to get senders using the userId
   const sendersUrl = `http://localhost:5294/api/Identity/getSenders/${userId}`;
+  // const sendersUrl = `${getLoggedInEndpoint}/${userId}`;
 
+  console.log(sendersUrl);
   try {
     const sendersResponse = await fetch(sendersUrl, {
       method: "GET",
