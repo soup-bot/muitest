@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LoginForm from "../components/loginform";
 import SignupForm from "../components/signupform";
 import logo from "../assets/logo.svg";
@@ -8,13 +8,36 @@ import { validateCredentials } from "../data/validation.server";
 import backdrop from "../assets/test.jpg";
 import { useDarkMode } from "../components/DarkModeContext";
 import { login } from "../data/authentication.server";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
+});
 
 export default function Auth() {
+  const actionData = useActionData();
+  const [open, setOpen] = React.useState(false);
   const [signupMode, setSignupMode] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-
+  const { message } = useActionData() || {};
+  const { type } = useActionData() || {};
   const toggleMode = () => {
     setSignupMode(!signupMode);
+  };
+
+  useEffect(() => {
+    if (message) {
+      setOpen(true); // Trigger the alert if there's a success message
+      console.log(actionData);
+    }
+  }, [actionData]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
@@ -61,6 +84,22 @@ export default function Auth() {
           alt=""
         />
       </div>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          variant="filled"
+          onClose={handleClose}
+          severity={type}
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
@@ -75,11 +114,24 @@ export const action = async ({ request }) => {
   }
 
   const loginResponse = await login(credentials);
-
   if (loginResponse && loginResponse.status === 302) {
+    // If it's a redirect, return the loginResponse
     return loginResponse;
+  } else if (loginResponse && loginResponse.status === 200) {
+    // If it's a successful login, return both loginResponse and additional JSON
+    return [
+      loginResponse,
+      json({
+        type: "success",
+        message: "Login successful",
+        // Add any additional data you want to include in the JSON response
+      }),
+    ];
+  } else {
+    // If not a redirect and not a successful login, return an error JSON
+    return json({
+      type: "error",
+      message: "Invalid Credentials",
+    });
   }
-
-  // If not a redirect, return null or some other response
-  return null;
 };
