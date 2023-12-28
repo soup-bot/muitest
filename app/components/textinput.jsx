@@ -16,8 +16,11 @@ import { useDarkMode } from "../components/DarkModeContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { FaPhoneAlt } from "react-icons/fa";
+import { FaAlignRight } from "react-icons/fa";
+import { FaAlignLeft } from "react-icons/fa";
 
 export default function InputForm() {
+  const [textDirection, setTextDirection] = useState("ltr");
   const { senderNames } = useLoaderData();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
@@ -35,6 +38,13 @@ export default function InputForm() {
   let $form = useRef();
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const toggleTextDirection = () => {
+    // Toggle the text direction between "ltr" and "rtl"
+    setTextDirection((prevDirection) =>
+      prevDirection === "ltr" ? "rtl" : "ltr"
+    );
   };
 
   const handleInputChange = (type) => {
@@ -434,24 +444,36 @@ export default function InputForm() {
             </div>
           </div>
           <div>
-            <label
-              htmlFor="message"
-              className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
-            >
-              Your message
-            </label>
+            <div className="flex flex-col">
+              <div className="w-full flex justify-between mb-1">
+                <label
+                  htmlFor="message"
+                  className="block mb-2 text-l font-medium text-gray-900 dark:text-slate-300"
+                >
+                  Your message
+                </label>
+                <button
+                  type="button"
+                  onClick={toggleTextDirection}
+                  className="p-2 border rounded-lg dark:bg-gray-300"
+                >
+                  {textDirection === "ltr" ? <FaAlignLeft /> : <FaAlignRight />}
+                </button>
+              </div>
 
-            <textarea
-              disabled={navigation.state === "submitting"}
-              value={text}
-              onChange={handleTextChange}
-              name="text"
-              id="message"
-              rows="14"
-              maxLength="1531"
-              className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900  bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
-              placeholder="Write your message here..."
-            ></textarea>
+              <textarea
+                style={{ direction: textDirection }}
+                disabled={navigation.state === "submitting"}
+                value={text}
+                onChange={handleTextChange}
+                name="text"
+                id="message"
+                rows="14"
+                maxLength="1531"
+                className="disabled:opacity-50 resize-none block p-2.5 w-full text-sm text-gray-900  bg-gray-50 rounded-lg border border-gray-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
+                placeholder="Write your message here..."
+              ></textarea>
+            </div>
             <div className="justify-between flex-wrap align-middle   rounded-md  dark:text-slate-200 mt-2">
               <div className="flex font-medium text-sm justify-between p-2 ">
                 <p className="">{text.length} characters used</p>
