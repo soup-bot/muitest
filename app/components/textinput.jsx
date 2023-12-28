@@ -1,4 +1,9 @@
-import { Form, useNavigation, useActionData } from "@remix-run/react";
+import {
+  Form,
+  useNavigation,
+  useActionData,
+  useLoaderData,
+} from "@remix-run/react";
 import { useState, useRef } from "react";
 import xlsx from "xlsx";
 import { IoSend } from "react-icons/io5";
@@ -13,6 +18,7 @@ import TextField from "@mui/material/TextField";
 import { FaPhoneAlt } from "react-icons/fa";
 
 export default function InputForm() {
+  const { senderNames } = useLoaderData();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
   const [numMessages, setNumMessages] = useState(0);
@@ -231,7 +237,12 @@ export default function InputForm() {
                     name="senderID"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option value="Test">Test</option>
+                    {/* Use senderNames array to dynamically generate options */}
+                    {senderNames.map((senderName) => (
+                      <option key={senderName} value={senderName}>
+                        {senderName}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="w-full md:ml-7 md:w-2/5 flex justify-left my-5 align-middle items-center">

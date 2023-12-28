@@ -11,7 +11,7 @@ import {
   checkUserLoggedIn,
   getAccessTokenFromCookie,
 } from "../data/authentication.server";
-import { useActionData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 export const meta = () => {
   return [{ title: "Compose Message - Dhiraagu Bulk SMS" }];
 };
@@ -21,6 +21,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function Index() {
+  const { userId } = useLoaderData();
+
   const [open, setOpen] = React.useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
@@ -64,19 +66,44 @@ export default function Index() {
   );
 }
 export const loader = async ({ request }) => {
-  const isLoggedIn = await checkUserLoggedIn(request);
-
+  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
+  const accessToken = getAccessTokenFromCookie(request);
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
   }
+  console.log(userId);
+  // User is logged in, make a request to get senders using the userId
+  const sendersUrl = `http://localhost:5294/api/Identity/getSenders/${userId}`;
 
-  // User is logged in, do nothing
-  return null;
+  try {
+    const sendersResponse = await fetch(sendersUrl, {
+      method: "GET",
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!sendersResponse.ok) {
+      console.error("Error fetching senders:", sendersResponse.statusText);
+      // Handle the error as needed
+      return { senders: [] }; // Return an empty array for senders
+    }
+
+    const sendersData = await sendersResponse.json();
+    const senderNames = sendersData.map((sender) => sender.senderName);
+    return { senderNames };
+  } catch (error) {
+    console.error("Error fetching senders:", error);
+    // Handle the error as needed
+    return { senders: [] }; // Return an empty array for senders
+  }
 };
 
 export const action = async ({ request }) => {
   // Retrieve the access token from the cookie
+
   const accessToken = getAccessTokenFromCookie(request);
   const formData = await request.formData();
 

@@ -12,18 +12,17 @@ export const meta = () => {
   return [{ title: "Sent Items - Dhiraagu Bulk SMS" }];
 };
 
-export async function loader({ request }) {
-  const isLoggedIn = await checkUserLoggedIn(request);
+export const loader = async ({ request }) => {
+  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
 
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
   }
 
-  // User is logged in, do nothing
-  return null;
-}
-
+  // User is logged in, you can use userId if needed
+  return { userId };
+};
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
 };

@@ -101,17 +101,17 @@ const initialRows = [
   // Add more rows as needed...
 ];
 
-export async function loader({ request }) {
-  const isLoggedIn = await checkUserLoggedIn(request);
+export const loader = async ({ request }) => {
+  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
 
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
   }
 
-  // User is logged in, do nothing
-  return null;
-}
+  // User is logged in, you can use userId if needed
+  return { userId };
+};
 
 export default function Contacts() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();

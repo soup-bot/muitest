@@ -15,6 +15,7 @@ export const numberInputHandler = async ({ formData, accessToken }) => {
     content: content,
     sender: sender,
   };
+  console.log(sender);
   const numbersBlob = new Blob([JSON.stringify(numbersPayload)], {
     type: "application/json",
   });

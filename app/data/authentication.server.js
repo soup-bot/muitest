@@ -70,7 +70,7 @@ export async function checkUserLoggedIn(request) {
 
   if (!accessToken) {
     // User is not logged in, redirect to /auth
-    return false;
+    return { isLoggedIn: false };
   }
 
   try {
@@ -83,15 +83,17 @@ export async function checkUserLoggedIn(request) {
     });
 
     if (response.ok) {
-      return true; // User is logged in, return user details
+      const user = await response.json();
+      const { id } = user;
+      return { isLoggedIn: true, userId: id };
     } else {
       // User is not logged in or there was an error, redirect to /auth
-      return false;
+      return { isLoggedIn: false };
     }
   } catch (error) {
     console.error("Error checking user login status:", error);
     // Assume user is not logged in on error, redirect to /auth
-    return false;
+    return { isLoggedIn: false };
   }
 }
 
