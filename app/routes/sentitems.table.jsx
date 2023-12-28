@@ -1,296 +1,83 @@
+// components/SentTable.js
+
 import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
-import { MdError } from "react-icons/md";
-import { useState, useCallback } from "react";
-import { MdDelete } from "react-icons/md";
+import { MdError, MdDelete } from "react-icons/md";
 import Modal from "@mui/material/Modal";
 import { useDarkMode } from "../components/DarkModeContext";
+import { useState } from "react";
+import {
+  checkUserLoggedIn,
+  getAccessTokenFromCookie,
+} from "../data/authentication.server";
+import { useLoaderData } from "react-router";
 
-// const rows = [
-//   {
-//     id: 1,
-//     col1: "User 1",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 15:42",
-//   },
-//   {
-//     id: 2,
-//     col1: "User 2",
-//     col2: "Bye World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 11:41",
-//   },
-//   {
-//     id: 3,
-//     col1: "User 3",
-//     col2: "Hi World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 15:44",
-//   },
-//   {
-//     id: 4,
-//     col1: "User 4",
-//     col2: "Hello World",
-//     col3: "Pending",
-//     col4: "5-12-2023 10:30",
-//   },
-//   {
-//     id: 5,
-//     col1: "User 5",
-//     col2: "Bye World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 09:15",
-//   },
-//   {
-//     id: 6,
-//     col1: "User 6",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 08:20",
-//   },
-//   {
-//     id: 7,
-//     col1: "User 7",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 14:10",
-//   },
-//   {
-//     id: 8,
-//     col1: "User 8",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 13:05",
-//   },
-//   {
-//     id: 9,
-//     col1: "User 9",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 12:00",
-//   },
-//   {
-//     id: 10,
-//     col1: "User 10",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 11:55",
-//   },
-//   {
-//     id: 11,
-//     col1: "User 11",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 16:30",
-//   },
-//   {
-//     id: 12,
-//     col1: "User 12",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 16:15",
-//   },
-//   {
-//     id: 13,
-//     col1: "User 13",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 15:00",
-//   },
-//   {
-//     id: 14,
-//     col1: "User 14",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 14:55",
-//   },
-//   {
-//     id: 15,
-//     col1: "User 15",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 14:50",
-//   },
-//   {
-//     id: 16,
-//     col1: "User 16",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 14:45",
-//   },
-//   {
-//     id: 17,
-//     col1: "User 17",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 14:40",
-//   },
-//   {
-//     id: 18,
-//     col1: "User 18",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 14:35",
-//   },
-//   {
-//     id: 19,
-//     col1: "User 19",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 14:30",
-//   },
-//   {
-//     id: 20,
-//     col1: "User 20",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 14:25",
-//   },
-//   {
-//     id: 21,
-//     col1: "User 21",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 14:20",
-//   },
-//   {
-//     id: 22,
-//     col1: "User 22",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 14:15",
-//   },
-//   {
-//     id: 23,
-//     col1: "User 23",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 14:10",
-//   },
-//   {
-//     id: 24,
-//     col1: "User 24",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 14:05",
-//   },
-//   {
-//     id: 25,
-//     col1: "User 25",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 14:00",
-//   },
-//   {
-//     id: 26,
-//     col1: "User 26",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 13:55",
-//   },
-//   {
-//     id: 27,
-//     col1: "User 27",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 13:50",
-//   },
-//   {
-//     id: 28,
-//     col1: "User 28",
-//     col2: "Hello World",
-//     col3: "Delivered",
-//     col4: "5-12-2023 13:45",
-//   },
-//   {
-//     id: 29,
-//     col1: "User 29",
-//     col2: "Bye World",
-//     col3: "Pending",
-//     col4: "5-12-2023 13:40",
-//   },
-//   {
-//     id: 30,
-//     col1: "User 30",
-//     col2: "Hi World",
-//     col3: "Failed",
-//     col4: "5-12-2023 13:35",
-//   },
-// ];
+export const loader = async ({ request }) => {
+  const accessToken = getAccessTokenFromCookie(request);
 
-const rows = [
-  {
-    id: "abcde",
-    col1: "User 1",
-    col2: "Hello World",
-    col3: "Delivered",
-    col4: "5-12-2023 15:42",
-  },
-  {
-    id: "fghij",
-    col1: "User 2",
-    col2: "Bye World",
-    col3: "Delivered",
-    col4: "5-12-2023 11:41",
-  },
-  {
-    id: "klmno",
-    col1: "User 3",
-    col2: "Hi World",
-    col3: "Delivered",
-    col4: "5-12-2023 15:44",
-  },
-  {
-    id: "pqrst",
-    col1: "User 4",
-    col2: "Hello World",
-    col3: "Pending",
-    col4: "5-12-2023 10:30",
-  },
-  {
-    id: "uvwxy",
-    col1: "User 5",
-    col2: "Bye World",
-    col3: "Delivered",
-    col4: "5-12-2023 09:15",
-  },
-  {
-    id: "z1234",
-    col1: "User 6",
-    col2: "Hi World",
-    col3: "Failed",
-    col4: "5-12-2023 08:20",
-  },
-  {
-    id: "56789",
-    col1: "User 7",
-    col2: "Hello World",
-    col3: "Delivered",
-    col4: "5-12-2023 14:10",
-  },
-];
+  try {
+    const apiUrl =
+      "http://localhost:5294/api/BulkSms?userId=891cbd69-ad1e-4f60-9516-6f7de2cfde36";
 
-const columns = [
-  { field: "col1", headerName: "To", width: 150 },
-  { field: "col2", headerName: "Text", width: 150 },
-  { field: "col3", headerName: "Status", width: 100 },
-  { field: "col4", headerName: "Sent", width: 150 },
-];
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-export default function SentTable() {
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data. Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data || !Array.isArray(data)) {
+      throw new Error("Invalid response data");
+    }
+
+    // Ensure each row has a unique ID
+    const rows = data.map((item, index) => ({
+      id: index + 1, // Use index as a unique ID (you can adjust this as needed)
+      col1: item.destination,
+      col2: item.message,
+      col3: item.status,
+      col4: new Date(item.sentTimeStamp).toLocaleString(),
+    }));
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Failed to fetch data");
+  }
+};
+
+export default function SentTable({ rows }) {
+  const rowz = useLoaderData();
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   const handleDeleteClick = () => {
     console.log("Deleting rows:", selectedRows);
     handleClose();
   };
+
+  const columns = [
+    { field: "col1", headerName: "To", width: 150 },
+    { field: "col2", headerName: "Text", width: 300 },
+    { field: "col3", headerName: "Status", width: 100 },
+    {
+      field: "col4",
+      headerName: "Sent",
+      type: "dateTime",
+      valueGetter: ({ value }) => value && new Date(value),
+      width: 250,
+    },
+  ];
 
   return (
     <>
@@ -304,7 +91,7 @@ export default function SentTable() {
             isDarkMode ? "dark " : ""
           }`}
         >
-          <div className="bg-white dark:bg-slate-800  p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border dark:border-slate-600 shadow-md animate-fade animate-duration-[350ms]">
+          <div className="bg-white dark:bg-slate-800 p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border dark:border-slate-600 shadow-md animate-fade animate-duration-[350ms]">
             <p className="text-black mt-4 mb-12 dark:text-slate-200">
               Are you sure you want to delete{" "}
               <span className="font-black ">{selectedRows.length}</span> message
@@ -324,26 +111,26 @@ export default function SentTable() {
                 startIcon={<MdDelete />}
                 size="medium"
                 onClick={handleDeleteClick}
+                f
               >
                 Delete
               </Button>
             </div>
           </div>
         </Modal>
-
-        {/* <button
-          disabled={selectedRows.length === 0}
-          onClick={handleOpen}
-          className="bg-red-500 hover:bg-red-800 disabled:bg-gray-300 active:scale-105 transition text-white p-1 rounded-md dark:disabled:bg-slate-600"
-        >
-          <MdDelete size={20} />
-        </button> */}
       </div>
       <DataGrid
         className="dark:bg-slate-800 bg-slate-50"
         density="compact"
-        rows={rows}
+        rows={rowz}
         columns={columns}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "col4", sort: "desc" }],
+          },
+          pagination: { paginationModel: { pageSize: 25 } },
+        }}
+        pageSizeOptions={[25, 50, 100]}
         onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
         checkboxSelection
         slots={{
@@ -367,12 +154,12 @@ export default function SentTable() {
   );
 }
 
-export function ErrorBoundary({}) {
+export function ErrorBoundary({ error }) {
   return (
     <main className="flex flex-col  align-middle items-center justify-center font-medium text-xl m-10">
       <div className="bg-white p-10 rounded-2xl shadow-md">
         <h4 className="text-red-800 flex flex-col md:flex-row align-middle justify-center items-center gap-3">
-          <MdError size={25} /> There was an error retrieving your data
+          <MdError size={25} /> {error}
         </h4>
       </div>
     </main>

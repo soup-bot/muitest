@@ -74,6 +74,7 @@ export default function Index() {
 export const loader = async ({ request }) => {
   dotenv.config();
   // const getLoggedInEndpoint = process.env.REACT_APP_GET_SENDERS_EP;
+  const getSenderEP = process.env.REACT_APP_GET_SENDERS_EP;
   const { isLoggedIn, userId } = await checkUserLoggedIn(request);
   const accessToken = getAccessTokenFromCookie(request);
   if (!isLoggedIn) {
@@ -82,8 +83,8 @@ export const loader = async ({ request }) => {
   }
   console.log(userId);
   // User is logged in, make a request to get senders using the userId
-  const sendersUrl = `http://localhost:5294/api/Identity/getSenders/${userId}`;
-  // const sendersUrl = `${getLoggedInEndpoint}/${userId}`;
+  // const sendersUrl = `http://localhost:5294/api/Identity/getSenders/${userId}`;
+  const sendersUrl = `${getSenderEP}/${userId}`;
 
   console.log(sendersUrl);
   try {
