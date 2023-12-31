@@ -46,6 +46,14 @@ export default function InputForm() {
       prevDirection === "ltr" ? "rtl" : "ltr"
     );
   };
+  const rtlTextDirection = () => {
+    // Toggle the text direction between "ltr" and "rtl"
+    setTextDirection("rtl");
+  };
+  const ltrTextDirection = () => {
+    // Toggle the text direction between "ltr" and "rtl"
+    setTextDirection("ltr");
+  };
 
   const handleInputChange = (type) => {
     setInputType(type);
@@ -452,13 +460,31 @@ export default function InputForm() {
                 >
                   Your message
                 </label>
-                <button
-                  type="button"
-                  onClick={toggleTextDirection}
-                  className="p-2 border rounded-lg dark:bg-gray-300"
-                >
-                  {textDirection === "ltr" ? <FaAlignLeft /> : <FaAlignRight />}
-                </button>
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={ltrTextDirection}
+                    className={` ${
+                      textDirection === "ltr"
+                        ? "bg-secondary/50 dark:bg-secondary/60 dark:text-white text-secondary"
+                        : "text-slate-300"
+                    } p-2 border rounded-l-lg dark:bg-slate-700 hover:bg-secondary/20 transition dark:border-slate-800 dark:text-slate-800 `}
+                  >
+                    <FaAlignLeft />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={rtlTextDirection}
+                    className={` ${
+                      textDirection === "rtl"
+                        ? "bg-secondary/50 dark:bg-secondary/60 dark:text-white text-secondary"
+                        : "text-slate-300"
+                    } p-2 border rounded-r-lg dark:bg-slate-700 hover:bg-secondary/20 transition dark:border-slate-800 dark:text-slate-800`}
+                  >
+                    <FaAlignRight />
+                  </button>
+                </div>
               </div>
 
               <textarea

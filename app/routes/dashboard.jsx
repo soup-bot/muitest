@@ -137,7 +137,7 @@ function Dashboard() {
                       arcLabel: (item) => `${item.value}`,
                       arcLabelMinAngle: 45,
                       data: [
-                        { id: 0, value: 145, label: "Used" },
+                        { id: 0, value: 445, label: "Used" },
                         { id: 1, value: 592, label: "Remaining" },
                       ],
                       highlightScope: { faded: "global", highlighted: "item" },
