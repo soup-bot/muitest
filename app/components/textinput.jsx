@@ -468,8 +468,8 @@ export default function InputForm() {
                     className={` ${
                       textDirection === "ltr"
                         ? "bg-secondary/50 dark:bg-secondary/60 dark:text-white text-secondary"
-                        : "text-slate-300"
-                    } p-2 border rounded-l-lg dark:bg-slate-700 hover:bg-secondary/20 transition dark:border-slate-800 dark:text-slate-800 `}
+                        : "text-slate-300 dark:text-slate-800 "
+                    } p-2 border rounded-l-lg dark:bg-slate-700 hover:bg-secondary/20 dark:hover:bg-secondary/20 transition dark:border-slate-800 `}
                   >
                     <FaAlignLeft />
                   </button>
@@ -479,8 +479,8 @@ export default function InputForm() {
                     className={` ${
                       textDirection === "rtl"
                         ? "bg-secondary/50 dark:bg-secondary/60 dark:text-white text-secondary"
-                        : "text-slate-300"
-                    } p-2 border rounded-r-lg dark:bg-slate-700 hover:bg-secondary/20 transition dark:border-slate-800 dark:text-slate-800`}
+                        : "text-slate-300 dark:text-slate-800"
+                    } p-2 border rounded-r-lg dark:bg-slate-700 hover:bg-secondary/20 dark:hover:bg-secondary/20 transition dark:border-slate-800 `}
                   >
                     <FaAlignRight />
                   </button>
