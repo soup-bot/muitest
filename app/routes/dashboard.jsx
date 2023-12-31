@@ -1,7 +1,7 @@
 import { FaWallet } from "react-icons/fa";
 import { RiMessage2Fill } from "react-icons/ri";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useState, useRef, forwardRef } from "react";
+import { useState, useRef, forwardRef, useEffect } from "react";
 import dayjs from "dayjs";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { FaPhone } from "react-icons/fa";
@@ -10,9 +10,24 @@ import { MdAccountCircle } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 import { checkUserLoggedIn } from "../data/authentication.server";
 import { redirect } from "@remix-run/node";
+import Slider from "@mui/material/Slider";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
+const stepOptions = [
+  { value: 50, max: 1000 },
+  { value: 500, max: 10000 },
+  { value: 2500, max: 50000 },
+  { value: 5000, max: 100000 },
+];
 
 export const meta = () => {
   return [{ title: "Dashboard - Dhiraagu Bulk SMS" }];
+};
+
+const calculateDefaultStep = (maxValue) => {
+  const logMax = Math.log10(maxValue);
+  return Math.ceil(logMax / 10);
 };
 
 const palette = ["#F26940", "#0FA5B7"];
@@ -39,6 +54,67 @@ export const loader = async ({ request }) => {
 };
 
 function Dashboard() {
+  const [localSms, setLocalSms] = useState(0);
+  const [internationalSms, setInternationalSms] = useState(0);
+  const [customCredit, setCustomCredit] = useState(0);
+  const [localSmsStep, setLocalSmsStep] = useState(
+    calculateDefaultStep(100000)
+  );
+  const [internationalSmsStep, setInternationalSmsStep] = useState(
+    calculateDefaultStep(100000)
+  );
+  const [selectedLocalSmsStep, setSelectedLocalSmsStep] = useState(50);
+  const [selectedInternationalSmsStep, setSelectedInternationalSmsStep] =
+    useState(50);
+
+  useEffect(() => {
+    // Use useEffect to ensure the correct initial step count for the slider
+    setLocalSmsStep(selectedLocalSmsStep);
+    setInternationalSmsStep(selectedInternationalSmsStep);
+  }, [selectedLocalSmsStep, selectedInternationalSmsStep]);
+
+  const calculateCreditCost = () => {
+    // Implement your logic to calculate credit cost based on localSms, internationalSms, and customCredit
+    // You can adjust this based on your pricing model
+    const totalCreditCost =
+      (localSms * 1) / 5 + internationalSms * 1 + customCredit;
+    return totalCreditCost;
+  };
+
+  const handleLocalSmsChange = (event, value) => {
+    setLocalSms(value);
+  };
+
+  const handleInternationalSmsChange = (event, value) => {
+    setInternationalSms(value);
+  };
+
+  const handleLocalSmsStepChange = (event) => {
+    const selectedStep = parseInt(event.target.value, 10);
+    setSelectedLocalSmsStep(selectedStep);
+    setLocalSmsStep(selectedStep);
+    adjustMaxValue("local", selectedStep);
+  };
+
+  const handleInternationalSmsStepChange = (event) => {
+    const selectedStep = parseInt(event.target.value, 10);
+    setSelectedInternationalSmsStep(selectedStep);
+    setInternationalSmsStep(selectedStep);
+    adjustMaxValue("international", selectedStep);
+  };
+
+  const adjustMaxValue = (type, selectedStep) => {
+    const selectedOption = stepOptions.find(
+      (option) => option.value === selectedStep
+    );
+    const max = selectedOption ? selectedOption.max : 1000;
+
+    if (type === "local") {
+      setLocalSms((prev) => (prev > max ? max : prev));
+    } else if (type === "international") {
+      setInternationalSms((prev) => (prev > max ? max : prev));
+    }
+  };
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -166,6 +242,116 @@ function Dashboard() {
               </div>
             </div>
           </div>
+
+          {/* 
+CREATE PLAN CARD */}
+          {/* <div className="w-full p-0 py-3 lg:p-3">
+            <div className="transition hover:scale-[1.01] w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-800">
+       
+              <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200 ">
+                Create my plan
+              </p>
+              <div className="mb-4">
+                <div className="flex align-middle w-full justify-between ">
+                  <p className="text-md font-bold">
+                    Local SMS
+                    <span className="border p-1 px-2 rounded-lg bg-secondary text-white ml-2">
+                      {localSms}
+                    </span>
+                  </p>
+                  <Select
+                    size="small"
+                    defaultValue={50} 
+                    onChange={handleLocalSmsStepChange}
+                  >
+                    {stepOptions.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        Step {option.value}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+
+                <Slider
+                  value={localSms}
+                  color="success"
+                  onChange={handleLocalSmsChange}
+                  step={localSmsStep}
+                  sx={{ height: 12 }}
+                  min={0}
+                  max={
+                    stepOptions.find((option) => option.value === localSmsStep)
+                      ?.max || 1000
+                  }
+                />
+              </div>
+
+    
+              <div className="mb-4">
+                <div className="flex align-middle w-full justify-between">
+                  <p className="text-md font-bold">
+                    International SMS
+                    <span className="border p-1 px-2 rounded-lg bg-secondary text-white ml-2">
+                      {internationalSms}
+                    </span>
+                  </p>
+                  <Select
+                    size="small"
+                    defaultValue={50} 
+                    onChange={handleInternationalSmsStepChange}
+                  >
+                    {stepOptions.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        Step {option.value}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+                <Slider
+                  color="info"
+                  value={internationalSms}
+                  onChange={handleInternationalSmsChange}
+                  step={internationalSmsStep}
+                  min={0}
+                  sx={{ height: 12 }}
+                  max={
+                    stepOptions.find(
+                      (option) => option.value === internationalSmsStep
+                    )?.max || 1000
+                  }
+                />
+              </div>
+
+          
+              <div
+                className="flex justify-center
+              "
+              >
+                <p className="text-lg font-semibold border rounded-lg p-2 px-4">
+                  Cost: {calculateCreditCost()} credits
+                </p>
+              </div>
+      
+              <button className="inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim">
+                Confirm
+                <svg
+                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div> */}
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
             <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white shadow-lg rounded-lg flex flex-col dark:bg-slate-800">
