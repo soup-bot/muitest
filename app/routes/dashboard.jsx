@@ -213,8 +213,8 @@ function Dashboard() {
                       arcLabel: (item) => `${item.value}`,
                       arcLabelMinAngle: 45,
                       data: [
-                        { id: 0, value: 445, label: "Used" },
-                        { id: 1, value: 592, label: "Remaining" },
+                        { id: 0, value: 122, label: "Used" },
+                        { id: 1, value: 122, label: "Remaining" },
                       ],
                       highlightScope: { faded: "global", highlighted: "item" },
                       faded: {
@@ -245,9 +245,8 @@ function Dashboard() {
 
           {/* 
 CREATE PLAN CARD */}
-          {/* <div className="w-full p-0 py-3 lg:p-3">
+          {/* <div className="w-full p-0 py-3 lg:p-3 ">
             <div className="transition hover:scale-[1.01] w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-800">
-       
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200 ">
                 Create my plan
               </p>
@@ -261,7 +260,7 @@ CREATE PLAN CARD */}
                   </p>
                   <Select
                     size="small"
-                    defaultValue={50} 
+                    defaultValue={50}
                     onChange={handleLocalSmsStepChange}
                   >
                     {stepOptions.map((option) => (
@@ -286,7 +285,6 @@ CREATE PLAN CARD */}
                 />
               </div>
 
-    
               <div className="mb-4">
                 <div className="flex align-middle w-full justify-between">
                   <p className="text-md font-bold">
@@ -297,7 +295,7 @@ CREATE PLAN CARD */}
                   </p>
                   <Select
                     size="small"
-                    defaultValue={50} 
+                    defaultValue={50}
                     onChange={handleInternationalSmsStepChange}
                   >
                     {stepOptions.map((option) => (
@@ -322,7 +320,6 @@ CREATE PLAN CARD */}
                 />
               </div>
 
-          
               <div
                 className="flex justify-center
               "
@@ -331,7 +328,7 @@ CREATE PLAN CARD */}
                   Cost: {calculateCreditCost()} credits
                 </p>
               </div>
-      
+
               <button className="inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim">
                 Confirm
                 <svg
