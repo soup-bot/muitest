@@ -18,6 +18,38 @@ import TextField from "@mui/material/TextField";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaAlignRight } from "react-icons/fa";
 import { FaAlignLeft } from "react-icons/fa";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
+import { FaFileDownload } from "react-icons/fa";
+
+const handleDownload = () => {
+  // Your data in the desired format
+  const data = [
+    // Skip the first row (it contains the "Number" header)
+    { Number: "7XXXXXX" },
+    { Number: "7XXXXXX" },
+    { Number: "7XXXXXX" },
+    { Number: "7XXXXXX" },
+    // ... other rows
+  ];
+
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  // Create a workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+  // Convert the workbook to an array buffer
+  const arrayBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+  // Convert the array buffer to a Blob
+  const blob = new Blob([arrayBuffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+
+  // Use file-saver to trigger download
+  saveAs(blob, "sample.xlsx");
+};
 
 export default function InputForm() {
   const [textDirection, setTextDirection] = useState("ltr");
@@ -34,6 +66,7 @@ export default function InputForm() {
   const [open, setOpen] = useState(false);
   const uniqueNumbers = [...new Set(selected)];
   const navigation = useNavigation();
+
   const handleOpen = () => setOpen(true);
   let $form = useRef();
   const handleClose = () => {
@@ -193,7 +226,14 @@ export default function InputForm() {
         }`}
       >
         <div className=" border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in ">
-          <div className="w-100 flex align-top  justify-end mb-5 ">
+          <div className="w-100 flex align-top  justify-between mb-5 ">
+            {/* <button onClick={handleDownload}>Download</button> */}
+            <FaFileDownload
+              onClick={handleDownload}
+              color="0FA5B7"
+              size={25}
+              className="cursor-pointer hover:scale-110 transition"
+            />
             <IoClose
               color="0FA5B7"
               className="cursor-pointer hover:scale-110 transition"

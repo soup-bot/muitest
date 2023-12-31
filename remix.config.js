@@ -9,6 +9,7 @@ export default {
     /^@emotion\/react/,
     /^@emotion\/styled/,
     /^@prisma\/client\/runtime\/library/,
+    /^file-saver/,
   ],
   browserNodeBuiltinsPolyfill: {
     modules: {
