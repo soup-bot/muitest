@@ -200,7 +200,7 @@ CREATE PLAN CARD */}
               />
             </div>
 
-            <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-5">
+            <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8">
               <div className="text-md  font-semibold border-2 rounded-lg p-2 px-4 self-end  w-full md:w-max shadow-md text-green-500  flex border-green-500 ">
                 Cost: {calculateCreditCost()} <FaCoins className="mt-1 ml-2" />
               </div>
