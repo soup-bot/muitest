@@ -44,6 +44,9 @@ function App() {
         main: "#0FA5B7",
       },
     },
+    typography: {
+      fontFamily: "Rubik",
+    },
   });
 
   return (

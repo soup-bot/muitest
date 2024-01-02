@@ -22,5 +22,8 @@ module.exports = {
         hoversec: "#0c8492",
       },
     },
+    fontFamily: {
+      custom: ["Rubik", "sans-serif"],
+    },
   },
 };

@@ -68,7 +68,7 @@ export default function Navbar() {
             ref={dropdownRef}
             className="flex gap-4 items-center justify-items-center "
           >
-            <div className="px-2 py-2 text-white rounded-lg font-semibold bg-gradient-to-tl from-primary to-hoverprim  align-center justify-center hidden lg:flex">
+            <div className="px-2 py-2 text-white rounded-lg font-medium  bg-gradient-to-tl from-primary to-hoverprim  align-center justify-center hidden lg:flex">
               <p className="drop-shadow-md mx-2">1500</p>
               <div className="flex align-middle justify-center items-center mr-1">
                 <FaCoins />
@@ -172,7 +172,7 @@ export default function Navbar() {
                     </button>
                   </li>
                   <li className="lg:hidden">
-                    <div className="my-1 mb-0 px-2 py-3 text-white font-semibold bg-gradient-to-tl from-primary to-hoverprim  flex align-center justify-left">
+                    <div className="my-1 mb-0 px-2 py-3 text-white font-medium  bg-gradient-to-tl from-primary to-hoverprim  flex align-center justify-left">
                       <p className="drop-shadow-md mx-2">Balance: 1500 </p>
                       <div className="flex align-middle justify-center items-center mr-1">
                         <FaCoins />
@@ -219,7 +219,7 @@ export default function Navbar() {
                     }
                   >
                     <BiSolidMessageAdd size={26} />
-                    <span className="flex-1 ms-3 whitespace-nowrap">
+                    <span className="flex-1 ms-3 whitespace-nowrap font-500">
                       New Message
                     </span>
                   </NavLink>

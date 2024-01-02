@@ -94,7 +94,7 @@ export default function Manage() {
     >
       <div className=" rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
         <Link to={"/dashboard"}>
-          <div className="font-bold text-2xl my-10 dark:text-slate-200 flex">
+          <div className="font-medium text-2xl my-10 dark:text-slate-200 flex">
             <IoChevronBack className="mt-1 animate-pulse animate-infinite" />{" "}
             <div>Dashboard</div>
           </div>
@@ -164,7 +164,7 @@ CREATE PLAN CARD */}
                   </div>
 
                   <div>
-                    <div className="border-2 p-1 px-2 rounded-lg shadow-md text-md  w-min flex font-bold dark:text-slate-200 border-secondary text-secondary">
+                    <div className="border-2 p-1 px-2 rounded-lg shadow-md text-md  w-min flex font-bold  border-secondary text-secondary">
                       {internationalSms}
                       <MdSms size={20} className="ml-2 mt-1" />
                     </div>
@@ -201,7 +201,7 @@ CREATE PLAN CARD */}
             </div>
 
             <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-5">
-              <div className="text-lg dark:border-slate-700 font-semibold border rounded-lg p-2 px-4 self-end  w-full md:w-max shadow-md text-slate-200 flex bg-gradient-to-r from-green-500 to-green-700">
+              <div className="text-md  font-semibold border-2 rounded-lg p-2 px-4 self-end  w-full md:w-max shadow-md text-green-500  flex border-green-500 ">
                 Cost: {calculateCreditCost()} <FaCoins className="mt-1 ml-2" />
               </div>
 

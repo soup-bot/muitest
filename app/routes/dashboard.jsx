@@ -136,7 +136,7 @@ function Dashboard() {
       }`}
     >
       <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
-        <h1 className="font-bold text-2xl my-10 px-3 dark:text-slate-200">
+        <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>
 
@@ -145,7 +145,7 @@ function Dashboard() {
           <div className="w-full py-3 lg:p-3">
             <div className="transition hover:scale-[1.01]  bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white  rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
-                <h5 className="text-2xl font-semibold tracking-tight text-white mr-3">
+                <h5 className="text-2xl font-medium  tracking-tight text-white mr-3">
                   1500 Messages
                 </h5>
                 <RiMessage2Fill color="white" size={23} />
@@ -161,7 +161,7 @@ function Dashboard() {
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 My current plan
               </p>
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-200">
+              <h5 className="mb-2 text-2xl font-medium tracking-tight text-slate-900 dark:text-slate-200">
                 BULK/CORP SMS 15K
               </h5>
 
