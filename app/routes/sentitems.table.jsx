@@ -11,15 +11,17 @@ import {
   getAccessTokenFromCookie,
 } from "../data/authentication.server";
 import { useLoaderData } from "react-router";
+import dotenv from "dotenv";
 
 export const loader = async ({ request }) => {
+  dotenv.config();
+  const getSentItemsEP = process.env.REACT_APP_GET_SENT_ITEMS_EP;
   const accessToken = getAccessTokenFromCookie(request);
+  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
+  const sentitemsURL = `${getSentItemsEP}${userId}`;
 
   try {
-    const apiUrl =
-      "http://localhost:5294/api/BulkSms?userId=891cbd69-ad1e-4f60-9516-6f7de2cfde36";
-
-    const response = await fetch(apiUrl, {
+    const response = await fetch(sentitemsURL, {
       method: "GET",
       headers: {
         accept: "application/json",
