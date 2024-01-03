@@ -12,10 +12,11 @@ import { FaCoins } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import { useDarkMode } from "./DarkModeContext";
+import { checkUserLoggedIn } from "~/data/authentication.server";
 
 import { logout } from "~/data/authentication.server";
 
-export default function Navbar() {
+export default function Navbar({ balance }) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -69,7 +70,7 @@ export default function Navbar() {
             className="flex gap-4 items-center justify-items-center "
           >
             <div className="px-2 py-2 text-white rounded-lg font-medium  bg-gradient-to-tl from-primary to-hoverprim  align-center justify-center hidden lg:flex">
-              <p className="drop-shadow-md mx-2">1500</p>
+              <p className="drop-shadow-md mx-2">{balance}</p>
               <div className="flex align-middle justify-center items-center mr-1">
                 <FaCoins />
               </div>
@@ -173,7 +174,7 @@ export default function Navbar() {
                   </li>
                   <li className="lg:hidden">
                     <div className="my-1 mb-0 px-2 py-3 text-white font-medium  bg-gradient-to-tl from-primary to-hoverprim  flex align-center justify-left">
-                      <p className="drop-shadow-md mx-2">Balance: 1500 </p>
+                      <p className="drop-shadow-md mx-2">Balance: {balance} </p>
                       <div className="flex align-middle justify-center items-center mr-1">
                         <FaCoins />
                       </div>

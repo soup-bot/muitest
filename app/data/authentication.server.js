@@ -55,7 +55,7 @@ export async function login(credentials) {
       const authData = await response.json();
       const { accessToken, refreshToken, expiresIn } = authData;
 
-      return createUserSession(accessToken, expiresIn, "/");
+      return createUserSession(accessToken, expiresIn, "/dashboard");
     } else {
       return new Response("Invalid credentials", { status: 401 });
     }
@@ -84,8 +84,23 @@ export async function checkUserLoggedIn(request) {
 
     if (response.ok) {
       const user = await response.json();
-      const { id } = user;
-      return { isLoggedIn: true, userId: id };
+      const {
+        userId,
+        balance,
+        serviceNumber,
+        displayName,
+        email,
+        serviceStatus,
+      } = user;
+      return {
+        isLoggedIn: true,
+        userId: userId,
+        balance: balance,
+        email: email,
+        displayName: displayName,
+        serviceNumber: serviceNumber,
+        serviceStatus: serviceStatus,
+      };
     } else {
       // User is not logged in or there was an error, redirect to /auth
       return { isLoggedIn: false };

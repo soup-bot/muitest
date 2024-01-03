@@ -5,11 +5,18 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import bg2 from "./assets/crop.svg";
 import CSS from "./app.css";
+import { checkUserLoggedIn } from "./data/authentication.server";
 
 import { DarkModeProvider, useDarkMode } from "./components/DarkModeContext";
 
 export const meta = () => {
   return [{ title: "Bulk SMS Portal" }];
+};
+export const loader = async ({ request }) => {
+  const { isLoggedIn, userId, balance } = await checkUserLoggedIn(request);
+  console.log("balance: " + balance);
+
+  return balance || null;
 };
 
 import {
@@ -19,6 +26,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import Navbar from "./components/navbar";
@@ -28,6 +36,7 @@ export function links() {
 }
 
 function App() {
+  const balance = useLoaderData();
   const location = useLocation();
   const auth = location.pathname === "/auth";
   const { isDarkMode } = useDarkMode();
@@ -63,7 +72,7 @@ function App() {
             isDarkMode ? "bg-slate-900 xl:bg-slate-950" : ""
           }`}
         >
-          {!auth && <Navbar />}
+          {!auth && <Navbar balance={balance} />}
 
           {!auth && (
             <img

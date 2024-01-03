@@ -9,13 +9,13 @@ export const numberInputHandler = async ({ formData, accessToken }) => {
   const destination = destinationString ? destinationString.split(",") : [];
   const content = formData.get("text");
   const sender = formData.get("senderID");
-
+  console.log("SENDER ID: " + sender);
   const numbersPayload = {
     destination: destination,
     content: content,
     sender: sender,
   };
-  console.log(sender);
+
   const numbersBlob = new Blob([JSON.stringify(numbersPayload)], {
     type: "application/json",
   });

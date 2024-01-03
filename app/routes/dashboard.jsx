@@ -13,7 +13,8 @@ import { redirect } from "@remix-run/node";
 import Slider from "@mui/material/Slider";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import { FaCoins } from "react-icons/fa";
 
 const stepOptions = [
   { value: 50, max: 1000 },
@@ -43,7 +44,15 @@ const getLastDayOfMonth = () => {
 };
 
 export const loader = async ({ request }) => {
-  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
+  const {
+    isLoggedIn,
+    userId,
+    balance,
+    serviceNumber,
+    displayName,
+    email,
+    serviceStatus,
+  } = await checkUserLoggedIn(request);
 
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
@@ -51,10 +60,12 @@ export const loader = async ({ request }) => {
   }
 
   // User is logged in, you can use userId if needed
-  return { userId };
+  return { balance, serviceNumber, displayName, email, serviceStatus };
 };
 
 function Dashboard() {
+  const { balance, serviceNumber, displayName, email, serviceStatus } =
+    useLoaderData();
   const [localSms, setLocalSms] = useState(0);
   const [internationalSms, setInternationalSms] = useState(0);
   const [customCredit, setCustomCredit] = useState(0);
@@ -146,13 +157,11 @@ function Dashboard() {
             <div className="transition hover:scale-[1.01]  bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white  rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
                 <h5 className="text-2xl font-medium  tracking-tight text-white mr-3">
-                  1500 Messages
+                  {balance} coins
                 </h5>
-                <RiMessage2Fill color="white" size={23} />
+                <FaCoins color="white" size={23} />
               </div>
-              <p className="font-medium opacity-70 text-gray-100 ">
-                My balance
-              </p>
+              <p className="font-medium opacity-70 text-gray-100 ">My wallet</p>
             </div>
           </div>
           {/* PACKAGE CARD */}
@@ -246,113 +255,6 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* 
-CREATE PLAN CARD */}
-          {/* <div className="w-full p-0 py-3 lg:p-3 ">
-            <div className="transition hover:scale-[1.01] w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-800">
-              <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200 ">
-                Create my plan
-              </p>
-              <div className="mb-4">
-                <div className="flex align-middle w-full justify-between ">
-                  <p className="text-md font-bold">
-                    Local SMS
-                    <span className="border p-1 px-2 rounded-lg bg-secondary text-white ml-2">
-                      {localSms}
-                    </span>
-                  </p>
-                  <Select
-                    size="small"
-                    defaultValue={50}
-                    onChange={handleLocalSmsStepChange}
-                  >
-                    {stepOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        Step {option.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-
-                <Slider
-                  value={localSms}
-                  color="success"
-                  onChange={handleLocalSmsChange}
-                  step={localSmsStep}
-                  sx={{ height: 12 }}
-                  min={0}
-                  max={
-                    stepOptions.find((option) => option.value === localSmsStep)
-                      ?.max || 1000
-                  }
-                />
-              </div>
-
-              <div className="mb-4">
-                <div className="flex align-middle w-full justify-between">
-                  <p className="text-md font-bold">
-                    International SMS
-                    <span className="border p-1 px-2 rounded-lg bg-secondary text-white ml-2">
-                      {internationalSms}
-                    </span>
-                  </p>
-                  <Select
-                    size="small"
-                    defaultValue={50}
-                    onChange={handleInternationalSmsStepChange}
-                  >
-                    {stepOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        Step {option.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-                <Slider
-                  color="info"
-                  value={internationalSms}
-                  onChange={handleInternationalSmsChange}
-                  step={internationalSmsStep}
-                  min={0}
-                  sx={{ height: 12 }}
-                  max={
-                    stepOptions.find(
-                      (option) => option.value === internationalSmsStep
-                    )?.max || 1000
-                  }
-                />
-              </div>
-
-              <div
-                className="flex justify-center
-              "
-              >
-                <p className="text-lg font-semibold border rounded-lg p-2 px-4">
-                  Cost: {calculateCreditCost()} credits
-                </p>
-              </div>
-
-              <button className="inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim">
-                Confirm
-                <svg
-                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div> */}
-
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
             <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white shadow-lg rounded-lg flex flex-col dark:bg-slate-800">
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
@@ -400,22 +302,22 @@ CREATE PLAN CARD */}
                   <p className="font-bold self-center dark:text-slate-200">
                     Email:
                   </p>
-                  <p className="bg-slate-100 px-2 py-1 rounded-md">
-                    user1@gmail.com
-                  </p>
+                  <p className="bg-slate-100 px-2 py-1 rounded-md">{email}</p>
                 </div>
                 <div className="flex gap-2 p-2">
                   <p className="font-bold self-center dark:text-slate-200">
-                    Account type:
+                    Service Number:
                   </p>
-                  <p className="bg-slate-100 px-2 py-1 rounded-md">Prepaid</p>
+                  <p className="bg-slate-100 px-2 py-1 rounded-md">
+                    {serviceNumber}
+                  </p>
                 </div>
                 <div className="flex gap-2  p-2">
                   <p className="font-bold self-center dark:text-slate-200">
-                    Service level:{" "}
+                    Display Name:{" "}
                   </p>
                   <p className="bg-slate-100 px-2 py-1 rounded-md">
-                    BULK/CORP SMS 15K
+                    {displayName}
                   </p>
                 </div>
                 <div className="flex gap-2  p-2">
@@ -423,14 +325,14 @@ CREATE PLAN CARD */}
                     Account Status:
                   </p>
                   <p className="bg-green-400 text-white px-2 py-1 rounded-md">
-                    Active
+                    {serviceStatus}
                   </p>
                 </div>
                 <div className="flex gap-2  p-2">
                   <p className="font-bold self-center dark:text-slate-200">
-                    Contact Number:{" "}
+                    Balance:{" "}
                   </p>
-                  <p className="bg-slate-100 px-2 py-1 rounded-md">XXXXXXX</p>
+                  <p className="bg-slate-100 px-2 py-1 rounded-md">{balance}</p>
                 </div>
               </div>
             </div>
