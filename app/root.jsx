@@ -35,6 +35,7 @@ export function links() {
   return [{ rel: "stylesheet", href: CSS }];
 }
 
+//app
 function App() {
   const balance = useLoaderData();
   const location = useLocation();
