@@ -93,7 +93,7 @@ function App() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Outlet />
           </LocalizationProvider>
-          <ScrollRestoration />
+          {/* <ScrollRestoration /> */}
           <Scripts />
           <LiveReload />
         </body>
