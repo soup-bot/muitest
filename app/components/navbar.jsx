@@ -243,7 +243,7 @@ export default function Navbar({ balance }) {
                 <li>
                   <NavLink
                     prefetch="intent"
-                    to="/sentitems/table"
+                    to="/sentitems/table?page=1&pageSize=25"
                     onClick={toggleSidebar}
                     className={({ isActive }) =>
                       isActive
