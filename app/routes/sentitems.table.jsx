@@ -5,13 +5,14 @@ import Button from "@mui/material/Button";
 import { MdError, MdDelete } from "react-icons/md";
 import Modal from "@mui/material/Modal";
 import { useDarkMode } from "../components/DarkModeContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   checkUserLoggedIn,
   getAccessTokenFromCookie,
 } from "../data/authentication.server";
 import { useLoaderData, useNavigate } from "react-router";
 import dotenv from "dotenv";
+import { useFetcher } from "@remix-run/react";
 
 export const loader = async ({ request }) => {
   dotenv.config();
@@ -19,10 +20,13 @@ export const loader = async ({ request }) => {
   const accessToken = getAccessTokenFromCookie(request);
   const { isLoggedIn, userId } = await checkUserLoggedIn(request);
   const url = new URL(request.url);
-  const page = url.searchParams.get("page");
-  const pageSize = url.searchParams.get("pageSize");
-  // const sentitemsURL = `http://localhost:5294/api/BulkSms?userId=${userId}&page=${page}&pageSize=${pageSize}`;
-  const sentitemsURL = `http://localhost:5294/api/BulkSms?userId=${userId}&page=${page}&pageSize=${pageSize}`;
+  const page = +url.searchParams.get("page");
+  const pageSize = +url.searchParams.get("pageSize");
+
+  const validPage = isNaN(page) ? 1 : page;
+  const validPageSize = isNaN(pageSize) ? 25 : pageSize;
+  const sentitemsURL = `http://localhost:5294/api/BulkSms?userId=${userId}&page=${validPage}&pageSize=${validPageSize}`;
+
   try {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     const response = await fetch(sentitemsURL, {
@@ -67,6 +71,7 @@ export default function SentTable() {
   const { rowz, totalRowCount, loading } = useLoaderData();
   const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleOpen = () => setOpen(true);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const handleClose = () => setOpen(false);
@@ -75,8 +80,18 @@ export default function SentTable() {
     pageSize: 25,
   });
 
+  const fetcher = useFetcher({ key: "pagination" });
+
   const [rowCountState, setRowCountState] = useState(totalRowCount || 0);
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, [rowz]);
+
+  const onFilterChange = useCallback((filterModel) => {
+    // Here you save the data you need from the filter model
+    console.log(filterModel);
+  }, []);
   useEffect(() => {
     navigate(
       `/sentitems/table?page=${paginationModel.page + 1}&pageSize=${
@@ -90,6 +105,11 @@ export default function SentTable() {
       totalRowCount !== undefined ? totalRowCount : prevRowCountState
     );
   }, [totalRowCount, setRowCountState]);
+
+  const handlePaginationModelChange = (model, details) => {
+    setIsLoading(true);
+    setPaginationModel(model);
+  };
 
   const handleDeleteClick = () => {
     console.log("Deleting rows:", selectedRows);
@@ -154,9 +174,9 @@ export default function SentTable() {
         rows={rowz}
         keepNonExistentRowsSelected
         columns={columns}
-        loading={loading}
+        loading={isLoading}
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={handlePaginationModelChange}
         paginationMode="server"
         rowCount={rowCountState}
         initialState={{
@@ -192,9 +212,10 @@ export default function SentTable() {
 export function ErrorBoundary({ error }) {
   return (
     <main className="flex flex-col  align-middle items-center justify-center font-medium text-xl m-10">
-      <div className="bg-white p-10 rounded-2xl shadow-md">
+      <div className="bg-white p-10 rounded-2xl shadow-md dark:bg-slate-900 dark:text-white">
         <h4 className="text-red-800 flex flex-col md:flex-row align-middle justify-center items-center gap-3">
-          <MdError size={25} /> {error}
+          <MdError size={25} />{" "}
+          <p>There was an error while fetching your data</p>
         </h4>
       </div>
     </main>
