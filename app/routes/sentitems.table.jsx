@@ -5,7 +5,9 @@ import Button from "@mui/material/Button";
 import { MdError, MdDelete } from "react-icons/md";
 import Modal from "@mui/material/Modal";
 import { useDarkMode } from "../components/DarkModeContext";
+import dayjs from "dayjs";
 import { useState, useEffect, useCallback } from "react";
+import { useOutletContext } from "@remix-run/react";
 import {
   checkUserLoggedIn,
   getAccessTokenFromCookie,
@@ -13,6 +15,7 @@ import {
 import { useLoaderData, useNavigate } from "react-router";
 import dotenv from "dotenv";
 import { useFetcher } from "@remix-run/react";
+import { cleanFilterItem } from "@mui/x-data-grid/hooks/features/filter/gridFilterUtils";
 
 export const loader = async ({ request }) => {
   dotenv.config();
@@ -22,13 +25,14 @@ export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const page = +url.searchParams.get("page");
   const pageSize = +url.searchParams.get("pageSize");
+  const startDate = url.searchParams.get("startDate");
+  const endDate = url.searchParams.get("endDate");
 
   const validPage = isNaN(page) ? 1 : page;
   const validPageSize = isNaN(pageSize) ? 25 : pageSize;
-  const sentitemsURL = `http://localhost:5294/api/BulkSms?userId=${userId}&page=${validPage}&pageSize=${validPageSize}`;
+  const sentitemsURL = `http://localhost:5294/api/BulkSms?userId=${userId}&page=${validPage}&pageSize=${validPageSize}&startDate=${startDate}&endDate=${endDate}`;
 
   try {
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
     const response = await fetch(sentitemsURL, {
       method: "GET",
       headers: {
@@ -48,7 +52,7 @@ export const loader = async ({ request }) => {
     }
     const totalRowCount = responseData.totalRowCount;
     const rowz = responseData.data.map((item) => ({
-      id: item.id, // Use the existing 'id' field
+      id: item.id,
       col1: item.destination,
       col2: item.message,
       col3: item.status,
@@ -67,6 +71,7 @@ export const loader = async ({ request }) => {
 };
 
 export default function SentTable() {
+  const { startDate, endDate, buttonClick } = useOutletContext();
   const navigate = useNavigate();
   const { rowz, totalRowCount, loading } = useLoaderData();
   const [selectedRows, setSelectedRows] = useState([]);
@@ -75,12 +80,11 @@ export default function SentTable() {
   const handleOpen = () => setOpen(true);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const handleClose = () => setOpen(false);
+  const formatDate = (date) => dayjs(date).format("YYYY-MM-DD");
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 25,
   });
-
-  const fetcher = useFetcher({ key: "pagination" });
 
   const [rowCountState, setRowCountState] = useState(totalRowCount || 0);
 
@@ -88,17 +92,13 @@ export default function SentTable() {
     setIsLoading(false);
   }, [rowz]);
 
-  const onFilterChange = useCallback((filterModel) => {
-    // Here you save the data you need from the filter model
-    console.log(filterModel);
-  }, []);
   useEffect(() => {
     navigate(
       `/sentitems/table?page=${paginationModel.page + 1}&pageSize=${
         paginationModel.pageSize
-      }`
+      }&startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}`
     );
-  }, [paginationModel.page, paginationModel.pageSize, navigate]);
+  }, [paginationModel.page, paginationModel.pageSize, buttonClick, navigate]);
 
   useEffect(() => {
     setRowCountState((prevRowCountState) =>
@@ -118,8 +118,20 @@ export default function SentTable() {
 
   const columns = [
     { field: "col1", headerName: "To", width: 150 },
-    { field: "col2", headerName: "Text", width: 300 },
-    { field: "col3", headerName: "Status", width: 100 },
+    {
+      field: "col2",
+      headerName: "Text",
+      width: 300,
+      filterable: false,
+      sortable: false,
+    },
+    {
+      field: "col3",
+      headerName: "Status",
+      width: 100,
+      filterable: false,
+      sortable: false,
+    },
     {
       field: "col4",
       headerName: "Sent",
@@ -172,6 +184,7 @@ export default function SentTable() {
         className="dark:bg-slate-800 bg-slate-50"
         density="compact"
         rows={rowz}
+        autoHeight
         keepNonExistentRowsSelected
         columns={columns}
         loading={isLoading}
@@ -188,6 +201,11 @@ export default function SentTable() {
         pageSizeOptions={[25, 50, 100]}
         onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
         checkboxSelection
+        sx={{
+          ".MuiDataGrid-overlay": {
+            height: "auto !important",
+          },
+        }}
         slots={{
           toolbar: () => (
             <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">

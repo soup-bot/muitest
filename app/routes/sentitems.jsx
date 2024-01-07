@@ -1,4 +1,4 @@
-import { Form, Outlet } from "@remix-run/react";
+import { Form, Outlet, useNavigate } from "@remix-run/react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState, useRef, forwardRef } from "react";
 import dayjs from "dayjs";
@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 import { checkUserLoggedIn } from "../data/authentication.server";
 import { redirect } from "@remix-run/node";
+import { formatMeridiem } from "@mui/x-date-pickers/internals/utils/date-utils";
 
 export const meta = () => {
   return [{ title: "Sent Items - Dhiraagu Bulk SMS" }];
@@ -23,6 +24,7 @@ export const loader = async ({ request }) => {
   // User is logged in, you can use userId if needed
   return { userId };
 };
+
 const getFirstDayOfMonth = () => {
   return dayjs().startOf("month");
 };
@@ -33,20 +35,27 @@ const getLastDayOfMonth = () => {
 };
 
 export default function SentItems() {
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
+  const [buttonClick, setButtonClick] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const today = dayjs().format("DD/MM/YYYY");
+
   const handleStartDateChange = (date) => {
     setStartDate(date);
+    // navigate(`?startDate=${formatDate(date)}&endDate=${formatDate(endDate)}`);
   };
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
+    // navigate(`?startDate=${formatDate(startDate)}&endDate=${formatDate(date)}`);
   };
+
   const search = () => {
-    console.log("search button hit");
+    setButtonClick((prevButtonClick) => !prevButtonClick);
   };
+  const isDateRangeValid = endDate.diff(startDate, "months") <= 2;
 
   return (
     <div
@@ -82,7 +91,7 @@ export default function SentItems() {
                 <button
                   type="button"
                   onClick={search}
-                  disabled={endDate.diff(startDate) < 0}
+                  disabled={endDate.diff(startDate) < 0 || !isDateRangeValid}
                   className="flex justify-center align-middle w-full mt-8 mb-0 sm:mt-0  text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-md px-3 py-2 disabled:bg-gray-200"
                 >
                   <div className="flex align-middle justify-center items-center mt-1 lg:mt-0">
@@ -97,7 +106,13 @@ export default function SentItems() {
         </div>
 
         <div className="flex-col flex align-middle mb-5 mt-5">
-          <Outlet />
+          <Outlet
+            context={{
+              startDate: startDate,
+              endDate: endDate,
+              buttonClick: buttonClick,
+            }}
+          />
         </div>
       </div>
     </div>

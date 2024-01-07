@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import bg2 from "./assets/crop.svg";
 import CSS from "./app.css";
 import { checkUserLoggedIn } from "./data/authentication.server";
+import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
 
 import { DarkModeProvider, useDarkMode } from "./components/DarkModeContext";
 
