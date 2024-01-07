@@ -13,9 +13,9 @@ import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import { useDarkMode } from "./DarkModeContext";
 import { checkUserLoggedIn } from "~/data/authentication.server";
-
+import { serialize } from "cookie";
 import { logout } from "~/data/authentication.server";
-
+import { redirect } from "@remix-run/node";
 export default function Navbar({ balance }) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
@@ -34,6 +34,19 @@ export default function Navbar({ balance }) {
 
   const signOut = async () => {
     toggledropdownVisible;
+    // await logout();
+
+    const cookieOptions = {
+      maxAge: -1, // expiresIn should be in seconds
+      sameSite: "Lax", // Adjust as needed
+      path: "/", // Adjust as needed
+    };
+
+    document.cookie = serialize(
+      ".AspNetCore.Identity.Application",
+      "",
+      cookieOptions
+    );
   };
 
   useEffect(() => {
