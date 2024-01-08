@@ -77,11 +77,14 @@ CREATE PLAN CARD */}
                     <div className="flex align-middle justify-center  mr-2">
                       <MdSms size={25} />
                     </div>
-                    SMS
+                    Purchase points
                   </div>
 
                   <div className="p-1 px-2 rounded-lg shadow-md font-bold w-min flex  border-primary border-2 text-primary">
                     {localSms}
+                    <div className="flex items-center align-middle ml-2">
+                      <FaCoins size={15} />
+                    </div>
                   </div>
                 </div>
                 <div className="self-end">
@@ -112,7 +115,7 @@ CREATE PLAN CARD */}
 
             <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8">
               <div className="text-md font-semibold border-2 rounded-lg p-2 px-4 self-end w-full md:w-max shadow-md text-green-500 flex border-green-500">
-                Cost: {calculateCreditCost()} <FaCoins className="mt-1 ml-2" />
+                Cost: {calculateCreditCost()} MVR
               </div>
 
               <button className="inline-flex items-center md:mt-16 mt-5 p-2 px-4 text-md font-semibold  text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim w-full md:w-max justify-center ">
