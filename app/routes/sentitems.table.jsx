@@ -219,7 +219,6 @@ export default function SentTable() {
                   <p className="hidden sm:block">DELETE</p>
                 </Button>
               </div>
-              <GridToolbarExport />
             </GridToolbarContainer>
           ),
         }}
