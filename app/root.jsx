@@ -21,6 +21,7 @@ export const loader = async ({ request }) => {
 };
 
 import {
+  Link,
   Links,
   LiveReload,
   Meta,

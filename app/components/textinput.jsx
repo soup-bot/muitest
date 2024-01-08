@@ -64,6 +64,7 @@ export default function InputForm() {
   const [validNum, setValidNum] = useState(true);
   const [validFileSize, setValidFileSize] = useState(true);
   const [open, setOpen] = useState(false);
+  const [validFile, setValidFile] = useState(true);
   const uniqueNumbers = [...new Set(selected.map((item) => item.value))];
   const navigation = useNavigation();
 
@@ -90,6 +91,7 @@ export default function InputForm() {
 
   const handleInputChange = (type) => {
     setInputType(type);
+    setValidFile(true);
     setText("");
     setHeaders(null);
     setUploadedFile(null);
@@ -97,6 +99,7 @@ export default function InputForm() {
     setNumMessages(0);
   };
   const handleFileChange = async (e) => {
+    setValidFile(true);
     // if (e.target.files[0].size > 60000) {
     //   setValidFileSize(false);
     //   e.target.value = "";
@@ -132,6 +135,7 @@ export default function InputForm() {
       setHeaders(headers);
     } catch (error) {
       console.error("Error processing file:", error);
+      setValidFile(false);
     }
   };
 
@@ -473,6 +477,14 @@ export default function InputForm() {
                     </p>
                   )}
 
+                  {validFile ? (
+                    ""
+                  ) : (
+                    <p className="font-medium text-sm text-red-500 ">
+                      Your file is invalid!
+                    </p>
+                  )}
+
                   {headers ? (
                     <>
                       <div className="mt-5 text-md font-medium"></div>
@@ -586,7 +598,8 @@ export default function InputForm() {
                     (text && uploadedFile)
                   ) ||
                   numMessages > 10 ||
-                  navigation.state === "submitting"
+                  navigation.state === "submitting" ||
+                  !validFile
                 }
                 className="flex align-middle w-full lg:w-min self-end justify-center justify-self-end items-center disabled:bg-gray-400 text-white bg-primary hover:bg-hoverprim  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
               >
