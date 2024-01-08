@@ -47,7 +47,7 @@ export default function Auth() {
       }`}
     >
       <div
-        className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 ${
+        className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 pt-20 ${
           signupMode ? "" : "justify-center"
         } `}
       >
@@ -65,7 +65,7 @@ export default function Auth() {
 
         {signupMode ? <SignupForm></SignupForm> : <LoginForm></LoginForm>}
 
-        <p className="mt-3 text-center text-sm text-gray-500 pb-20">
+        <p className="mt-3 text-center text-sm text-gray-500 pb-10">
           {signupMode ? "Already have an account? " : "Don't have an account? "}
 
           <button

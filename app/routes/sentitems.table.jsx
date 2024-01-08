@@ -98,6 +98,7 @@ export default function SentTable() {
         paginationModel.pageSize
       }&startDate=${formatDate(startDate)}&endDate=${formatDate(endDate)}`
     );
+    setIsLoading(true);
   }, [paginationModel.page, paginationModel.pageSize, buttonClick, navigate]);
 
   useEffect(() => {
