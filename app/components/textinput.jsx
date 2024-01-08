@@ -64,7 +64,7 @@ export default function InputForm() {
   const [validNum, setValidNum] = useState(true);
   const [validFileSize, setValidFileSize] = useState(true);
   const [open, setOpen] = useState(false);
-  const uniqueNumbers = [...new Set(selected)];
+  const uniqueNumbers = [...new Set(selected.map((item) => item.value))];
   const navigation = useNavigation();
 
   const handleOpen = () => setOpen(true);
@@ -368,7 +368,9 @@ export default function InputForm() {
                           const validValues = value.filter(beforeAddValidate);
 
                           const updatedSelected = validValues.map((item) =>
-                            typeof item === "object" ? item.value : item
+                            typeof item === "object"
+                              ? item
+                              : { label: item, value: item }
                           );
                           setSelected(updatedSelected);
                         }}
@@ -380,11 +382,7 @@ export default function InputForm() {
                             <Chip
                               icon={<FaPhoneAlt />}
                               key={index}
-                              label={
-                                typeof option === "object"
-                                  ? option.value
-                                  : option
-                              }
+                              label={option.label}
                               size="medium"
                               onDelete={() => handleTagDelete(index)}
                               style={{
@@ -408,7 +406,13 @@ export default function InputForm() {
                               ) {
                                 const enteredValue = e.target.value.trim();
                                 if (beforeAddValidate(enteredValue)) {
-                                  setSelected([...selected, enteredValue]);
+                                  setSelected([
+                                    ...selected,
+                                    {
+                                      label: enteredValue,
+                                      value: enteredValue,
+                                    },
+                                  ]);
                                   e.target.value = ""; // Clear the input after adding
                                 }
                               }
