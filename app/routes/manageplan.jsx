@@ -17,73 +17,36 @@ const stepOptions = [
   { value: 5000, max: 100000 },
 ];
 
-const calculateDefaultStep = (maxValue) => {
-  const logMax = Math.log10(maxValue);
-  return Math.ceil(logMax / 10);
+const packageConfigurations = {
+  Starter: { min: 100, max: 1000, step: 100, rate: 2 },
+  Basic: { min: 1000, max: 10000, step: 1000, rate: 1.25 },
+  Medium: { min: 10000, max: 50000, step: 5000, rate: 1 },
+  Advanced: { min: 50000, max: 1000000, step: 10000, rate: 0.8 },
+  Power: { min: 100000, max: 1000000, step: 100000, rate: 0.5 },
 };
 
 export default function Manage() {
-  const [localSms, setLocalSms] = useState(0);
-  const [internationalSms, setInternationalSms] = useState(0);
-  const [customCredit, setCustomCredit] = useState(0);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const [localSmsStep, setLocalSmsStep] = useState(
-    calculateDefaultStep(100000)
-  );
-  const [internationalSmsStep, setInternationalSmsStep] = useState(
-    calculateDefaultStep(100000)
-  );
-  const [selectedLocalSmsStep, setSelectedLocalSmsStep] = useState(50);
-  const [selectedInternationalSmsStep, setSelectedInternationalSmsStep] =
-    useState(50);
+
+  const [localSms, setLocalSms] = useState(0);
+  const [selectedPackage, setSelectedPackage] = useState("Starter");
 
   useEffect(() => {
-    // Use useEffect to ensure the correct initial step count for the slider
-    setLocalSmsStep(selectedLocalSmsStep);
-    setInternationalSmsStep(selectedInternationalSmsStep);
-  }, [selectedLocalSmsStep, selectedInternationalSmsStep]);
-
-  const calculateCreditCost = () => {
-    // Implement your logic to calculate credit cost based on localSms, internationalSms, and customCredit
-    // You can adjust this based on your pricing model
-    const totalCreditCost =
-      (localSms * 1) / 5 + internationalSms * 1 + customCredit;
-    return totalCreditCost;
-  };
+    // Set initial localSms based on the selected package configuration
+    setLocalSms(packageConfigurations[selectedPackage].min);
+  }, [selectedPackage]);
 
   const handleLocalSmsChange = (event, value) => {
     setLocalSms(value);
   };
 
-  const handleInternationalSmsChange = (event, value) => {
-    setInternationalSms(value);
+  const handlePackageChange = (event) => {
+    setSelectedPackage(event.target.value);
   };
 
-  const handleLocalSmsStepChange = (event) => {
-    const selectedStep = parseInt(event.target.value, 10);
-    setSelectedLocalSmsStep(selectedStep);
-    setLocalSmsStep(selectedStep);
-    adjustMaxValue("local", selectedStep);
-  };
-
-  const handleInternationalSmsStepChange = (event) => {
-    const selectedStep = parseInt(event.target.value, 10);
-    setSelectedInternationalSmsStep(selectedStep);
-    setInternationalSmsStep(selectedStep);
-    adjustMaxValue("international", selectedStep);
-  };
-
-  const adjustMaxValue = (type, selectedStep) => {
-    const selectedOption = stepOptions.find(
-      (option) => option.value === selectedStep
-    );
-    const max = selectedOption ? selectedOption.max : 1000;
-
-    if (type === "local") {
-      setLocalSms((prev) => (prev > max ? max : prev));
-    } else if (type === "international") {
-      setInternationalSms((prev) => (prev > max ? max : prev));
-    }
+  const calculateCreditCost = () => {
+    const { rate } = packageConfigurations[selectedPackage];
+    return (localSms * rate) / 5; // Adjust the formula based on your pricing model
   };
 
   return (
@@ -99,7 +62,6 @@ export default function Manage() {
             <div>Dashboard</div>
           </div>
         </Link>
-
         <div>
           {/* 
 CREATE PLAN CARD */}
@@ -113,95 +75,43 @@ CREATE PLAN CARD */}
                 <div className="flex flex-col">
                   <div className="text-lg mb-5 dark:text-slate-200 flex align-middle justify-center">
                     <div className="flex align-middle justify-center  mr-2">
-                      <IoMdHome size={25} />
+                      <MdSms size={25} />
                     </div>
-                    Local
+                    SMS
                   </div>
 
                   <div className="p-1 px-2 rounded-lg shadow-md font-bold w-min flex  border-primary border-2 text-primary">
                     {localSms}
-                    <MdSms size={20} className="ml-2 mt-1" />
                   </div>
                 </div>
                 <div className="self-end">
                   <Select
                     size="small"
-                    defaultValue={50}
-                    onChange={handleLocalSmsStepChange}
+                    value={selectedPackage}
+                    onChange={handlePackageChange}
                   >
-                    {stepOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        Step {option.value}
+                    {Object.keys(packageConfigurations).map((packageKey) => (
+                      <MenuItem key={packageKey} value={packageKey}>
+                        {packageKey}
                       </MenuItem>
                     ))}
                   </Select>
                 </div>
               </div>
-
               <Slider
                 marks
                 value={localSms}
                 color="primary"
                 onChange={handleLocalSmsChange}
-                step={localSmsStep}
+                step={packageConfigurations[selectedPackage].step}
                 sx={{ height: 12 }}
-                min={0}
-                max={
-                  stepOptions.find((option) => option.value === localSmsStep)
-                    ?.max || 1000
-                }
-              />
-            </div>
-
-            <div className="md:border-b dark:md:border-slate-700 md:p-10 mb-20 md:mb-0 ">
-              <div className="flex align-middle w-full justify-between">
-                <div className="flex flex-col ">
-                  <div className="text-lg mb-5 dark:text-slate-200 flex align-middle justify-center">
-                    <div className="flex align-middle justify-center  mr-2">
-                      <TbWorld size={25} />
-                    </div>
-                    International
-                  </div>
-
-                  <div>
-                    <div className="border-2 p-1 px-2 rounded-lg shadow-md text-md  w-min flex font-bold  border-secondary text-secondary">
-                      {internationalSms}
-                      <MdSms size={20} className="ml-2 mt-1" />
-                    </div>
-                  </div>
-                </div>
-                <div className="self-end">
-                  <Select
-                    size="small"
-                    defaultValue={50}
-                    onChange={handleInternationalSmsStepChange}
-                  >
-                    {stepOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        Step {option.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-              </div>
-              <Slider
-                color="secondary"
-                marks
-                value={internationalSms}
-                onChange={handleInternationalSmsChange}
-                step={internationalSmsStep}
-                min={0}
-                sx={{ height: 12 }}
-                max={
-                  stepOptions.find(
-                    (option) => option.value === internationalSmsStep
-                  )?.max || 1000
-                }
+                min={packageConfigurations[selectedPackage].min}
+                max={packageConfigurations[selectedPackage].max}
               />
             </div>
 
             <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8">
-              <div className="text-md  font-semibold border-2 rounded-lg p-2 px-4 self-end  w-full md:w-max shadow-md text-green-500  flex border-green-500 ">
+              <div className="text-md font-semibold border-2 rounded-lg p-2 px-4 self-end w-full md:w-max shadow-md text-green-500 flex border-green-500">
                 Cost: {calculateCreditCost()} <FaCoins className="mt-1 ml-2" />
               </div>
 
