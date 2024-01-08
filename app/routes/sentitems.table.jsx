@@ -1,6 +1,10 @@
 // components/SentTable.js
 
-import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarExport,
+} from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import { MdError, MdDelete } from "react-icons/md";
 import Modal from "@mui/material/Modal";
@@ -202,11 +206,6 @@ export default function SentTable() {
         pageSizeOptions={[25, 50, 100]}
         onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
         checkboxSelection
-        sx={{
-          ".MuiDataGrid-overlay": {
-            height: "auto !important",
-          },
-        }}
         slots={{
           toolbar: () => (
             <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
@@ -220,6 +219,7 @@ export default function SentTable() {
                   <p className="hidden sm:block">DELETE</p>
                 </Button>
               </div>
+              <GridToolbarExport />
             </GridToolbarContainer>
           ),
         }}
