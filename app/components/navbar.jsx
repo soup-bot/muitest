@@ -1,4 +1,4 @@
-import { NavLink, useLoaderData } from "@remix-run/react";
+import { Form, NavLink, useLoaderData } from "@remix-run/react";
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../assets/logo.svg";
 import logosmall from "../assets/logosmall.svg";
@@ -195,13 +195,19 @@ export default function Navbar({ balance }) {
                   </li>
                 </ul>
                 <div className="">
-                  <NavLink
+                  {/* <NavLink
                     to="/auth"
                     onClick={signOut}
                     className="block px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg dark:text-slate-300 dark:hover:bg-slate-600"
                   >
                     Sign out
-                  </NavLink>
+                  </NavLink> */}
+
+                  <Form method="post" action="logout">
+                    <button className="w-full text-left block px-4 pt-3 pb-3 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg dark:text-slate-300 dark:hover:bg-slate-600">
+                      Logout
+                    </button>
+                  </Form>
                 </div>
               </div>
             </div>

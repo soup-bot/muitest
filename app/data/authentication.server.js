@@ -22,7 +22,7 @@ export async function createUserSession(accessToken, expiresIn, redirectPath) {
 
   const cookieOptions = {
     maxAge: expiresIn, // expiresIn should be in seconds
-    // httpOnly: true,
+    httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "Lax", // Adjust as needed
     path: "/", // Adjust as needed
