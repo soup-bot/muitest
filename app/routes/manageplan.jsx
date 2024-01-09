@@ -98,7 +98,7 @@ export default function Manage() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const [localSms, setLocalSms] = useState(0);
-  const [selectedPackage, setSelectedPackage] = useState("Power");
+  const [selectedPackage, setSelectedPackage] = useState("Advanced");
 
   useEffect(() => {
     // Set initial localSms based on the selected package configuration
@@ -162,7 +162,15 @@ inline-block"
                           <div className="pt-7"></div>
                         )}
 
-                        <h1 className="font-bold text-xl mb-5">{packageKey}</h1>
+                        <h1
+                          className={`font-bold text-xl mb-5 ${
+                            packageKey === selectedPackage
+                              ? "text-green-500"
+                              : "text-secondary"
+                          }`}
+                        >
+                          {packageKey}
+                        </h1>
                         <ul>
                           <li className="flex align-middle items-center my-3">
                             <RiMessage2Line size={23} className="mr-3" />
