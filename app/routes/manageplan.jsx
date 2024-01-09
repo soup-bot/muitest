@@ -1,5 +1,6 @@
 import { useDarkMode } from "../components/DarkModeContext";
 import { useState, useEffect } from "react";
+
 import Slider from "@mui/material/Slider";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -9,6 +10,44 @@ import { MdSms } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "@remix-run/react";
+import { Carousel } from "flowbite-react";
+import { BiMoney } from "react-icons/bi";
+import { RiMessage2Line } from "react-icons/ri";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import Button from "@mui/material/Button";
+
+const customTheme = {
+  root: {
+    base: "relative h-full w-full",
+    leftControl:
+      "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
+    rightControl:
+      "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
+  },
+  indicators: {
+    active: {
+      off: "bg-primary/20 hover:bg-white dark:bg-gray-800/50 dark:hover:bg-gray-800",
+      on: "bg-primary/60 dark:bg-gray-800",
+    },
+    base: "h-3 w-3 rounded-full md:hidden",
+    wrapper: "absolute bottom-1 left-1/2 flex -translate-x-1/2 space-x-3",
+  },
+  item: {
+    base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
+    wrapper: {
+      off: "w-full flex-shrink-0 transform cursor-default snap-center",
+      on: "w-full flex-shrink-0 transform cursor-grab snap-center",
+    },
+  },
+  control: {
+    base: "inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 group-hover:bg-primary/60  dark:bg-slate-300/20 dark:group-hover:bg-primary/60  sm:h-10 sm:w-10",
+    icon: "h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6",
+  },
+  scrollContainer: {
+    base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-lg",
+    snap: "snap-x",
+  },
+};
 
 const stepOptions = [
   { value: 50, max: 1000 },
@@ -18,18 +57,48 @@ const stepOptions = [
 ];
 
 const packageConfigurations = {
-  Starter: { min: 100, max: 1000, step: 100, rate: 2 },
-  Basic: { min: 1000, max: 10000, step: 1000, rate: 1.25 },
-  Medium: { min: 10000, max: 50000, step: 5000, rate: 1 },
-  Advanced: { min: 50000, max: 1000000, step: 10000, rate: 0.8 },
-  Power: { min: 100000, max: 1000000, step: 100000, rate: 0.5 },
+  Starter: {
+    min: 100,
+    max: 1000,
+    step: 100,
+    rate: 2 / 5,
+    description: "Perfect for beginners",
+  },
+  Basic: {
+    min: 1000,
+    max: 10000,
+    step: 1000,
+    rate: 1.25 / 5,
+    description: "Great for small businesses",
+  },
+  Medium: {
+    min: 10000,
+    max: 50000,
+    step: 5000,
+    rate: 1 / 5,
+    description: "Suitable for growing businesses",
+  },
+  Advanced: {
+    min: 50000,
+    max: 100000,
+    step: 10000,
+    rate: 0.8 / 5,
+    description: "Ideal for advanced users",
+  },
+  Power: {
+    min: 100000,
+    max: 1000000,
+    step: 100000,
+    rate: 0.5 / 5,
+    description: "Unleash the power",
+  },
 };
 
 export default function Manage() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const [localSms, setLocalSms] = useState(0);
-  const [selectedPackage, setSelectedPackage] = useState("Starter");
+  const [selectedPackage, setSelectedPackage] = useState("Power");
 
   useEffect(() => {
     // Set initial localSms based on the selected package configuration
@@ -46,41 +115,123 @@ export default function Manage() {
 
   const calculateCreditCost = () => {
     const { rate } = packageConfigurations[selectedPackage];
-    return (localSms * rate) / 5; // Adjust the formula based on your pricing model
+    return localSms * rate; // Adjust the formula based on your pricing model
   };
 
   return (
     <div
-      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${
+      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
         isDarkMode ? "dark " : ""
       }`}
     >
-      <div className=" rounded-lg md:shadow-lg  xl:border-t-4  border-secondary w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
-        <Link to={"/dashboard"}>
-          <div className="font-medium text-2xl my-10 dark:text-slate-200 flex">
-            <IoChevronBack className="mt-1 animate-pulse animate-infinite" />{" "}
-            <div>Dashboard</div>
+      <div className=" h-screen pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full md:px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
+        <Link
+          to="/dashboard"
+          className="
+
+inline-block"
+        >
+          <div className="font-medium text-2xl my-10 dark:text-slate-200 flex  w-min hover:scale-105 transition">
+            <IoChevronBack className="mt-1 " /> <div>Dashboard</div>
           </div>
         </Link>
-        <div>
+        <div className="flex flex-col 0 w-full lg:flex-row">
+          <div className="flex align-middle justify-center items-center lg:w-1/2 lg:border-l lg:border-t lg:border-b rounded-l-lg dark:border-slate-600">
+            <div className="h-96 md:w-2/3 lg:w-full w-full">
+              <Carousel slide={false} theme={customTheme} indicators={false}>
+                {[
+                  selectedPackage,
+                  ...Object.keys(packageConfigurations).filter(
+                    (pkg) => pkg !== selectedPackage
+                  ),
+                ].map((packageKey) => (
+                  <div key={packageKey} className="">
+                    <div className="w-full h-full flex items-center justify-center p-10   ">
+                      <div
+                        className={`bg-white px-6 pt-2 py-4 rounded-lg shadow-md  border-t-2 dark:bg-slate-950/30 dark:text-slate-300 ${
+                          packageKey === selectedPackage
+                            ? "border-green-500"
+                            : "border-secondary"
+                        }`}
+                      >
+                        {selectedPackage === packageKey ? (
+                          <div className="text-sm font-semibold  text-green-500 mb-4 mt-4  justify-center flex w-full ">
+                            <p> Current Plan</p>
+                          </div>
+                        ) : (
+                          <div className="pt-7"></div>
+                        )}
+
+                        <h1 className="font-bold text-xl mb-5">{packageKey}</h1>
+                        <ul>
+                          <li className="flex align-middle items-center my-3">
+                            <RiMessage2Line size={23} className="mr-3" />
+                            Customize between{" "}
+                            {packageConfigurations[packageKey].min} and{" "}
+                            {packageConfigurations[packageKey].max} points
+                          </li>
+                          <li className="flex align-middle items-center my-3">
+                            <BiMoney size={23} className="mr-3" />A rate of{" "}
+                            {packageConfigurations[packageKey].rate} MVR per
+                            point
+                          </li>{" "}
+                          <li className="flex align-middle items-center my-3 mb-10 text-slate-500">
+                            <IoMdInformationCircleOutline
+                              size={23}
+                              className="mr-3"
+                            />
+                            <p className="text-sm">
+                              {" "}
+                              {packageConfigurations[packageKey].description}
+                            </p>
+                          </li>
+                          {/* <div className="flex align-middle justify-center mt-4">
+                            <Button variant="outlined" color="primary">
+                              Change
+                            </Button>
+                          </div> */}
+                          <div className="flex align-middle justify-center mt-4">
+                            {!(selectedPackage === packageKey) && (
+                              <Button variant="outlined" color="primary">
+                                Change
+                              </Button>
+                            )}
+                          </div>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </Carousel>
+            </div>
+          </div>
+
           {/* 
 CREATE PLAN CARD */}
 
-          <div className="md:border rounded-lg dark:md:border-slate-700">
-            <div className="mb-9 md:mb-0 md:border-b dark:md:border-slate-700 md:px-10 py-4">
-              <p className="mb-5  text-slate-800  font-medium opacity-70 dark:text-slate-200">
-                Create my plan
+          <div className="md:border rounded-r-lg dark:md:border-slate-700 px-8  lg:w-1/2 flex flex-col ">
+            <div className="mb-3 md:mb-0  dark:md:border-slate-700 md:px-10 py-4 h-2/3">
+              <p className="mb-5   text-green-500  font-medium  dark:text-slate-200">
+                Purchase points
               </p>
-              <div className="flex align-middle w-full justify-between ">
+              <div className="flex align-middle w-full justify-between pt-12">
                 <div className="flex flex-col">
-                  <div className="text-lg mb-5 dark:text-slate-200 flex align-middle justify-center">
+                  <div className="text-md mb-2 dark:text-slate-200 flex align-middle justify-left ">
                     <div className="flex align-middle justify-center  mr-2">
-                      <MdSms size={25} />
+                      <IoMdHome size={25} />
                     </div>
-                    Purchase points
+                    1 Local SMS = x points
+                    {"  "}
+                  </div>
+                  <div className="text-md mb-5 dark:text-slate-200 flex align-middle justify-left w-full ">
+                    <div className="flex align-middle justify-center  mr-2">
+                      <TbWorld size={25} />
+                    </div>
+                    1 International SMS = x points
+                    {"  "}
                   </div>
 
-                  <div className="p-1 px-2 rounded-lg shadow-md font-bold w-min flex  border-primary border-2 text-primary">
+                  <div className="p-1 px-2 rounded-lg shadow-md font-bold w-min flex  border-primary/80 border-2 text-primary/80 dark:border-secondary dark:text-secondary">
                     {localSms}
                     <div className="flex items-center align-middle ml-2">
                       <FaCoins size={15} />
@@ -88,7 +239,7 @@ CREATE PLAN CARD */}
                   </div>
                 </div>
                 <div className="self-end">
-                  <Select
+                  {/* <Select
                     size="small"
                     value={selectedPackage}
                     onChange={handlePackageChange}
@@ -98,7 +249,7 @@ CREATE PLAN CARD */}
                         {packageKey}
                       </MenuItem>
                     ))}
-                  </Select>
+                  </Select> */}
                 </div>
               </div>
               <Slider
@@ -112,30 +263,18 @@ CREATE PLAN CARD */}
                 max={packageConfigurations[selectedPackage].max}
               />
             </div>
-
-            <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8">
-              <div className="text-md font-semibold border-2 rounded-lg p-2 px-4 self-end w-full md:w-max shadow-md text-green-500 flex border-green-500">
-                Cost: {calculateCreditCost()} MVR
+            <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8 h-1/3">
+              <div className="text-md   p-2 px-4 self-end w-full md:w-max  border-b-2 flex text-slate-600 dark:text-slate-300 my-2">
+                <p className="mr-2 font-semibold "> Cost:</p>
+                <p> {calculateCreditCost()} MVR</p>
               </div>
 
-              <button className="inline-flex items-center md:mt-16 mt-5 p-2 px-4 text-md font-semibold  text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim w-full md:w-max justify-center ">
-                Confirm
-                <svg
-                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </button>
+              <Button
+                variant="contained"
+                className="inline-flex items-center md:mt-16 mt-5 p-2 px-4 text-md font-semibold  text-center text-white my-2 bg-primary self-end rounded-lg hover:bg-hoverprim w-full md:w-max justify-center"
+              >
+                Purchase
+              </Button>
             </div>
           </div>
         </div>

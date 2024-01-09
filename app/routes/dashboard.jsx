@@ -146,7 +146,7 @@ function Dashboard() {
         isDarkMode ? "dark " : ""
       }`}
     >
-      <div className=" h-max pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
+      <div className=" h-max pb-20 min-h-full  2xl: shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
         <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>
@@ -154,7 +154,7 @@ function Dashboard() {
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
           <div className="w-full py-3 lg:p-3">
-            <div className="transition hover:scale-[1.01]  bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white  rounded-lg shadow-xl  hover:bg-gray-100 ">
+            <div className="transition   bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white  rounded-lg shadow-xl  hover:bg-gray-100 ">
               <div className="flex mb-4 align-middle text-center items-center">
                 <h5 className="text-2xl font-medium  tracking-tight text-white mr-3">
                   {balance} coins
@@ -166,7 +166,7 @@ function Dashboard() {
           </div>
           {/* PACKAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01]  w-full h-full p-6 bg-white border-b-4 shadow-xl hover:border-primary rounded-lg dark:bg-slate-800 ">
+            <div className="transition   w-full h-full p-6 bg-white border-b-4  hover:border-b-primary border dark:border-slate-600 dark:hover:border-b-primary rounded-lg dark:bg-slate-800">
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 My current plan
               </p>
@@ -211,7 +211,7 @@ function Dashboard() {
 
           {/* USAGE CARD */}
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white border-b-4  hover:border-primary shadow-lg rounded-lg dark:bg-slate-800">
+            <div className="transition  w-full p-6 h-full bg-white border-b-4  hover:border-b-primary border dark:border-slate-600 dark:hover:border-b-primary rounded-lg dark:bg-slate-800">
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 My usage
               </p>
@@ -225,8 +225,8 @@ function Dashboard() {
                       arcLabel: (item) => `${item.value}`,
                       arcLabelMinAngle: 45,
                       data: [
-                        { id: 0, value: 122, label: "Used" },
-                        { id: 1, value: 122, label: "Remaining" },
+                        { id: 0, value: 189, label: "Used" },
+                        { id: 1, value: 522, label: "Remaining" },
                       ],
                       highlightScope: { faded: "global", highlighted: "item" },
                       faded: {
@@ -256,7 +256,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white shadow-lg rounded-lg flex flex-col dark:bg-slate-800">
+            <div className="transition  w-full p-6 h-full bg-white   rounded-lg flex flex-col dark:bg-slate-800 border dark:border-slate-600">
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 Help & Support
               </p>
@@ -272,8 +272,8 @@ function Dashboard() {
                 </a>
               </div>
 
-              <div className="bg-slate-100 rounded-md px-5 mt-8 pt-2 justify-self-end w-full h-full flex flex-col justify-center ">
-                <p className="text-sm font-black text-slate-900 mb-3">
+              <div className="bg-slate-100 dark:bg-slate-700 dark:text-slate-300 rounded-md px-5 mt-8 pt-2 justify-self-end w-full h-full flex flex-col justify-center border dark:border-slate-600">
+                <p className="text-sm font-black text-slate-900 mb-3 dark:text-slate-200 ">
                   Contact us
                 </p>
                 <div className="flex gap-2 p-2 align-middle">
@@ -293,7 +293,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
-            <div className="transition hover:scale-[1.01] w-full p-1 h-full bg-white  shadow-lg rounded-lg   dark:bg-slate-800">
+            <div className="transition  w-full p-1 h-full bg-white    rounded-lg   dark:bg-slate-800 border dark:border-slate-600">
               <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-800">
                 <p className="mb-3  font-medium opacity-70 text-gray-800 dark:text-slate-200">
                   Account Details
@@ -339,7 +339,7 @@ function Dashboard() {
           </div>
 
           <div className="w-full p-0  py-3  lg:p-3 ">
-            <div className="transition hover:scale-[1.01] w-full p-6 h-full bg-white  shadow-lg rounded-lg flex flex-col dark:bg-slate-800">
+            <div className="transition  w-full p-6 h-full bg-white    rounded-lg flex flex-col dark:bg-slate-800 border dark:border-slate-600">
               <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
                 Shortcode URL Forwarding
               </p>
