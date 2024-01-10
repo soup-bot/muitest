@@ -32,81 +32,41 @@ import { IoMdAdd } from "react-icons/io";
 import { FaUserEdit } from "react-icons/fa";
 import { checkUserLoggedIn } from "../data/authentication.server";
 import { redirect } from "@remix-run/node";
+import { getAccessTokenFromCookie } from "../data/authentication.server";
+import dotenv from "dotenv";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 
 export const meta = () => {
   return [{ title: "Contacts - Dhiraagu Bulk SMS" }];
 };
 
-const initialRows = [
-  {
-    id: 1,
-    name: "John Doe",
-    number: "7777303",
-    group: "Marketing",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    number: "7223053",
-    group: "Finance",
-  },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    number: "1234567",
-    group: "Development",
-  },
-  {
-    id: 4,
-    name: "Bob Smith",
-    number: "9876543",
-    group: "Marketing",
-  },
-  {
-    id: 5,
-    name: "Eva Martinez",
-    number: "5551234",
-    group: "Sales",
-  },
-  {
-    id: 6,
-    name: "Michael Brown",
-    number: "8765432",
-    group: "HR",
-  },
-  {
-    id: 7,
-    name: "Sophia Clark",
-    number: "2345678",
-    group: "IT",
-  },
-  {
-    id: 8,
-    name: "William Davis",
-    number: "3456789",
-    group: "Finance",
-  },
-  {
-    id: 9,
-    name: "Olivia White",
-    number: "1112233",
-    group: "Sales",
-  },
-  {
-    id: 10,
-    name: "Daniel Wilson",
-    number: "9990001",
-    group: "Marketing",
-  },
-  // Add more rows as needed...
-];
-
 export const loader = async ({ request }) => {
+  dotenv.config();
   const { isLoggedIn, userId } = await checkUserLoggedIn(request);
-
+  const accessToken = getAccessTokenFromCookie(request);
+  const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
+  const contactsUrl = `${getContactsEP}${userId}`;
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
+  }
+  try {
+    const response = await fetch(contactsUrl, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (response.ok) {
+      const contacts = await response.json();
+      console.log(contacts);
+      return { contacts, userId };
+    }
+  } catch (error) {
+    console.error("Error retrieving contacts:", error);
+    // Assume user is not logged in on error, redirect to /auth
+    return null;
   }
 
   // User is logged in, you can use userId if needed
@@ -114,6 +74,10 @@ export const loader = async ({ request }) => {
 };
 
 export default function Contacts() {
+  const data = useActionData();
+  console.log(data);
+  const { contacts } = useLoaderData();
+  const [rows, setRows] = React.useState(contacts);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidContact, setIsValidContact] = useState(true);
   const [isModalOpen, setModalOpen] = React.useState(false);
@@ -124,7 +88,7 @@ export default function Contacts() {
     number: "",
     group: "",
   });
-  const [rows, setRows] = React.useState(initialRows);
+  // const [rows, setRows] = React.useState(initialRows);
   const [groups, setGroups] = React.useState([
     "Marketing",
     "Finance",
@@ -139,6 +103,11 @@ export default function Contacts() {
     setModalOpen(true);
   };
 
+  React.useEffect(() => {
+    setModalOpen(false);
+    setRows(contacts);
+  }, [contacts]);
+
   const closeModal = () => {
     setModalOpen(false);
     setGroupModalOpen(false);
@@ -152,79 +121,6 @@ export default function Contacts() {
     setNewContact((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleAddContact = () => {
-    // Validate and add the new contact
-    if (newContact.name.trim() && newContact.number.trim()) {
-      const id = Date.now(); // Using timestamp as a unique ID
-      setRows((oldRows) => [...oldRows, { id, ...newContact, isNew: true }]);
-      closeModal();
-    } else {
-      // Handle validation error
-      // alert("Name and number are required.");
-      setIsValidContact(false);
-    }
-  };
-
-  const handleCellEditCommit = React.useCallback(
-    ({ id, field, props }) => {
-      const updatedRows = rows.map((row) =>
-        row.id === id ? { ...row, [field]: props.value } : row
-      );
-      setRows(updatedRows);
-    },
-    [rows]
-  );
-
-  const handleRowEditStop = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  const handleEditClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
-  };
-
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
-  };
-
-  const handleRowModesModelChange = (newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-  };
-
-  //handle group change for selected rows
-  const handleGroupChange = (newGroup) => {
-    // Update the group for selected rows
-    setRows((oldRows) =>
-      oldRows.map((row) =>
-        selectedRows.includes(row.id) ? { ...row, group: newGroup } : row
-      )
-    );
-    setGroupModalOpen(false);
-  };
   //-----------------------------------------------------
 
   const columns = [
@@ -238,52 +134,8 @@ export default function Contacts() {
       valueOptions: groups,
       width: 120,
       editable: true,
-    },
-    {
-      field: "actions",
-      type: "actions",
-      headerName: "Actions",
-      width: 100,
-      cellClassName: "actions",
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<FaSave size={20} />}
-              label="Save"
-              sx={{
-                color: "primary.main",
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<MdCancel size={20} />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={<MdEdit size={20} />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<MdDelete size={20} />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
+      valueGetter: (params) =>
+        params.row.group ? params.row.group.groupName : "",
     },
   ];
 
@@ -307,10 +159,8 @@ export default function Contacts() {
             editMode="row"
             checkboxSelection
             disableRowSelectionOnClick
-            onRowEditStop={handleRowEditStop}
             rowModesModel={rowModesModel}
             onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
-            processRowUpdate={processRowUpdate}
             slots={{
               toolbar: () => (
                 <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
@@ -362,77 +212,84 @@ export default function Contacts() {
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Add Contact
             </h2>
-            <TextField
-              error={!isValidContact && !newContact.name}
-              label="Name"
-              className={`${
-                !isValidContact && !newContact.name
-                  ? "animate-shake animate-duration-[120ms] "
-                  : ""
-              }`}
-              variant="standard"
-              inputProps={{ maxLength: 30 }}
-              value={newContact.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              error={!isValidContact && !newContact.number}
-              label="Number"
-              className={`${
-                !isValidContact && !newContact.number
-                  ? "animate-shake animate-duration-[120ms] "
-                  : ""
-              }`}
-              variant="standard"
-              required
-              onInput={(e) => {
-                e.target.value = Math.max(0, parseInt(e.target.value))
-                  .toString()
-                  .slice(0, 7);
-              }}
-              type="number"
-              value={newContact.number}
-              onChange={(e) => handleInputChange("number", e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <div>
-              <FormControl variant="standard" fullWidth margin="normal">
-                <InputLabel id="group-label">Group</InputLabel>
-                <Select
-                  labelId="group-label"
-                  id="group"
-                  value={newContact.group}
-                  onChange={(e) => {
-                    handleInputChange("group", e.target.value);
-                    // handleGroupChange(e.target.value); // change groups of selected (checked) rows simultaneously
-                  }}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  {groups.map((group) => (
-                    <MenuItem key={group} value={group}>
-                      {group}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="mt-12 flex justify-end ">
-              <div className="flex justify-end w-full md:w-min">
-                <Button
-                  className="w-full"
-                  color="secondary"
-                  variant="contained"
-                  endIcon={<IoMdAdd color="white" />}
-                  onClick={handleAddContact}
-                >
-                  <p className="text-white font-medium">Add</p>
-                </Button>
+            <Form method="post" action="/addContact">
+              <TextField
+                error={!isValidContact && !newContact.name}
+                name="name"
+                label="Name"
+                className={`${
+                  !isValidContact && !newContact.name
+                    ? "animate-shake animate-duration-[120ms] "
+                    : ""
+                }`}
+                variant="standard"
+                inputProps={{ maxLength: 30 }}
+                value={newContact.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                fullWidth
+                required
+                margin="normal"
+              />
+              <TextField
+                error={!isValidContact && !newContact.number}
+                name="number"
+                label="Number"
+                className={`${
+                  !isValidContact && !newContact.number
+                    ? "animate-shake animate-duration-[120ms] "
+                    : ""
+                }`}
+                variant="standard"
+                required
+                onInput={(e) => {
+                  e.target.value = Math.max(0, parseInt(e.target.value))
+                    .toString()
+                    .slice(0, 7);
+                }}
+                type="number"
+                value={newContact.number}
+                onChange={(e) => handleInputChange("number", e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+
+              <div>
+                <FormControl variant="standard" fullWidth margin="normal">
+                  <InputLabel id="group-label">Group</InputLabel>
+                  <Select
+                    labelId="group-label"
+                    name="group"
+                    id="group"
+                    value={newContact.group}
+                    onChange={(e) => {
+                      handleInputChange("group", e.target.value);
+                      // handleGroupChange(e.target.value); // change groups of selected (checked) rows simultaneously
+                    }}
+                  >
+                    <MenuItem value="">None</MenuItem>
+                    {groups.map((group) => (
+                      <MenuItem key={group} value={group}>
+                        {group}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
-            </div>
+              <div className="mt-12 flex justify-end ">
+                <div className="flex justify-end w-full md:w-min">
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    color="secondary"
+                    variant="contained"
+                    endIcon={<IoMdAdd color="white" />}
+                    // onClick={handleAddContact}
+                  >
+                    <p className="text-white font-medium">Add</p>
+                  </Button>
+                </div>
+              </div>
+            </Form>
           </Box>
         </Modal>
         <Modal
