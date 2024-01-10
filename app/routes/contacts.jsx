@@ -36,8 +36,14 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { checkUserLoggedIn } from "../data/authentication.server";
 import { json, redirect } from "@remix-run/node";
 import { getAccessTokenFromCookie } from "../data/authentication.server";
+import { useEffect } from "react";
 import dotenv from "dotenv";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useNavigate,
+} from "@remix-run/react";
 
 export const meta = () => {
   return [{ title: "Contacts - Dhiraagu Bulk SMS" }];
@@ -47,11 +53,16 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 export const loader = async ({ request }) => {
   dotenv.config();
-
+  const url = new URL(request.url);
+  const page = +url.searchParams.get("page");
+  const pageSize = +url.searchParams.get("pageSize");
+  const searchQuery = url.searchParams.get("filterName") || "";
+  const validPage = isNaN(page) ? 1 : page;
+  const validPageSize = isNaN(pageSize) ? 25 : pageSize;
   const { isLoggedIn, userId } = await checkUserLoggedIn(request);
   const accessToken = getAccessTokenFromCookie(request);
   const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
-  const contactsUrl = `${getContactsEP}`;
+  const contactsUrl = `${getContactsEP}?page=${validPage}&pageSize=${validPageSize}&filterName=${searchQuery}`;
   console.log(contactsUrl);
   if (!isLoggedIn) {
     return redirect("/auth");
@@ -65,8 +76,12 @@ export const loader = async ({ request }) => {
       },
     });
     if (response.ok) {
-      const contacts = await response.json();
-      return { contacts };
+      const { contacts, totalCount } = await response.json();
+      return {
+        contacts,
+        totalRowCount: totalCount, // Rename totalCount for consistency
+        loading: false,
+      };
     }
   } catch (error) {
     console.error("Error retrieving contacts:", error);
@@ -88,21 +103,43 @@ export default function Contacts() {
 
     setOpen(false);
   };
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
   const { contacts } = useLoaderData();
+  const navigate = useNavigate();
+
+  const [searchInput, setSearchInput] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { totalRowCount } = useLoaderData();
   const [rows, setRows] = React.useState(
     Array.isArray(contacts) ? contacts : []
   );
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 25,
+  });
+  const [rowCountState, setRowCountState] = useState(totalRowCount || 0);
+
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidContact, setIsValidContact] = useState(true);
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [isGroupModalOpen, setGroupModalOpen] = React.useState(false);
-
+  const [buttonClick, setButtonClick] = useState(false);
   const [newGroup, setNewGroup] = React.useState("");
   const [newContact, setNewContact] = React.useState({
     name: "",
     number: "",
     group: "",
   });
+
+  const handlePaginationModelChange = (model, details) => {
+    setIsLoading(true);
+    setPaginationModel(model);
+  };
+
   // const [rows, setRows] = React.useState(initialRows);
   const [groups, setGroups] = React.useState([
     "Marketing",
@@ -113,6 +150,27 @@ export default function Contacts() {
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const search = () => {
+    setButtonClick((prevButtonClick) => !prevButtonClick);
+  };
+  useEffect(() => {
+    setIsLoading(false);
+  }, [rows]);
+
+  useEffect(() => {
+    navigate(
+      `/contacts?page=${paginationModel.page + 1}&pageSize=${
+        paginationModel.pageSize
+      }&filterName=${searchInput}`
+    );
+    setIsLoading(true);
+  }, [paginationModel.page, paginationModel.pageSize, buttonClick, navigate]);
+
+  useEffect(() => {
+    setRowCountState((prevRowCountState) =>
+      totalRowCount !== undefined ? totalRowCount : prevRowCountState
+    );
+  }, [totalRowCount, setRowCountState]);
 
   const openModal = () => {
     setModalOpen(true);
@@ -139,16 +197,14 @@ export default function Contacts() {
   //-----------------------------------------------------
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "name", headerName: "Name", width: 150, editable: true },
-    { field: "number", headerName: "Number", width: 150, editable: true },
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "number", headerName: "Number", width: 200 },
     {
       field: "group",
       headerName: "Group",
       type: "singleSelect",
       valueOptions: groups,
-      width: 120,
-      editable: true,
+      width: 200,
       valueGetter: (params) =>
         params.row.group ? params.row.group.groupName : "",
     },
@@ -164,18 +220,47 @@ export default function Contacts() {
         <h1 className="font-medium text-2xl my-10 dark:text-slate-200">
           Contacts
         </h1>
-
+        <div className="flex mb-10 mt-5 w-full">
+          <TextField
+            label="Search by Name"
+            variant="outlined"
+            size="small"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            className="mr-2 w-full md:w-2/5"
+          />
+          <div className="mx-2">
+            <Button
+              variant="contained"
+              color="primary"
+              className="h-full"
+              size="small"
+              onClick={search}
+            >
+              Search
+            </Button>
+          </div>
+        </div>
         {/* <p className="dark:text-white">{selectedRows}</p> */}
-        <div className="h-full">
+        <div className="h-full pb-10">
           <DataGrid
             autoHeight
             className="dark:bg-slate-800 bg-slate-50"
             rows={rows}
             columns={columns}
-            editMode="row"
+            density="compact"
+            loading={isLoading}
             checkboxSelection
             disableRowSelectionOnClick
+            paginationModel={paginationModel}
+            onPaginationModelChange={handlePaginationModelChange}
+            paginationMode="server"
+            rowCount={rowCountState}
             rowModesModel={rowModesModel}
+            pageSizeOptions={[25, 50, 100]}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 25 } },
+            }}
             onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
             slots={{
               toolbar: () => (

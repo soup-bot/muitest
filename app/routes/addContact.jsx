@@ -56,7 +56,7 @@ export const action = async ({ request }) => {
 
   const data = await response.text();
 
-  return redirect("/contacts", {
+  return redirect("/contacts?page=1&pageSize=25", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },
