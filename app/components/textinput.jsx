@@ -54,6 +54,7 @@ const handleDownload = () => {
 export default function InputForm() {
   const [textDirection, setTextDirection] = useState("ltr");
   const { senderNames } = useLoaderData();
+  const { contactNames } = useLoaderData();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
   const [numMessages, setNumMessages] = useState(0);
@@ -363,7 +364,7 @@ export default function InputForm() {
                             padding: "2",
                           },
                         }}
-                        options={sampleContacts}
+                        options={contactNames}
                         defaultValue={[]}
                         limitTags={4}
                         freeSolo

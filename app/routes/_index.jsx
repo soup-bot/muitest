@@ -74,20 +74,19 @@ export default function Index() {
 }
 export const loader = async ({ request }) => {
   dotenv.config();
-  // const getLoggedInEndpoint = process.env.REACT_APP_GET_SENDERS_EP;
+  const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
   const getSenderEP = process.env.REACT_APP_GET_SENDERS_EP;
+
   const { isLoggedIn, userId, balance } = await checkUserLoggedIn(request);
   const accessToken = getAccessTokenFromCookie(request);
+
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
   }
-  console.log(userId);
-  // User is logged in, make a request to get senders using the userId
-  // const sendersUrl = `http://localhost:5294/api/Identity/getSenders/${userId}`;
-  const sendersUrl = `${getSenderEP}`;
 
-  console.log(sendersUrl);
+  // Fetch senders
+  const sendersUrl = `${getSenderEP}`;
   try {
     const sendersResponse = await fetch(sendersUrl, {
       method: "GET",
@@ -100,16 +99,42 @@ export const loader = async ({ request }) => {
     if (!sendersResponse.ok) {
       console.error("Error fetching senders:", sendersResponse.statusText);
       // Handle the error as needed
-      return { senders: [] }; // Return an empty array for senders
+      return { senders: [], contacts: [] }; // Return empty arrays for senders and contacts
     }
 
     const sendersData = await sendersResponse.json();
     const senderNames = sendersData.map((sender) => sender.senderName);
-    return { senderNames };
+
+    // Fetch contacts
+    const contactsUrl = `${getContactsEP}`; // Adjust parameters as needed
+    const contactsResponse = await fetch(contactsUrl, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!contactsResponse.ok) {
+      console.error("Error fetching contacts:", contactsResponse.statusText);
+      // Handle the error as needed
+      return { senders: senderNames, contacts: [] }; // Return senders and empty array for contacts
+    }
+
+    const { contacts, totalCount } = await contactsResponse.json();
+    const contactNames = contacts.map((contact) => ({
+      label: contact.name,
+      value: contact.number,
+    }));
+
+    return {
+      senderNames: senderNames,
+      contactNames: contactNames,
+    };
   } catch (error) {
-    console.error("Error fetching senders:", error);
+    console.error("Error fetching data:", error);
     // Handle the error as needed
-    return { senders: [] }; // Return an empty array for senders
+    return { senders: [], contacts: [] }; // Return empty arrays for senders and contacts
   }
 };
 
