@@ -85,7 +85,7 @@ export const loader = async ({ request }) => {
   console.log(userId);
   // User is logged in, make a request to get senders using the userId
   // const sendersUrl = `http://localhost:5294/api/Identity/getSenders/${userId}`;
-  const sendersUrl = `${getSenderEP}/${userId}`;
+  const sendersUrl = `${getSenderEP}`;
 
   console.log(sendersUrl);
   try {

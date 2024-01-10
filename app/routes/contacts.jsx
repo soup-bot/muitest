@@ -27,11 +27,14 @@ import { MdCancel } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 import GroupsModal from "../components/groupsmodal";
 import { FaEdit } from "react-icons/fa";
+import { getSession, commitSession } from "../sessions";
 import { MdGroupAdd } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaUserEdit } from "react-icons/fa";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { checkUserLoggedIn } from "../data/authentication.server";
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { getAccessTokenFromCookie } from "../data/authentication.server";
 import dotenv from "dotenv";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
@@ -39,15 +42,18 @@ import { Form, useActionData, useLoaderData } from "@remix-run/react";
 export const meta = () => {
   return [{ title: "Contacts - Dhiraagu Bulk SMS" }];
 };
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
+});
 export const loader = async ({ request }) => {
   dotenv.config();
+
   const { isLoggedIn, userId } = await checkUserLoggedIn(request);
   const accessToken = getAccessTokenFromCookie(request);
   const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
-  const contactsUrl = `${getContactsEP}${userId}`;
+  const contactsUrl = `${getContactsEP}`;
+  console.log(contactsUrl);
   if (!isLoggedIn) {
-    // User is not logged in, redirect to /auth
     return redirect("/auth");
   }
   try {
@@ -60,8 +66,7 @@ export const loader = async ({ request }) => {
     });
     if (response.ok) {
       const contacts = await response.json();
-      console.log(contacts);
-      return { contacts, userId };
+      return { contacts };
     }
   } catch (error) {
     console.error("Error retrieving contacts:", error);
@@ -74,14 +79,24 @@ export const loader = async ({ request }) => {
 };
 
 export default function Contacts() {
-  const data = useActionData();
-  console.log(data);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const { contacts } = useLoaderData();
-  const [rows, setRows] = React.useState(contacts);
+  const [rows, setRows] = React.useState(
+    Array.isArray(contacts) ? contacts : []
+  );
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidContact, setIsValidContact] = useState(true);
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [isGroupModalOpen, setGroupModalOpen] = React.useState(false);
+
   const [newGroup, setNewGroup] = React.useState("");
   const [newContact, setNewContact] = React.useState({
     name: "",
@@ -153,6 +168,7 @@ export default function Contacts() {
         {/* <p className="dark:text-white">{selectedRows}</p> */}
         <div className="h-full">
           <DataGrid
+            autoHeight
             className="dark:bg-slate-800 bg-slate-50"
             rows={rows}
             columns={columns}

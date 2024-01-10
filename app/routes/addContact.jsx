@@ -1,12 +1,19 @@
 import { redirect } from "@remix-run/node";
 import { getAccessTokenFromCookie } from "../data/authentication.server";
 import { checkUserLoggedIn } from "../data/authentication.server";
+import { commitSession, getSession } from "../sessions";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import dotenv from "dotenv";
 export const action = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  session.flash("globalMessage", `Contact successfully saved`);
+  session.flash("messageType", `success`);
+
   dotenv.config();
   const addContactEP = process.env.REACT_APP_ADD_CONTACT_EP;
   const { userId } = await checkUserLoggedIn(request);
-  const addContactURL = `${addContactEP}/${userId}`;
+  const addContactURL = `${addContactEP}`;
   console.log("URL: " + addContactURL);
   console.log("User ID: " + userId);
 
@@ -49,5 +56,9 @@ export const action = async ({ request }) => {
 
   const data = await response.text();
 
-  return redirect("/contacts");
+  return redirect("/contacts", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };

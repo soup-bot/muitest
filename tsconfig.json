@@ -5,7 +5,8 @@
     "**/*.tsx",
     "app/root.jsx",
     "app/routes/_index.jsx",
-    "app/routes/settings.jsx"
+    "app/routes/settings.jsx",
+    "app/sessions.js"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],

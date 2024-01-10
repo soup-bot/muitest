@@ -137,7 +137,6 @@ export async function logout(request) {
       },
     });
   }
-
   // If the user is not logged in, redirect to /
   return redirect("/");
 }

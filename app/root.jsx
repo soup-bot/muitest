@@ -7,17 +7,32 @@ import bg2 from "./assets/crop.svg";
 import CSS from "./app.css";
 import { checkUserLoggedIn } from "./data/authentication.server";
 import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
-
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { getSession, commitSession } from "./sessions";
 import { DarkModeProvider, useDarkMode } from "./components/DarkModeContext";
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
+});
 export const meta = () => {
   return [{ title: "Bulk SMS Portal" }];
 };
 export const loader = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const message = session.get("globalMessage") || null;
+  const messageType = session.get("messageType") || null;
+
+  session.unset("globalMessage");
+  session.unset("messageType");
   const { isLoggedIn, userId, balance } = await checkUserLoggedIn(request);
   console.log("balance: " + balance);
 
-  return balance || null;
+  const data = { message, messageType, balance };
+  return json(data, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };
 
 import {
@@ -32,6 +47,7 @@ import {
 } from "@remix-run/react";
 
 import Navbar from "./components/navbar";
+import { json } from "@remix-run/node";
 
 export function links() {
   return [{ rel: "stylesheet", href: CSS }];
@@ -39,11 +55,26 @@ export function links() {
 
 //app
 function App() {
-  const balance = useLoaderData();
+  const loaderData = useLoaderData();
+  const { message, messageType } = useLoaderData();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const { balance } = useLoaderData();
   const location = useLocation();
   const auth = location.pathname === "/auth";
   const { isDarkMode } = useDarkMode();
-
+  React.useEffect(() => {
+    if (message) {
+      setOpen(true); // Trigger the alert if there's a success message
+    }
+  }, [loaderData]);
   // Customize the MUI theme based on dark mode state
   const theme = createTheme({
     palette: {
@@ -94,6 +125,21 @@ function App() {
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Outlet />
+            <Snackbar
+              open={open}
+              autoHideDuration={2000}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <Alert
+                variant="filled"
+                onClose={handleClose}
+                severity={messageType || "success"}
+                sx={{ width: "100%" }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
           </LocalizationProvider>
           {/* <ScrollRestoration /> */}
           <Scripts />
