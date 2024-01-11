@@ -1,4 +1,4 @@
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { serialize } from "cookie";
 import { parse } from "cookie";
 import dotenv from "dotenv";
@@ -6,14 +6,12 @@ dotenv.config();
 
 const loginEndpoint = process.env.REACT_APP_LOGIN_EP;
 const getLoggedInEndpoint = process.env.REACT_APP_GET_LOGGED_IN_EP;
-
+const registerEndpoint = process.env.REACT_APP_REGISTER_EP;
 // Function to get access token from cookies
 export function getAccessTokenFromCookie(request) {
   const cookies = parse(request.headers.get("Cookie") || "");
-
   // Assuming the cookie name is ".AspNetCore.Identity.Application"
   const accessToken = cookies[".AspNetCore.Identity.Application"];
-
   return accessToken || null;
 }
 
@@ -57,7 +55,15 @@ export async function login(credentials) {
 
       return createUserSession(accessToken, expiresIn, "/dashboard");
     } else {
-      return new Response("Invalid credentials", { status: 401 });
+      const errorData = [
+        "Invalid credentials. Please check your email and password.",
+      ];
+
+      return {
+        type: "error",
+        message: "Registration failed",
+        errorData, // Include error data in the response
+      };
     }
   } catch (error) {
     console.error("Error during login:", error);
@@ -141,81 +147,42 @@ export async function logout(request) {
   return redirect("/");
 }
 
-export async function register(formData) {
+export async function register(credentials) {
   try {
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    const displayname = `${firstName} ${lastName}`;
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const serviceNo = formData.get("mobile");
-    const planID = formData.get("planID");
-    const registerEP = process.env.REACT_APP_REGISTER_EP;
-    // Additional validation if needed
-
     // Step 1: Make a POST request to register endpoint
-    const registerResponse = await fetch(registerEP, {
+    const registerResponse = await fetch(registerEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+      body: JSON.stringify(credentials),
     });
 
     if (!registerResponse.ok) {
+      const error = await registerResponse.json();
+      const errorData = error.errors;
+      console.log(errorData);
       // Handle registration failure
-      return json({
+
+      return {
         type: "error",
         message: "Registration failed",
-      });
+        errorData, // Include error data in the response
+      };
     }
 
-    // Assuming the registration endpoint returns some data
-    const registrationData = await registerResponse.json();
+    console.log("register success");
 
-    // Step 2: Make a PATCH request to update user endpoint
-    const updateUserResponse = await fetch(
-      process.env.REACT_APP_UPDATE_USER_ENDPOINT,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${registrationData.accessToken}`,
-          // Include any other headers needed for the update user endpoint
-        },
-        body: JSON.stringify({
-          displayname,
-          serviceNo,
-          planID,
-          // Include any other fields needed for the update user endpoint
-        }),
-      }
-    );
-
-    if (!updateUserResponse.ok) {
-      // Handle update user failure, you may need to rollback the registration
-      // For simplicity, we are assuming a rollback here by returning an error
-      return json({
-        type: "error",
-        message: "Update user failed. Registration rolled back.",
-      });
-    }
-
-    // Perform additional actions after successful registration and update user if needed
-
-    // For now, return a success message
-    return json({
+    return {
       type: "success",
-      message: "Registration and update user successful",
-    });
+      message: "Registration and login successful",
+    };
   } catch (error) {
     console.error("Error during registration:", error);
-    return json({
+
+    return {
       type: "error",
       message: "Internal Server Error",
-    });
+    };
   }
 }

@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from "react";
 import LoginForm from "../components/loginform";
-import SignupForm from "../components/signupform";
 import logo from "../assets/logo.svg";
 import { Link, useActionData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
-import { validateCredentials } from "../data/validation.server";
 import backdrop from "../assets/test.jpg";
 import { useDarkMode } from "../components/DarkModeContext";
 import { login, register } from "../data/authentication.server";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { commitSession, getSession } from "../sessions";
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
-});
 
 export default function Auth() {
-  const actionData = useActionData();
-  const [open, setOpen] = React.useState(false);
-  const [signupMode, setSignupMode] = useState(false);
+  const errorData = useActionData();
+  console.log("error data: " + errorData);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const { message } = useActionData() || {};
-  const { type } = useActionData() || {};
-  const toggleMode = () => {
-    setSignupMode(!signupMode);
-  };
 
+  const renderErrorMessages = () => {
+    if (errorData) {
+      // Extract error messages from the errorData object
+      const errorDatas = Object.values(errorData).flat();
+
+      // Render error messages
+      return (
+        <div className=" w-full md:w-1/2 lg:w-full xl:w-1/2 rounded-lg border-red-400 border-2 ">
+          <ul className=" p-2">
+            {errorDatas.map((message, index) => (
+              <li key={index} className="text-red-400 font-bold text-sm">
+                {message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    return null;
+  };
   return (
     <div
       className={`h-screen flex flex-col lg:flex-row ${
@@ -34,9 +40,7 @@ export default function Auth() {
       }`}
     >
       <div
-        className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 pt-20 ${
-          signupMode ? "" : "justify-center"
-        } `}
+        className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 pt-20 justify-center`}
       >
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="flex align-middle items-center justify-around">
@@ -45,24 +49,14 @@ export default function Auth() {
             <div className="h-7 w-0.5 bg-gray-500 opacity-25"></div>
             <h3 className=" text-2xl font-bold  text-secondary">Bulk SMS</h3>
           </div>
-          <div className="text-2xl font-bold mt-8 text-slate-800 dark:text-slate-200">
+          <div className="text-2xl font-bold mt-8 text-slate-800 dark:text-slate-200 ">
             Reach your customers with a simple click.
           </div>
         </div>
-
-        {signupMode ? <SignupForm></SignupForm> : <LoginForm></LoginForm>}
-
-        <p className="mt-3 text-center text-sm text-gray-500 pb-10">
-          {signupMode ? "Already have an account? " : "Don't have an account? "}
-
-          <button
-            type="submit"
-            onClick={toggleMode}
-            className="font-semibold leading-6 text-secondary hover:text-indigo-500 focus:outline-none focus-visible:outline-indigo-600"
-          >
-            {signupMode ? "Sign in" : "Sign up"}
-          </button>
-        </p>
+        <div className="w-full flex align-middle items-center justify-center my-2 mt-4">
+          {renderErrorMessages()}
+        </div>
+        <LoginForm></LoginForm>
       </div>
       <div className="w-full h-screen bg-red-300 hidden lg:block">
         <img
@@ -80,7 +74,6 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const credentials = Object.fromEntries(formData);
   const authType = formData.get("authType");
-  const session = await getSession(request.headers.get("Cookie"));
   console.log("authType formdata: " + authType);
 
   // for (const [key, value] of formData.entries()) {
@@ -92,10 +85,8 @@ export const action = async ({ request }) => {
   switch (authType) {
     case "login":
       console.log("login switch");
-      const loginResponse = await login(credentials, session);
+      const loginResponse = await login(credentials);
       if (loginResponse && loginResponse.status === 302) {
-        session.flash("globalMessage", `Successfully logged in`);
-        session.flash("messageType", `success`);
         var redirectPath = "/";
         // If it's a redirect, return the loginResponse
         console.log("success");
@@ -103,18 +94,43 @@ export const action = async ({ request }) => {
         return response;
         // If it's a successful login, return both loginResponse and additional JSON
       } else {
-        session.flash("globalMessage", `Invalid Credentials`);
-        session.flash("messageType", `error`);
         var redirectPath = "/auth";
+
+        return loginResponse.errorData;
         // If not a redirect and not a successful login, return an error JSON
       }
       break;
 
     case "signup":
       console.log("signup switch");
-      return null;
-      break;
 
+      // Assuming you have access to `formData` (you need to get it from somewhere)
+      const registrationResult = await register(credentials);
+      console.log("type: " + registrationResult.type);
+      // Check the result and handle accordingly
+      if (registrationResult.type === "success") {
+        // Registration was successful, now call login
+        const loginResponse = await login(credentials);
+
+        if (loginResponse && loginResponse.status === 302) {
+          var redirectPath = "/";
+          // If it's a redirect, return the loginResponse
+          console.log("success");
+          response = loginResponse;
+          return response;
+          // If it's a successful login, return both loginResponse and additional JSON
+        } else {
+          var redirectPath = "/auth";
+          // If not a redirect and not a successful login, return an error JSON
+        }
+      } else {
+        // Registration failed
+        console.error("Registration failed:", registrationResult.message);
+        // Handle the failure, show an error message, etc.
+      }
+
+      // Return the appropriate response, e.g., redirect or render a response
+      return registrationResult.errorData;
     // Add more cases for other auth types if needed
 
     default:
@@ -126,9 +142,5 @@ export const action = async ({ request }) => {
       break;
   }
 
-  return redirect(redirectPath, {
-    headers: {
-      "Set-Cookie": await commitSession(session),
-    },
-  });
+  return redirect(redirectPath);
 };

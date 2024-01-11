@@ -2,15 +2,18 @@ import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { MdLogin } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
+
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const validationErrors = useActionData();
   const navigation = useNavigation();
+  const [isSignIn, setSignIn] = useState("login");
 
   return (
     <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
       <Form className="space-y-6" method="POST" noValidate>
+        {/* Email field */}
         <div>
           <label
             htmlFor="email"
@@ -27,18 +30,20 @@ export default function LoginForm() {
               placeholder=" "
               required
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white shadow-sm placeholder-slate-400
     focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
     disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
     invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
             />
-
             <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
               Please enter a valid email address
             </span>
           </div>
         </div>
 
+        {/* Password field */}
         <div>
           <div className="flex items-center justify-between">
             <label
@@ -56,6 +61,8 @@ export default function LoginForm() {
               autoComplete="current-password"
               placeholder=" "
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md  dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
               disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -64,16 +71,21 @@ export default function LoginForm() {
           </div>
         </div>
 
+        {/* Button for switching between sign-in and log-in */}
+
+        {/* Submit button */}
         <div>
           <button
             disabled={navigation.state === "submitting"}
             type="submit"
             name="authType"
-            value="login"
+            value={isSignIn ? "login" : "signup"}
             className="flex align-middle justify-center items-center w-full rounded-md disabled:bg-gray-400 bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            {navigation.state === "submitting" ? "Signing in  " : "Sign in"}
-            {navigation.state === "submitting" ? (
+            {navigation.state === "submitting"
+              ? `Signing ${isSignIn ? "in" : "up"}  `
+              : `${isSignIn ? "Sign in" : "Sign up"}`}
+            {navigation.state === "submitting" && (
               <div className="ml-2">
                 <svg
                   aria-hidden="true"
@@ -92,10 +104,26 @@ export default function LoginForm() {
                   />
                 </svg>
               </div>
-            ) : (
-              ""
             )}
           </button>
+          <div>
+            <p className="mt-3 text-center text-sm text-gray-500 pb-10">
+              {!isSignIn
+                ? "Already have an account? "
+                : "Don't have an account? "}
+
+              <button
+                type="button"
+                onClick={() => {
+                  // Toggle between sign-in and log-in
+                  setSignIn((prev) => !prev);
+                }}
+                className="font-semibold leading-6 text-secondary hover:text-indigo-500 focus:outline-none focus-visible:outline-indigo-600"
+              >
+                {!isSignIn ? "Sign in" : "Sign up"}
+              </button>
+            </p>
+          </div>
         </div>
       </Form>
     </div>
