@@ -11,8 +11,6 @@ export default function LoginForm() {
   return (
     <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
       <Form className="space-y-6" method="POST" noValidate>
-        <input type="hidden" name="formType" value="login" />
-
         <div>
           <label
             htmlFor="email"
@@ -70,6 +68,8 @@ export default function LoginForm() {
           <button
             disabled={navigation.state === "submitting"}
             type="submit"
+            name="authType"
+            value="login"
             className="flex align-middle justify-center items-center w-full rounded-md disabled:bg-gray-400 bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {navigation.state === "submitting" ? "Signing in  " : "Sign in"}

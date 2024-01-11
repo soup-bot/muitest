@@ -108,30 +108,57 @@ export const action = async ({ request }) => {
   console.log("AUTH ACTION");
   const formData = await request.formData();
   const credentials = Object.fromEntries(formData);
+  const authType = formData.get("authType");
 
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
+  console.log("authType formdata: " + authType);
+
+  // for (const [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
+
+  let response;
+
+  switch (authType) {
+    case "login":
+      console.log("login switch");
+      const loginResponse = await login(credentials);
+      if (loginResponse && loginResponse.status === 302) {
+        // If it's a redirect, return the loginResponse
+        response = loginResponse;
+      } else if (loginResponse && loginResponse.status === 200) {
+        // If it's a successful login, return both loginResponse and additional JSON
+        response = [
+          loginResponse,
+          json({
+            type: "success",
+            message: "Login successful",
+            // Add any additional data you want to include in the JSON response
+          }),
+        ];
+      } else {
+        // If not a redirect and not a successful login, return an error JSON
+        response = json({
+          type: "error",
+          message: "Invalid Credentials",
+        });
+      }
+      break;
+
+    case "signup":
+      console.log("signup switch");
+      return null;
+      break;
+
+    // Add more cases for other auth types if needed
+
+    default:
+      // Handle the case when authType is not recognized
+      response = json({
+        type: "error",
+        message: "Invalid authType",
+      });
+      break;
   }
 
-  const loginResponse = await login(credentials);
-  if (loginResponse && loginResponse.status === 302) {
-    // If it's a redirect, return the loginResponse
-    return loginResponse;
-  } else if (loginResponse && loginResponse.status === 200) {
-    // If it's a successful login, return both loginResponse and additional JSON
-    return [
-      loginResponse,
-      json({
-        type: "success",
-        message: "Login successful",
-        // Add any additional data you want to include in the JSON response
-      }),
-    ];
-  } else {
-    // If not a redirect and not a successful login, return an error JSON
-    return json({
-      type: "error",
-      message: "Invalid Credentials",
-    });
-  }
+  return response;
 };

@@ -216,19 +216,22 @@ export default function SignupForm() {
           </a>
         </div>
         <select
-          name="plan"
+          name="planID"
           id="plan"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
         >
-          <option>BULK/CORP SMS 3K</option>
-          <option>BULK/CORP SMS 5K</option>
-          <option>BULK/CORP SMS 10K</option>
-          <option>BULK/CORP SMS 50K</option>
+          <option value="1">Starter</option>
+          <option value="2">Basic</option>
+          <option value="3">Medium</option>
+          <option value="4">Advanced</option>
+          <option value="5">Power</option>
         </select>
 
         <div>
           <button
             type="submit"
+            name="authType"
+            value="signup"
             className="flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign up

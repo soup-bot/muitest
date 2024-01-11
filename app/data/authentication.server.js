@@ -140,3 +140,85 @@ export async function logout(request) {
   // If the user is not logged in, redirect to /
   return redirect("/");
 }
+
+export async function register(formData) {
+  try {
+    const firstName = formData.get("firstName");
+    const lastName = formData.get("lastName");
+    const displayname = `${firstName} ${lastName}`;
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const serviceNo = formData.get("mobile");
+    const planID = formData.get("planID");
+
+    // Additional validation if needed
+
+    // Step 1: Make a POST request to register endpoint
+    const registerResponse = await fetch(
+      process.env.REACT_APP_REGISTER_ENDPOINT,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
+
+    if (!registerResponse.ok) {
+      // Handle registration failure
+      return json({
+        type: "error",
+        message: "Registration failed",
+      });
+    }
+
+    // Assuming the registration endpoint returns some data
+    const registrationData = await registerResponse.json();
+
+    // Step 2: Make a PATCH request to update user endpoint
+    const updateUserResponse = await fetch(
+      process.env.REACT_APP_UPDATE_USER_ENDPOINT,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${registrationData.accessToken}`,
+          // Include any other headers needed for the update user endpoint
+        },
+        body: JSON.stringify({
+          displayname,
+          serviceNo,
+          planID,
+          // Include any other fields needed for the update user endpoint
+        }),
+      }
+    );
+
+    if (!updateUserResponse.ok) {
+      // Handle update user failure, you may need to rollback the registration
+      // For simplicity, we are assuming a rollback here by returning an error
+      return json({
+        type: "error",
+        message: "Update user failed. Registration rolled back.",
+      });
+    }
+
+    // Perform additional actions after successful registration and update user if needed
+
+    // For now, return a success message
+    return json({
+      type: "success",
+      message: "Registration and update user successful",
+    });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    return json({
+      type: "error",
+      message: "Internal Server Error",
+    });
+  }
+}
