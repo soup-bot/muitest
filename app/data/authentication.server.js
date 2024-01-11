@@ -150,23 +150,20 @@ export async function register(formData) {
     const password = formData.get("password");
     const serviceNo = formData.get("mobile");
     const planID = formData.get("planID");
-
+    const registerEP = process.env.REACT_APP_REGISTER_EP;
     // Additional validation if needed
 
     // Step 1: Make a POST request to register endpoint
-    const registerResponse = await fetch(
-      process.env.REACT_APP_REGISTER_ENDPOINT,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }
-    );
+    const registerResponse = await fetch(registerEP, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
     if (!registerResponse.ok) {
       // Handle registration failure

@@ -7,9 +7,10 @@ import { json, redirect } from "@remix-run/node";
 import { validateCredentials } from "../data/validation.server";
 import backdrop from "../assets/test.jpg";
 import { useDarkMode } from "../components/DarkModeContext";
-import { login } from "../data/authentication.server";
+import { login, register } from "../data/authentication.server";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { commitSession, getSession } from "../sessions";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
@@ -24,20 +25,6 @@ export default function Auth() {
   const { type } = useActionData() || {};
   const toggleMode = () => {
     setSignupMode(!signupMode);
-  };
-
-  useEffect(() => {
-    if (message) {
-      setOpen(true); // Trigger the alert if there's a success message
-      console.log(actionData);
-    }
-  }, [actionData]);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
   };
 
   return (
@@ -84,22 +71,6 @@ export default function Auth() {
           alt=""
         />
       </div>
-
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
-          variant="filled"
-          onClose={handleClose}
-          severity={type}
-          sx={{ width: "100%" }}
-        >
-          {message}
-        </Alert>
-      </Snackbar>
     </div>
   );
 }
@@ -109,7 +80,7 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const credentials = Object.fromEntries(formData);
   const authType = formData.get("authType");
-
+  const session = await getSession(request.headers.get("Cookie"));
   console.log("authType formdata: " + authType);
 
   // for (const [key, value] of formData.entries()) {
@@ -121,26 +92,21 @@ export const action = async ({ request }) => {
   switch (authType) {
     case "login":
       console.log("login switch");
-      const loginResponse = await login(credentials);
+      const loginResponse = await login(credentials, session);
       if (loginResponse && loginResponse.status === 302) {
+        session.flash("globalMessage", `Successfully logged in`);
+        session.flash("messageType", `success`);
+        var redirectPath = "/";
         // If it's a redirect, return the loginResponse
+        console.log("success");
         response = loginResponse;
-      } else if (loginResponse && loginResponse.status === 200) {
+        return response;
         // If it's a successful login, return both loginResponse and additional JSON
-        response = [
-          loginResponse,
-          json({
-            type: "success",
-            message: "Login successful",
-            // Add any additional data you want to include in the JSON response
-          }),
-        ];
       } else {
+        session.flash("globalMessage", `Invalid Credentials`);
+        session.flash("messageType", `error`);
+        var redirectPath = "/auth";
         // If not a redirect and not a successful login, return an error JSON
-        response = json({
-          type: "error",
-          message: "Invalid Credentials",
-        });
       }
       break;
 
@@ -160,5 +126,9 @@ export const action = async ({ request }) => {
       break;
   }
 
-  return response;
+  return redirect(redirectPath, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };
