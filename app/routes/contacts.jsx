@@ -37,6 +37,7 @@ import { checkUserLoggedIn } from "../data/authentication.server";
 import { json, redirect } from "@remix-run/node";
 import { getAccessTokenFromCookie } from "../data/authentication.server";
 import { useEffect } from "react";
+
 import dotenv from "dotenv";
 import {
   Form,
@@ -59,7 +60,9 @@ export const loader = async ({ request }) => {
   const searchQuery = url.searchParams.get("filterName") || "";
   const validPage = isNaN(page) ? 1 : page;
   const validPageSize = isNaN(pageSize) ? 25 : pageSize;
-  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
+  const { isLoggedIn, userId, serviceStatus } = await checkUserLoggedIn(
+    request
+  );
   const accessToken = getAccessTokenFromCookie(request);
   const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
   const contactsUrl = `${getContactsEP}?page=${validPage}&pageSize=${validPageSize}&filterName=${searchQuery}`;
@@ -67,6 +70,12 @@ export const loader = async ({ request }) => {
   if (!isLoggedIn) {
     return redirect("/auth");
   }
+
+  if (!(serviceStatus === "active")) {
+    // User is not logged in, redirect to /auth
+    return redirect("/dashboard");
+  }
+
   try {
     const response = await fetch(contactsUrl, {
       method: "GET",

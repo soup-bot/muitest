@@ -21,11 +21,17 @@ const getLastDayOfMonth = () => {
 };
 
 export const loader = async ({ request }) => {
-  const { isLoggedIn, userId } = await checkUserLoggedIn(request);
+  const { isLoggedIn, userId, serviceStatus } = await checkUserLoggedIn(
+    request
+  );
 
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
+  }
+  if (!(serviceStatus === "active")) {
+    // User is not logged in, redirect to /auth
+    return redirect("/dashboard");
   }
 
   // User is logged in, you can use userId if needed

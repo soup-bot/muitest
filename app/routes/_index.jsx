@@ -77,12 +77,17 @@ export const loader = async ({ request }) => {
   const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
   const getSenderEP = process.env.REACT_APP_GET_SENDERS_EP;
 
-  const { isLoggedIn, userId, balance } = await checkUserLoggedIn(request);
+  const { isLoggedIn, userId, balance, serviceStatus } =
+    await checkUserLoggedIn(request);
   const accessToken = getAccessTokenFromCookie(request);
 
   if (!isLoggedIn) {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
+  }
+  if (!(serviceStatus === "active")) {
+    // User is not logged in, redirect to /auth
+    return redirect("/dashboard");
   }
 
   // Fetch senders

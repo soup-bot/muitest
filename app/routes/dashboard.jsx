@@ -13,8 +13,11 @@ import { redirect } from "@remix-run/node";
 import Slider from "@mui/material/Slider";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { FaCoins } from "react-icons/fa";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import InactiveUserComponent from "../components/InactiveUserComponent";
 
 const stepOptions = [
   { value: 50, max: 1000 },
@@ -135,11 +138,85 @@ function Dashboard() {
   const handleStartDateChange = (date) => {
     setStartDate(date);
   };
-
+  const handleChange = (event) => {
+    setPlan(event.target.value);
+  };
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
+  const [plan, setPlan] = useState("1");
 
+  if (serviceStatus !== "active") {
+    // return (
+    //   <div
+    //     className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
+    //       isDarkMode ? "dark " : ""
+    //     }`}
+    //   >
+    //     <div className=" h-max pb-20 min-h-full  2xl: shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
+    //       <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
+    //         Dashboard
+    //       </h1>
+    //       <div>
+    //         <p>
+    //           Your account setup is almost complete! To fully activate your
+    //           account, please provide the following details:
+    //         </p>
+    //         <Form method="patch" action="/updateUser">
+    //           <div className="flex w-full">
+    //             <div className="mr-1 w-1/3">
+    //               <TextField
+    //                 label="First name"
+    //                 variant="outlined"
+    //                 name="firstName"
+    //                 fullWidth
+    //                 required
+    //               />
+    //             </div>
+    //             <div className="w-1/3">
+    //               <TextField
+    //                 label="Last name"
+    //                 name="lastName"
+    //                 variant="outlined"
+    //                 required
+    //                 fullWidth
+    //               />
+    //             </div>
+    //           </div>
+    //           <TextField
+    //             label="Number"
+    //             variant="outlined"
+    //             name="number"
+    //             required
+    //             fullWidth
+    //           />
+    //           <InputLabel id="plan-select-label">Choose a Plan</InputLabel>
+    //           <Select
+    //             labelId="plan-select-label"
+    //             id="plan-select"
+    //             name="planID"
+    //             value={plan}
+    //             onChange={handleChange}
+    //             variant="outlined"
+    //             fullWidth
+    //           >
+    //             <MenuItem value="1">Plan 1</MenuItem>
+    //             <MenuItem value="2">Plan 2</MenuItem>
+    //             <MenuItem value="3">Plan 3</MenuItem>
+    //           </Select>
+    //           <button
+    //             type="submit"
+    //             className="text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-sm px-5 py-2.5 mt-3"
+    //           >
+    //             Activate Account
+    //           </button>
+    //         </Form>
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
+    return <InactiveUserComponent />;
+  }
   return (
     <div
       className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
@@ -150,6 +227,7 @@ function Dashboard() {
         <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>
+        {!(serviceStatus === "active") && <p>Inactive account</p>}
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
