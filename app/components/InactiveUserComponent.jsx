@@ -105,15 +105,17 @@ export default function InactiveUserComponent() {
           Dashboard
         </h1>
         <div>
-          <div className="flex align-middle  mb-10">
-            <IoMdInformationCircleOutline
-              size={23}
-              className="self-center mr-1 mb-1 dark:text-slate-200"
-            />
-            <p className="dark:text-slate-200 ">
-              Your registration is almost complete! To fully activate your
-              account, please provide the following details:
-            </p>
+          <div className="w-full flex justify-start">
+            <div className="flex justify-center flex-wrap align-middle  mb-10 pt-3 bg-green-500 text-white p-2 rounded-md shadow-md">
+              <IoMdInformationCircleOutline
+                size={23}
+                className="self-center mr-1 mb-1 dark:text-slate-200"
+              />
+              <p className="dark:text-slate-200 ">
+                Your registration is almost complete! To fully activate your
+                account, please provide the following details:
+              </p>
+            </div>
           </div>
           <Form method="patch" action="/updateUser">
             <div>

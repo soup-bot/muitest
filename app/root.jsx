@@ -24,10 +24,11 @@ export const loader = async ({ request }) => {
 
   session.unset("globalMessage");
   session.unset("messageType");
-  const { isLoggedIn, userId, balance } = await checkUserLoggedIn(request);
+  const { isLoggedIn, userId, balance, serviceStatus } =
+    await checkUserLoggedIn(request);
   console.log("balance: " + balance);
 
-  const data = { message, messageType, balance };
+  const data = { message, messageType, balance, serviceStatus };
   return json(data, {
     headers: {
       "Set-Cookie": await commitSession(session),
@@ -56,7 +57,7 @@ export function links() {
 //app
 function App() {
   const loaderData = useLoaderData();
-  const { message, messageType } = useLoaderData();
+  const { message, messageType, serviceStatus } = useLoaderData();
   const [open, setOpen] = React.useState(false);
 
   const handleClose = (event, reason) => {
@@ -106,7 +107,7 @@ function App() {
             isDarkMode ? "bg-slate-900 xl:bg-slate-950" : ""
           }`}
         >
-          {!auth && <Navbar balance={balance} />}
+          {!auth && <Navbar balance={balance} serviceStatus={serviceStatus} />}
 
           {!auth && (
             <img

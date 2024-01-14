@@ -16,7 +16,7 @@ import { checkUserLoggedIn } from "~/data/authentication.server";
 import { serialize } from "cookie";
 import { logout } from "~/data/authentication.server";
 import { redirect } from "@remix-run/node";
-export default function Navbar({ balance }) {
+export default function Navbar({ balance, serviceStatus }) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -71,7 +71,7 @@ export default function Navbar({ balance }) {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef} className={`${isDarkMode ? "dark" : ""}`}>
-      <nav className="bg-white border-gray-200 shadow-md xl:py-2 xl:mb-0 dark:bg-slate-950  transition-[background-color]">
+      <nav className="bg-white border-gray-200 shadow-md md:shadow-none xl:py-2 xl:mb-0 dark:bg-slate-950  transition-[background-color]">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
@@ -88,49 +88,52 @@ export default function Navbar({ balance }) {
                 <FaCoins />
               </div>
             </div>
-            <button
-              onClick={toggleSidebar}
-              data-collapse-toggle="navbar-default"
-              type="button"
-              className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary rounded-lg lg:hidden   transition-all duration-300"
-              aria-controls="navbar-default"
-              aria-expanded={sidebarVisible ? "true" : "false"}
-            >
-              <span className="sr-only">Toggle menu</span>
-              {sidebarVisible ? (
-                <svg
-                  className="w-15 h-15 transition-transform transform rotate-90"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-5 h-5 transition-transform transform rotate-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 17 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 1h15M1 7h15M1 13h15"
-                  />
-                </svg>
-              )}
-            </button>
+            {serviceStatus === "active" && (
+              <button
+                onClick={toggleSidebar}
+                data-collapse-toggle="navbar-default"
+                type="button"
+                className="hover:scale-110 inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primary rounded-lg lg:hidden   transition-all duration-300"
+                aria-controls="navbar-default"
+                aria-expanded={sidebarVisible ? "true" : "false"}
+              >
+                <span className="sr-only">Toggle menu</span>
+                {sidebarVisible ? (
+                  <svg
+                    className="w-15 h-15 transition-transform transform rotate-90"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="w-5 h-5 transition-transform transform rotate-0"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 17 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M1 1h15M1 7h15M1 13h15"
+                    />
+                  </svg>
+                )}
+              </button>
+            )}
+
             <div className="relative">
               <div>
                 <div>
@@ -216,105 +219,110 @@ export default function Navbar({ balance }) {
       </nav>
 
       {/* SIDEBAR */}
-      <div>
-        <div
-          id="default-sidebar"
-          className={`absolute lg:relative top-0 left-0 z-40 lg:z-0 w-64 lg:w-full h-screen lg:h-min transition-transform ${
-            sidebarVisible ? "" : "-translate-x-full lg:translate-x-0"
-          }`}
-          aria-label="Sidebar"
-        >
-          <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-950 dark:bg-slate-950 transition-[background-color]">
-            <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center dark:text-white ">
-              <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-950 lg:dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
-                <li>
-                  <NavLink
-                    prefetch="intent"
-                    to="/"
-                    onClick={toggleSidebar}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg  shadow-secondary/30 lg:rounded-l-lg group transition dark:text-white"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition dark:text-white dark:hover:bg-slate-600"
-                    }
-                  >
-                    <BiSolidMessageAdd size={26} />
-                    <span className="flex-1 ms-3 whitespace-nowrap font-500">
-                      New Message
-                    </span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    prefetch="intent"
-                    to="/inbox/table"
-                    onClick={toggleSidebar}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg  shadow-secondary/30 group transition dark:text-white"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
-                    }
-                  >
-                    <MdMoveToInbox size={26} />
-                    <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    prefetch="intent"
-                    to="/sentitems/table?page=1&pageSize=25&startDate=&endDate="
-                    onClick={toggleSidebar}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 group transition dark:text-white"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
-                    }
-                  >
-                    <IoMdSend size={26} />
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                      Sent items
-                    </span>
-                  </NavLink>
-                </li>
-                <li className="w-120">
-                  <NavLink
-                    prefetch="intent"
-                    to="/contacts"
-                    onClick={toggleSidebar}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 group transition dark:text-white"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
-                    }
-                  >
-                    <RiContactsBook2Fill size={26} />
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                      Contacts
-                    </span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    prefetch="intent"
-                    to="/reports"
-                    onClick={toggleSidebar}
-                    className={({ isActive }) =>
-                      isActive
-                        ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 lg:rounded-r-lg group transition dark:text-white"
-                        : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
-                    }
-                  >
-                    <HiDocumentReport size={26} />
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                      Reports
-                    </span>
-                  </NavLink>
-                </li>
-              </div>
-            </ul>
+
+      {serviceStatus === "active" && (
+        <div>
+          <div
+            id="default-sidebar"
+            className={`absolute lg:relative top-0 left-0 z-40 lg:z-0 w-64 lg:w-full h-screen lg:h-min transition-transform ${
+              sidebarVisible ? "" : "-translate-x-full lg:translate-x-0"
+            }`}
+            aria-label="Sidebar"
+          >
+            <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-950 dark:bg-slate-950 transition-[background-color]">
+              <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center dark:text-white ">
+                <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-950 lg:dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
+                  <li>
+                    <NavLink
+                      prefetch="intent"
+                      to="/"
+                      onClick={toggleSidebar}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg  shadow-secondary/30 lg:rounded-l-lg group transition dark:text-white"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition dark:text-white dark:hover:bg-slate-600"
+                      }
+                    >
+                      <BiSolidMessageAdd size={26} />
+                      <span className="flex-1 ms-3 whitespace-nowrap font-500">
+                        New Message
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      prefetch="intent"
+                      to="/inbox/table"
+                      onClick={toggleSidebar}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg  shadow-secondary/30 group transition dark:text-white"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                      }
+                    >
+                      <MdMoveToInbox size={26} />
+                      <span className="flex-1 ms-3 whitespace-nowrap">
+                        Inbox
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      prefetch="intent"
+                      to="/sentitems/table?page=1&pageSize=25&startDate=&endDate="
+                      onClick={toggleSidebar}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 group transition dark:text-white"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                      }
+                    >
+                      <IoMdSend size={26} />
+                      <span className="flex-1 ms-3 whitespace-nowrap">
+                        Sent items
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li className="w-120">
+                    <NavLink
+                      prefetch="intent"
+                      to="/contacts"
+                      onClick={toggleSidebar}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 group transition dark:text-white"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                      }
+                    >
+                      <RiContactsBook2Fill size={26} />
+                      <span className="flex-1 ms-3 whitespace-nowrap">
+                        Contacts
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      prefetch="intent"
+                      to="/reports"
+                      onClick={toggleSidebar}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 lg:rounded-r-lg group transition dark:text-white"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                      }
+                    >
+                      <HiDocumentReport size={26} />
+                      <span className="flex-1 ms-3 whitespace-nowrap">
+                        Reports
+                      </span>
+                    </NavLink>
+                  </li>
+                </div>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
