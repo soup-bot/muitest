@@ -7,8 +7,6 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import dotenv from "dotenv";
 export const action = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
-  session.flash("globalMessage", `Contact successfully saved`);
-  session.flash("messageType", `success`);
 
   dotenv.config();
   const addContactEP = process.env.REACT_APP_ADD_CONTACT_EP;
@@ -51,11 +49,19 @@ export const action = async ({ request }) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.statusText} `);
+    const errMsg = await response.text();
+    session.flash("globalMessage", errMsg);
+    session.flash("messageType", `error`);
+    return redirect("/contacts?page=1&pageSize=25", {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
   }
 
   const data = await response.text();
-
+  session.flash("globalMessage", `Contact successfully saved`);
+  session.flash("messageType", `success`);
   return redirect("/contacts?page=1&pageSize=25", {
     headers: {
       "Set-Cookie": await commitSession(session),
