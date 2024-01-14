@@ -1,5 +1,5 @@
 import { useDarkMode } from "../components/DarkModeContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Slider from "@mui/material/Slider";
 import MenuItem from "@mui/material/MenuItem";
@@ -96,7 +96,7 @@ const packageConfigurations = {
 
 export default function Manage() {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-
+  const currentPackageRef = useRef(null);
   const [localSms, setLocalSms] = useState(0);
   const [selectedPackage, setSelectedPackage] = useState("Advanced");
 
@@ -109,14 +109,24 @@ export default function Manage() {
     setLocalSms(value);
   };
 
-  const handlePackageChange = (event) => {
-    setSelectedPackage(event.target.value);
+  const handleChangePackage = (newPackage) => {
+    setSelectedPackage(newPackage);
   };
 
   const calculateCreditCost = () => {
     const { rate } = packageConfigurations[selectedPackage];
     return localSms * rate; // Adjust the formula based on your pricing model
   };
+
+  useEffect(() => {
+    // Scroll to the current package card when selectedPackage changes
+    if (currentPackageRef.current) {
+      currentPackageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [selectedPackage]);
 
   return (
     <div
@@ -132,84 +142,96 @@ export default function Manage() {
 inline-block"
         >
           <div className="font-medium text-2xl my-10 dark:text-slate-200 flex  w-min hover:scale-105 transition">
-            <IoChevronBack className="mt-1 " /> <div>Dashboard</div>
+            <IoChevronBack className="mt-1 ml-8 md:ml-0" /> <div>Dashboard</div>
           </div>
         </Link>
         <div className="flex flex-col 0 w-full lg:flex-row">
           <div className="flex align-middle justify-center items-center lg:w-1/2 lg:border-l lg:border-t lg:border-b rounded-l-lg dark:border-slate-600">
             <div className="h-96 md:w-2/3 lg:w-full w-full">
               <Carousel slide={false} theme={customTheme} indicators={false}>
-                {[
-                  selectedPackage,
-                  ...Object.keys(packageConfigurations).filter(
-                    (pkg) => pkg !== selectedPackage
-                  ),
-                ].map((packageKey) => (
-                  <div key={packageKey} className="">
-                    <div className="w-full h-full flex items-center justify-center p-10   ">
-                      <div
-                        className={`bg-white px-6 pt-2 py-4 rounded-lg shadow-md  border-t-2 dark:bg-slate-950/30 dark:text-slate-300 ${
-                          packageKey === selectedPackage
-                            ? "border-green-500"
-                            : "border-secondary"
-                        }`}
-                      >
-                        {selectedPackage === packageKey ? (
-                          <div className="text-sm font-semibold  text-green-500 mb-4 mt-4  justify-center flex w-full ">
-                            <p> Current Plan</p>
-                          </div>
-                        ) : (
-                          <div className="pt-7"></div>
-                        )}
-
-                        <h1
-                          className={`font-bold text-xl mb-5 ${
+                {
+                  (selectedPackage,
+                  Object.keys(packageConfigurations).map((packageKey) => (
+                    <div
+                      key={packageKey}
+                      className=""
+                      ref={
+                        packageKey === selectedPackage
+                          ? currentPackageRef
+                          : null
+                      }
+                    >
+                      <div className="w-full h-full flex items-center justify-center p-10   ">
+                        <div
+                          className={`bg-white px-6 pt-2 py-4 rounded-lg shadow-md  border-t-2 dark:bg-slate-950/30 dark:text-slate-300 ${
                             packageKey === selectedPackage
-                              ? "text-green-500"
-                              : "text-secondary"
+                              ? "border-green-500"
+                              : "border-secondary"
                           }`}
                         >
-                          {packageKey}
-                        </h1>
-                        <ul>
-                          <li className="flex align-middle items-center my-3">
-                            <RiMessage2Line size={23} className="mr-3" />
-                            Customize between{" "}
-                            {packageConfigurations[packageKey].min} and{" "}
-                            {packageConfigurations[packageKey].max} points
-                          </li>
-                          <li className="flex align-middle items-center my-3">
-                            <BiMoney size={23} className="mr-3" />A rate of{" "}
-                            {packageConfigurations[packageKey].rate} MVR per
-                            point
-                          </li>{" "}
-                          <li className="flex align-middle items-center my-3 mb-10 text-slate-500">
-                            <IoMdInformationCircleOutline
-                              size={23}
-                              className="mr-3"
-                            />
-                            <p className="text-sm">
-                              {" "}
-                              {packageConfigurations[packageKey].description}
-                            </p>
-                          </li>
-                          {/* <div className="flex align-middle justify-center mt-4">
+                          {selectedPackage === packageKey ? (
+                            <div className="text-sm font-semibold  text-green-500 mb-4 mt-4  justify-center flex w-full ">
+                              <p> Current Plan</p>
+                            </div>
+                          ) : (
+                            <div className="pt-7"></div>
+                          )}
+
+                          <h1
+                            className={`font-bold text-xl mb-5 ${
+                              packageKey === selectedPackage
+                                ? "text-green-500"
+                                : "text-secondary"
+                            }`}
+                          >
+                            {packageKey}
+                          </h1>
+                          <ul>
+                            <li className="flex align-middle items-center my-3">
+                              <RiMessage2Line size={23} className="mr-3" />
+                              Customize between{" "}
+                              {packageConfigurations[packageKey].min} and{" "}
+                              {packageConfigurations[packageKey].max} points
+                            </li>
+                            <li className="flex align-middle items-center my-3">
+                              <BiMoney size={23} className="mr-3" />A rate of{" "}
+                              {packageConfigurations[packageKey].rate} MVR per
+                              point
+                            </li>{" "}
+                            <li className="flex align-middle items-center my-3 mb-10 text-slate-500">
+                              <IoMdInformationCircleOutline
+                                size={23}
+                                className="mr-3"
+                              />
+                              <p className="text-sm">
+                                {" "}
+                                {packageConfigurations[packageKey].description}
+                              </p>
+                            </li>
+                            {/* <div className="flex align-middle justify-center mt-4">
                             <Button variant="outlined" color="primary">
                               Change
                             </Button>
                           </div> */}
-                          <div className="flex align-middle justify-center mt-4">
-                            {!(selectedPackage === packageKey) && (
-                              <Button variant="outlined" color="primary">
-                                Change
-                              </Button>
-                            )}
-                          </div>
-                        </ul>
+                            <div className="flex align-middle justify-center mt-4">
+                              {!(selectedPackage === packageKey) && (
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() =>
+                                    handleChangePackage(packageKey)
+                                  }
+                                >
+                                  Change
+                                </Button>
+                              )}
+                            </div>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )))
+                }
               </Carousel>
             </div>
           </div>

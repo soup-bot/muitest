@@ -1,12 +1,13 @@
 import { json, redirect } from "@remix-run/node";
 import InputForm from "../components/textinput";
 import React, { useState, useEffect } from "react";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useDarkMode } from "../components/DarkModeContext";
 import { fileInputHandler } from "../data/fileInput.server";
 import { numberInputHandler } from "../data/numberInput.server";
-import { MdError, MdDelete } from "react-icons/md";
+
+import { commitSession, getSession } from "../sessions";
+
 import dotenv from "dotenv";
 
 import {
@@ -24,27 +25,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function Index() {
   const { userId } = useLoaderData();
-
-  const [open, setOpen] = React.useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-
-  const actionData = useActionData();
-  const { message } = useActionData() || {};
-  const { type } = useActionData() || {};
-
-  useEffect(() => {
-    if (message) {
-      setOpen(true); // Trigger the alert if there's a success message
-    }
-  }, [actionData]);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   return (
     <div
@@ -53,22 +34,6 @@ export default function Index() {
       }`}
     >
       <InputForm />
-
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
-          variant="filled"
-          onClose={handleClose}
-          severity={type}
-          sx={{ width: "100%" }}
-        >
-          {message}
-        </Alert>
-      </Snackbar>
     </div>
   );
 }
@@ -145,6 +110,7 @@ export const loader = async ({ request }) => {
 
 export const action = async ({ request }) => {
   // Retrieve the access token from the cookie
+  const session = await getSession(request.headers.get("Cookie"));
 
   const accessToken = getAccessTokenFromCookie(request);
   const formData = await request.formData();
@@ -155,10 +121,10 @@ export const action = async ({ request }) => {
   try {
     switch (payloadType) {
       case "numbers":
-        return numberInputHandler({ formData, accessToken });
+        return numberInputHandler({ formData, accessToken, session });
 
       case "file":
-        return fileInputHandler({ formData, accessToken });
+        return fileInputHandler({ formData, accessToken, session });
 
       default:
         console.log("Unknown payload type");
