@@ -49,13 +49,6 @@ const customTheme = {
   },
 };
 
-const stepOptions = [
-  { value: 50, max: 1000 },
-  { value: 500, max: 10000 },
-  { value: 2500, max: 50000 },
-  { value: 5000, max: 100000 },
-];
-
 const packageConfigurations = {
   Starter: {
     min: 100,

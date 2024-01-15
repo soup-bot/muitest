@@ -15,8 +15,10 @@ import { MdDelete } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
 import TablePagination from "@mui/material/TablePagination";
 import { IoMdAddCircle } from "react-icons/io";
+import { Form } from "@remix-run/react";
 
-const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
+const GroupsModal = ({ isOpen, onClose, groups }) => {
+  console.log(groups);
   const [paginatedGroups, setPaginatedGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
   const [page, setPage] = useState(0);
@@ -24,32 +26,11 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidGroup, setIsValidGroup] = useState(true);
 
-  const handleCreateGroup = () => {
-    const trimmedName = newGroupName.trim();
-
-    if (trimmedName !== "") {
-      // Check if the group name already exists
-      if (groups.includes(trimmedName)) {
-        setIsValidGroup(false);
-      } else {
-        setGroups([...groups, trimmedName]);
-        setIsValidGroup(true);
-        setNewGroupName("");
-      }
-    } else {
-      setIsValidGroup(false);
-    }
-  };
-
   useEffect(() => {
     setPaginatedGroups(
       groups.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
     );
   }, [groups, page, rowsPerPage]);
-
-  const handleDeleteGroup = (groupName) => {
-    setGroups(groups.filter((group) => group !== groupName));
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -90,12 +71,19 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
               </TableHead>
               <TableBody>
                 {paginatedGroups.map((group) => (
-                  <TableRow key={group}>
-                    <TableCell>{group}</TableCell>
+                  <TableRow key={group.id}>
+                    <TableCell>{group.groupName}</TableCell>
                     <TableCell align="right">
-                      <IconButton onClick={() => handleDeleteGroup(group)}>
-                        <MdDelete />
-                      </IconButton>
+                      <Form method="delete" action="/deleteGroup">
+                        <input type="hidden" name="groupId" value={group.id} />
+                        <IconButton
+                          type="submit"
+                          name="groupId"
+                          onClick={() => console.log(group.id)}
+                        >
+                          <MdDelete />
+                        </IconButton>
+                      </Form>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -113,9 +101,9 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-
-          <div className="w-full flex align-middle justify-center px-2">
-            {/* <input
+          <Form method="post" action="/addGroup">
+            <div className="w-full flex align-middle justify-center px-2">
+              {/* <input
               maxLength={30}
               type="text"
               value={newGroupName}
@@ -124,51 +112,55 @@ const GroupsModal = ({ isOpen, onClose, groups, setGroups }) => {
               className="bg-gray-50 border mr-3 border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               placeholder="Name"
             /> */}
-            <div className="flex align-middle justify-center w-full ">
-              <TextField
-                error={!isValidGroup}
-                label="Name"
-                // helperText={!isValidGroup ? "Group name already exists" : " "}
-                helperText={
-                  (!isValidGroup &&
-                    newGroupName !== "" &&
-                    "Group name already exists") ||
-                  (!isValidGroup &&
-                    !newGroupName &&
-                    "Please enter a group name") ||
-                  " "
-                }
-                value={newGroupName}
-                inputProps={{ maxLength: 30 }}
-                onKeyDown={(e) =>
-                  e.keyCode === 13 ? handleCreateGroup() : null
-                }
-                onChange={(e) => {
-                  setNewGroupName(e.target.value);
-                  setIsValidGroup(true);
-                }}
-                fullWidth
-                required
-                margin="normal"
-              />
-            </div>
 
-            {/* <button
+              <div className="flex align-middle justify-center w-full ">
+                <TextField
+                  error={!isValidGroup}
+                  label="Name"
+                  name="groupname"
+                  // helperText={!isValidGroup ? "Group name already exists" : " "}
+                  helperText={
+                    (!isValidGroup &&
+                      newGroupName !== "" &&
+                      "Group name already exists") ||
+                    (!isValidGroup &&
+                      !newGroupName &&
+                      "Please enter a group name") ||
+                    " "
+                  }
+                  value={newGroupName}
+                  inputProps={{ maxLength: 30 }}
+                  onKeyDown={(e) =>
+                    e.keyCode === 13 ? handleCreateGroup() : null
+                  }
+                  onChange={(e) => {
+                    setNewGroupName(e.target.value);
+                    setIsValidGroup(true);
+                  }}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+              </div>
+
+              {/* <button
                 onClick={handleCreateGroup}
                 className="hover:scale-12 text-secondary hover:text-hoversec px-2 active:scale-110 transition"
               >
                 <IoMdAddCircle size={40} />
               </button> */}
-            <div className="justify-self-center self-center mb-3">
-              <IconButton
-                color="secondary"
-                aria-label="create new group"
-                onClick={handleCreateGroup}
-              >
-                <IoMdAddCircle size={35} />
-              </IconButton>
+
+              <div className="justify-self-center self-center mb-3">
+                <IconButton
+                  color="secondary"
+                  aria-label="create new group"
+                  type="submit"
+                >
+                  <IoMdAddCircle size={35} />
+                </IconButton>
+              </div>
             </div>
-          </div>
+          </Form>
         </div>
       </Box>
     </Modal>

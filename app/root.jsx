@@ -72,8 +72,8 @@ function App() {
   const auth = location.pathname === "/auth";
   const { isDarkMode } = useDarkMode();
   React.useEffect(() => {
-    if (message) {
-      setOpen(true); // Trigger the alert if there's a success message
+    if (message && message.length > 0) {
+      setOpen(true); // Trigger the alert if there's a non-empty success message
     }
   }, [loaderData]);
   // Customize the MUI theme based on dark mode state

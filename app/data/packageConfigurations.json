@@ -1,0 +1,42 @@
+{
+  "Starter": {
+    "id": 1,
+    "min": 100,
+    "max": 1000,
+    "step": 100,
+    "rate": 0.4,
+    "description": "Perfect for beginners"
+  },
+  "Basic": {
+    "id": 2,
+    "min": 1000,
+    "max": 10000,
+    "step": 1000,
+    "rate": 0.25,
+    "description": "Great for small businesses"
+  },
+  "Medium": {
+    "id": 3,
+    "min": 10000,
+    "max": 50000,
+    "step": 5000,
+    "rate": 0.2,
+    "description": "Suitable for growing businesses"
+  },
+  "Advanced": {
+    "id": 4,
+    "min": 50000,
+    "max": 100000,
+    "step": 10000,
+    "rate": 0.16,
+    "description": "Ideal for advanced users"
+  },
+  "Power": {
+    "id": 5,
+    "min": 100000,
+    "max": 1000000,
+    "step": 100000,
+    "rate": 0.1,
+    "description": "Unleash the power"
+  }
+}

@@ -64,6 +64,7 @@ export const loader = async ({ request }) => {
     request
   );
   const accessToken = getAccessTokenFromCookie(request);
+  const getGroupsEP = process.env.REACT_APP_GET_GROUPS_EP;
   const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
   const contactsUrl = `${getContactsEP}?page=${validPage}&pageSize=${validPageSize}&filterName=${searchQuery}`;
   console.log(contactsUrl);
@@ -77,23 +78,39 @@ export const loader = async ({ request }) => {
   }
 
   try {
-    const response = await fetch(contactsUrl, {
+    // Fetch contacts
+    const contactsResponse = await fetch(
+      `${getContactsEP}?page=${validPage}&pageSize=${validPageSize}&filterName=${searchQuery}`,
+      {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    // Fetch groups
+    const groupsResponse = await fetch(getGroupsEP, {
       method: "GET",
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (response.ok) {
-      const { contacts, totalCount } = await response.json();
+
+    if (contactsResponse.ok && groupsResponse.ok) {
+      const { contacts, totalCount } = await contactsResponse.json();
+      const groups = await groupsResponse.json();
       return {
         contacts,
-        totalRowCount: totalCount, // Rename totalCount for consistency
+        groups,
+        totalRowCount: totalCount,
         loading: false,
       };
     }
   } catch (error) {
-    console.error("Error retrieving contacts:", error);
+    console.error("Error retrieving data:", error);
     // Assume user is not logged in on error, redirect to /auth
     return null;
   }
@@ -116,7 +133,7 @@ export default function Contacts() {
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
-  const { contacts } = useLoaderData();
+  const { contacts, groups } = useLoaderData();
   const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = React.useState("");
@@ -150,12 +167,6 @@ export default function Contacts() {
   };
 
   // const [rows, setRows] = React.useState(initialRows);
-  const [groups, setGroups] = React.useState([
-    "Marketing",
-    "Finance",
-    "Sales",
-    "IT",
-  ]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [isGroupsModalOpen, setGroupsModalOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -211,11 +222,11 @@ export default function Contacts() {
     {
       field: "group",
       headerName: "Group",
-      type: "singleSelect",
-      valueOptions: groups,
       width: 200,
-      valueGetter: (params) =>
-        params.row.group ? params.row.group.groupName : "",
+      valueGetter: (params) => {
+        const groupName = params.row.group ? params.row.group.groupName : "";
+        return groupName;
+      },
     },
   ];
 
@@ -257,6 +268,7 @@ export default function Contacts() {
             className="dark:bg-slate-800 bg-slate-50"
             rows={rows}
             columns={columns}
+            keepNonExistentRowsSelected
             density="compact"
             loading={isLoading}
             checkboxSelection
@@ -309,7 +321,6 @@ export default function Contacts() {
           isOpen={isGroupsModalOpen}
           onClose={() => setGroupsModalOpen(false)}
           groups={groups}
-          setGroups={setGroups}
         />
         <Modal
           open={isModalOpen}
@@ -373,13 +384,12 @@ export default function Contacts() {
                     value={newContact.group}
                     onChange={(e) => {
                       handleInputChange("group", e.target.value);
-                      // handleGroupChange(e.target.value); // change groups of selected (checked) rows simultaneously
                     }}
                   >
                     <MenuItem value="">None</MenuItem>
                     {groups.map((group) => (
-                      <MenuItem key={group} value={group}>
-                        {group}
+                      <MenuItem key={group.id} value={group.groupName}>
+                        {group.groupName}
                       </MenuItem>
                     ))}
                   </Select>
@@ -421,14 +431,17 @@ export default function Contacts() {
                 <InputLabel id="group-label">Group</InputLabel>
                 <Select
                   labelId="group-label"
+                  name="group"
                   id="group"
-                  value={newGroup}
-                  onChange={(e) => setNewGroup(e.target.value)}
+                  value={newContact.group}
+                  onChange={(e) => {
+                    handleInputChange("group", e.target.value);
+                  }}
                 >
                   <MenuItem value="">None</MenuItem>
                   {groups.map((group) => (
-                    <MenuItem key={group} value={group}>
-                      {group}
+                    <MenuItem key={group.id} value={group.groupName}>
+                      {group.groupName}
                     </MenuItem>
                   ))}
                 </Select>

@@ -93,6 +93,7 @@ export async function checkUserLoggedIn(request) {
       const {
         userId,
         balance,
+        planId,
         serviceNumber,
         displayName,
         email,
@@ -102,6 +103,7 @@ export async function checkUserLoggedIn(request) {
         isLoggedIn: true,
         userId: userId,
         balance: balance,
+        planId: planId,
         email: email,
         displayName: displayName,
         serviceNumber: serviceNumber,

@@ -18,38 +18,27 @@ import { FaCoins } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import InactiveUserComponent from "../components/InactiveUserComponent";
-
-const stepOptions = [
-  { value: 50, max: 1000 },
-  { value: 500, max: 10000 },
-  { value: 2500, max: 50000 },
-  { value: 5000, max: 100000 },
-];
-
+import packageConfigurations from "../data/packageConfigurations.json";
+import { BiMoney } from "react-icons/bi";
+import { RiMessage2Line } from "react-icons/ri";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import dotenv from "dotenv";
+import { getAccessTokenFromCookie } from "../data/authentication.server";
 export const meta = () => {
   return [{ title: "Dashboard - Dhiraagu Bulk SMS" }];
 };
 
-const calculateDefaultStep = (maxValue) => {
-  const logMax = Math.log10(maxValue);
-  return Math.ceil(logMax / 10);
-};
-
 const palette = ["#F26940", "#0FA5B7"];
 
-const getFirstDayOfMonth = () => {
-  return dayjs().startOf("month");
-};
-
-// Function to get the last day of the current month
-const getLastDayOfMonth = () => {
-  return dayjs().endOf("month");
-};
-
 export const loader = async ({ request }) => {
+  dotenv.config();
+  const accessToken = getAccessTokenFromCookie(request);
+  const getBalanceEP = process.env.REACT_APP_GET_BALANCE_EP;
+
   const {
     isLoggedIn,
     userId,
+    planId,
     balance,
     serviceNumber,
     displayName,
@@ -61,160 +50,69 @@ export const loader = async ({ request }) => {
     // User is not logged in, redirect to /auth
     return redirect("/auth");
   }
+  try {
+    // Make an additional API call to get balance information
+    const balanceResponse = await fetch(getBalanceEP, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-  // User is logged in, you can use userId if needed
-  return { balance, serviceNumber, displayName, email, serviceStatus };
+    if (!balanceResponse.ok) {
+      console.error(
+        "Failed to fetch balance information:",
+        balanceResponse.statusText
+      );
+    } else {
+      const balanceData = await balanceResponse.json();
+
+      // Include balance data in the returned object
+      return {
+        balance,
+        serviceNumber,
+        displayName,
+        email,
+        serviceStatus,
+        planId,
+        balanceData,
+      };
+    }
+  } catch (error) {
+    console.error(
+      "An error occurred while fetching balance information:",
+      error
+    );
+    // Handle the error appropriately
+    // You might want to redirect or show an error message to the user
+    return redirect("/error");
+  }
 };
 
 function Dashboard() {
-  const { balance, serviceNumber, displayName, email, serviceStatus } =
-    useLoaderData();
-  const [localSms, setLocalSms] = useState(0);
-  const [internationalSms, setInternationalSms] = useState(0);
-  const [customCredit, setCustomCredit] = useState(0);
-  const [localSmsStep, setLocalSmsStep] = useState(
-    calculateDefaultStep(100000)
-  );
-  const [internationalSmsStep, setInternationalSmsStep] = useState(
-    calculateDefaultStep(100000)
-  );
-  const [selectedLocalSmsStep, setSelectedLocalSmsStep] = useState(50);
-  const [selectedInternationalSmsStep, setSelectedInternationalSmsStep] =
-    useState(50);
-
-  useEffect(() => {
-    // Use useEffect to ensure the correct initial step count for the slider
-    setLocalSmsStep(selectedLocalSmsStep);
-    setInternationalSmsStep(selectedInternationalSmsStep);
-  }, [selectedLocalSmsStep, selectedInternationalSmsStep]);
-
-  const calculateCreditCost = () => {
-    // Implement your logic to calculate credit cost based on localSms, internationalSms, and customCredit
-    // You can adjust this based on your pricing model
-    const totalCreditCost =
-      (localSms * 1) / 5 + internationalSms * 1 + customCredit;
-    return totalCreditCost;
-  };
-
-  const handleLocalSmsChange = (event, value) => {
-    setLocalSms(value);
-  };
-
-  const handleInternationalSmsChange = (event, value) => {
-    setInternationalSms(value);
-  };
-
-  const handleLocalSmsStepChange = (event) => {
-    const selectedStep = parseInt(event.target.value, 10);
-    setSelectedLocalSmsStep(selectedStep);
-    setLocalSmsStep(selectedStep);
-    adjustMaxValue("local", selectedStep);
-  };
-
-  const handleInternationalSmsStepChange = (event) => {
-    const selectedStep = parseInt(event.target.value, 10);
-    setSelectedInternationalSmsStep(selectedStep);
-    setInternationalSmsStep(selectedStep);
-    adjustMaxValue("international", selectedStep);
-  };
-
-  const adjustMaxValue = (type, selectedStep) => {
-    const selectedOption = stepOptions.find(
-      (option) => option.value === selectedStep
-    );
-    const max = selectedOption ? selectedOption.max : 1000;
-
-    if (type === "local") {
-      setLocalSms((prev) => (prev > max ? max : prev));
-    } else if (type === "international") {
-      setInternationalSms((prev) => (prev > max ? max : prev));
-    }
-  };
-  const [startDate, setStartDate] = useState(getFirstDayOfMonth());
-  const [endDate, setEndDate] = useState(getLastDayOfMonth());
+  const {
+    balance,
+    serviceNumber,
+    displayName,
+    email,
+    serviceStatus,
+    planId,
+    balanceData,
+  } = useLoaderData();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  console.log(planId);
+  const selectedPlan = Object.entries(packageConfigurations).find(
+    ([key, plan]) => plan.id === parseInt(planId)
+  );
+  const selectedPlanName = selectedPlan ? selectedPlan[0] : null;
 
+  console.log(selectedPlanName);
   const today = dayjs().format("DD/MM/YYYY");
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-  };
-  const handleChange = (event) => {
-    setPlan(event.target.value);
-  };
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
+
   const [plan, setPlan] = useState("1");
 
   if (serviceStatus !== "active") {
-    // return (
-    //   <div
-    //     className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
-    //       isDarkMode ? "dark " : ""
-    //     }`}
-    //   >
-    //     <div className=" h-max pb-20 min-h-full  2xl: shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
-    //       <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
-    //         Dashboard
-    //       </h1>
-    //       <div>
-    //         <p>
-    //           Your account setup is almost complete! To fully activate your
-    //           account, please provide the following details:
-    //         </p>
-    //         <Form method="patch" action="/updateUser">
-    //           <div className="flex w-full">
-    //             <div className="mr-1 w-1/3">
-    //               <TextField
-    //                 label="First name"
-    //                 variant="outlined"
-    //                 name="firstName"
-    //                 fullWidth
-    //                 required
-    //               />
-    //             </div>
-    //             <div className="w-1/3">
-    //               <TextField
-    //                 label="Last name"
-    //                 name="lastName"
-    //                 variant="outlined"
-    //                 required
-    //                 fullWidth
-    //               />
-    //             </div>
-    //           </div>
-    //           <TextField
-    //             label="Number"
-    //             variant="outlined"
-    //             name="number"
-    //             required
-    //             fullWidth
-    //           />
-    //           <InputLabel id="plan-select-label">Choose a Plan</InputLabel>
-    //           <Select
-    //             labelId="plan-select-label"
-    //             id="plan-select"
-    //             name="planID"
-    //             value={plan}
-    //             onChange={handleChange}
-    //             variant="outlined"
-    //             fullWidth
-    //           >
-    //             <MenuItem value="1">Plan 1</MenuItem>
-    //             <MenuItem value="2">Plan 2</MenuItem>
-    //             <MenuItem value="3">Plan 3</MenuItem>
-    //           </Select>
-    //           <button
-    //             type="submit"
-    //             className="text-white bg-primary hover:bg-hoverprim font-medium rounded-lg text-sm px-5 py-2.5 mt-3"
-    //           >
-    //             Activate Account
-    //           </button>
-    //         </Form>
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
     return <InactiveUserComponent />;
   }
   return (
@@ -249,19 +147,22 @@ function Dashboard() {
                 My current plan
               </p>
               <h5 className="mb-2 text-2xl font-medium tracking-tight text-slate-900 dark:text-slate-200">
-                BULK/CORP SMS 15K
+                {selectedPlanName}
               </h5>
 
-              <ul className="my-4 list-disc mx-4">
-                <li className="text-md dark:text-slate-200">
-                  SMS Allowance per month -110,000{" "}
+              <ul className="dark:text-slate-200">
+                <li className="flex align-middle items-center my-3">
+                  <RiMessage2Line size={23} className="mr-3" />
+                  Customize between {selectedPlan[plan].min} and{" "}
+                  {selectedPlan[plan].max} points
                 </li>
-                <li className="text-md dark:text-slate-200">
-                  {" "}
-                  Excess SMS Allowance per month -200,000
-                </li>
-                <li className="text-md dark:text-slate-200">
-                  Excess Allowance Charge (MVR) - 0.15
+                <li className="flex align-middle items-center my-3">
+                  <BiMoney size={23} className="mr-3" />A rate of{" "}
+                  {selectedPlan[plan].rate} MVR per point
+                </li>{" "}
+                <li className="flex align-middle items-center my-3 mb-10 ">
+                  <IoMdInformationCircleOutline size={23} className="mr-3" />
+                  <p className="text-md"> {selectedPlan[plan].description}</p>
                 </li>
               </ul>
               <Link to="/manageplan">
@@ -372,7 +273,7 @@ function Dashboard() {
 
           <div className="w-full p-0  py-3  lg:p-3 lg:basis-2/3 ">
             <div className="transition  w-full p-1 h-full bg-white    rounded-lg   dark:bg-slate-800 border dark:border-slate-600">
-              <div className="text-md bg-white rounded-md p-3 divide-y dark:bg-slate-800">
+              <div className="text-md bg-white rounded-md p-3 divide-y divide-slate-200 dark:divide-slate-600 dark:bg-slate-800">
                 <p className="mb-3  font-medium opacity-70 text-gray-800 dark:text-slate-200">
                   Account Details
                 </p>
