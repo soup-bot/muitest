@@ -21,6 +21,12 @@ import { FaAlignLeft } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { FaFileDownload } from "react-icons/fa";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import Button from "@mui/material/Button";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { FaUserGroup } from "react-icons/fa6";
 
 const handleDownload = () => {
   // Your data in the desired format
@@ -54,9 +60,10 @@ const handleDownload = () => {
 export default function InputForm() {
   const [textDirection, setTextDirection] = useState("ltr");
   const { senderNames } = useLoaderData();
-  const { contactNames } = useLoaderData();
+  const { contacts } = useLoaderData();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
+  const [numberInput, setNumberInput] = useState("");
   const [numMessages, setNumMessages] = useState(0);
   const [inputType, setInputType] = useState("numbers");
   const [selected, setSelected] = useState([]);
@@ -66,13 +73,76 @@ export default function InputForm() {
   const [validFileSize, setValidFileSize] = useState(true);
   const [open, setOpen] = useState(false);
   const [validFile, setValidFile] = useState(true);
-  const uniqueNumbers = [...new Set(selected.map((item) => item.value))];
+  const [uniqueNumbers, setUniqueNumbers] = useState([]);
   const navigation = useNavigation();
-
+  console.log(contacts);
   const handleOpen = () => setOpen(true);
   let $form = useRef();
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleKeyDown = (e) => {
+    // Existing Enter key handling logic
+    if (e.key === "Enter" && e.target.value.trim() !== "") {
+      e.preventDefault();
+      const enteredValue = e.target.value.trim();
+
+      if (
+        !selected.some((item) => item.value === enteredValue) &&
+        !uniqueNumbers.includes(enteredValue)
+      ) {
+        setSelected((prevSelected) => [
+          ...prevSelected,
+          { label: enteredValue, value: enteredValue },
+        ]);
+        setUniqueNumbers((prevUniqueNumbers) => [
+          ...prevUniqueNumbers,
+          enteredValue,
+        ]);
+      } else {
+        // Clear the input field if the value is not unique
+        e.stopPropagation();
+        console.log("not unique number");
+      }
+
+      e.target.value = "";
+    }
+
+    // Backspace key handling
+    if (e.key === "Backspace" && e.target.value === "") {
+      if (selected.length > 0) {
+        handleTagDelete(selected.length - 1);
+      } else if (uniqueNumbers.length > 0) {
+        // If no tags are selected, remove one instance of the last number in uniqueNumbers
+        const lastNumber = uniqueNumbers[uniqueNumbers.length - 1];
+        setUniqueNumbers((prevUniqueNumbers) => {
+          const indexToRemove = prevUniqueNumbers.lastIndexOf(lastNumber);
+          if (indexToRemove !== -1) {
+            const updatedUniqueNumbers = [...prevUniqueNumbers];
+            updatedUniqueNumbers.splice(indexToRemove, 1);
+            return updatedUniqueNumbers;
+          }
+          return prevUniqueNumbers;
+        });
+      }
+    }
+  };
+
+  const handleAddToSelected = (value) => {
+    console.log("contact added");
+    console.log(value);
+
+    // Check if it's a contact from the file or added manually
+    const contactToAdd =
+      typeof value === "object" ? value : { label: value, value };
+
+    setSelected((prevSelected) => [...prevSelected, contactToAdd]);
+
+    setUniqueNumbers((prevUniqueNumbers) => [
+      ...prevUniqueNumbers,
+      contactToAdd.value,
+    ]);
   };
 
   const toggleTextDirection = () => {
@@ -139,17 +209,53 @@ export default function InputForm() {
       setValidFile(false);
     }
   };
-
-  const sampleContacts = [
-    { label: "Samaau", value: "7366626" },
-    { label: "Ameer", value: "7634476" },
-    { label: "Jalwan", value: "7574477" },
-  ];
-
   const handleButtonClick = (value, event) => {
     event.preventDefault();
     setText((prevText) => `${prevText} @@${value} `);
     calculateMessages(text + " @@" + value);
+  };
+
+  const groupOptions = [];
+  const contactOptions = [];
+
+  Object.entries(contacts).forEach(([group, groupContacts]) => {
+    // Check if the group has a name
+    const groupName =
+      groupContacts.length > 0 && groupContacts[0].group
+        ? groupContacts[0].group.groupName
+        : null;
+
+    // Add the group to the groupOptions array only if it has a name
+    if (groupName) {
+      groupOptions.push({ label: groupName, value: group, isGroup: true });
+    }
+
+    // Add the group's contacts to the contactOptions array
+    contactOptions.push(
+      ...groupContacts.map((contact) => ({
+        label: contact.name,
+        value: contact.number,
+      }))
+    );
+  });
+  // Combine groupOptions and contactOptions in the options array
+  const options = [...groupOptions, ...contactOptions];
+
+  const handleAddGroupToSelected = (group) => {
+    const groupContacts = contacts[group];
+    const contactsToAdd = groupContacts.map((contact) => ({
+      label: contact.name,
+      value: contact.number,
+    }));
+
+    // Add the contacts of the selected group to the existing selected numbers
+    setSelected((prevSelected) => [...prevSelected, ...contactsToAdd]);
+
+    // Add the numbers of the selected group to the uniqueNumbers
+    setUniqueNumbers((prevUniqueNumbers) => [
+      ...prevUniqueNumbers,
+      ...groupContacts.map((contact) => contact.number),
+    ]);
   };
 
   const calculateMessages = (text) => {
@@ -189,33 +295,84 @@ export default function InputForm() {
     // and starts with either 7 or 9
     return /^[79]\d{6}$/.test(phoneNumber);
   };
-
   const handleTagDelete = (index) => {
+    console.log("Deleting tag at index:", index);
+
     setSelected((prevSelected) => {
-      const newSelected = [...prevSelected];
-      newSelected.splice(index, 1);
+      const deletedTag = prevSelected[index];
+      console.log("Deleted tag:", deletedTag);
+
+      // Remove numbers of deleted group from uniqueNumbers
+      if (deletedTag.isGroup) {
+        const groupContacts = contacts[deletedTag.value];
+        const groupNumbers = groupContacts.map((contact) => contact.number);
+        console.log("Removing group numbers from uniqueNumbers:", groupNumbers);
+        setUniqueNumbers((prevUniqueNumbers) => {
+          const newUniqueNumbers = [...prevUniqueNumbers];
+          groupNumbers.forEach((groupNumber) => {
+            const indexToRemove = newUniqueNumbers.indexOf(groupNumber);
+            if (indexToRemove !== -1) {
+              newUniqueNumbers.splice(indexToRemove, 1);
+            }
+          });
+          return newUniqueNumbers;
+        });
+      } else {
+        // Remove the individual number from uniqueNumbers
+        const deletedNumber = deletedTag.value || deletedTag.label;
+        console.log("Removing number from uniqueNumbers:", deletedNumber);
+
+        // Check if the deleted number exists in other selected items
+        const isNumberUsed = prevSelected.some(
+          (item, i) =>
+            i !== index &&
+            (item.value === deletedNumber || item.label === deletedNumber)
+        );
+
+        if (!isNumberUsed || isManuallyAdded(deletedNumber)) {
+          // If the number is not used in other selected items or is manually added, remove one instance
+          setUniqueNumbers((prevUniqueNumbers) => {
+            const indexToRemove = prevUniqueNumbers.indexOf(deletedNumber);
+            if (indexToRemove !== -1) {
+              const newUniqueNumbers = [...prevUniqueNumbers];
+              newUniqueNumbers.splice(indexToRemove, 1);
+              return newUniqueNumbers;
+            }
+            return prevUniqueNumbers;
+          });
+        }
+      }
+
+      // Filter out the deleted tag from the selected state
+      const newSelected = prevSelected.filter((_, i) => i !== index);
+
       return newSelected;
     });
   };
 
+  // Check if a number was manually added by the user
+  const isManuallyAdded = (number) => {
+    return !contacts[number];
+  };
   const handleSubmit = () => {
     setText("");
     setNumMessages(0);
   };
-  const beforeAddValidate = (tag, existingTags) => {
-    // Check if the tag is a string (manually entered number) or an object (contact)
-    const isString = typeof tag === "string";
+  // const beforeAddValidate = (tag, existingTags) => {
+  //   // Check if the tag is a string (manually entered number) or an object (contact)
+  //   const isString = typeof tag === "string";
 
-    // If it's a string, perform phone number validation
-    if (isString) {
-      const isValidPhoneNumber = validatePhoneNumber(tag);
-      isValidPhoneNumber ? setValidNum(true) : setValidNum(false);
-      return isValidPhoneNumber;
-    }
+  //   // If it's a string, perform phone number validation
+  //   if (isString) {
+  //     const isValidPhoneNumber = validatePhoneNumber(tag);
+  //     isValidPhoneNumber ? setValidNum(true) : setValidNum(false);
+  //     return isValidPhoneNumber;
+  //   }
 
-    // If it's an object, consider it valid
-    return true;
-  };
+  //   // If it's an object, consider it valid
+  //   return true;
+  // };
+
   // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   return (
     <div className="w-full flex flex-col items-center">
@@ -353,6 +510,8 @@ export default function InputForm() {
                       <Autocomplete
                         className="dark:bg-slate-800 bg-slate-50 focus:border-none"
                         multiple
+                        filterSelectedOptions
+                        readOnly={selected.length >= 10}
                         id="tags-filled"
                         sx={{
                           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
@@ -364,28 +523,81 @@ export default function InputForm() {
                             padding: "2",
                           },
                         }}
-                        options={contactNames}
+                        options={options}
+                        groupBy={(option) =>
+                          option.isGroup ? "Groups" : "Contacts"
+                        }
+                        renderGroup={(params) => (
+                          <div key={params.key} className="">
+                            <h5 className="font-medium text-lg px-3 shadow py-2">
+                              {params.group}
+                            </h5>
+                            <div className="w-full h-1/2 "></div>
+                            {params.children}
+                          </div>
+                        )}
+                        getOptionLabel={(option) => option.label}
+                        renderOption={(props, option) => (
+                          <div
+                            {...props}
+                            className="flex justify-between px-3 hover:bg-primary/30 py-1"
+                          >
+                            <div
+                              className="flex justify-between w-full"
+                              onClick={() => {
+                                if (option.isGroup) {
+                                  handleAddGroupToSelected(option.value);
+                                } else {
+                                  handleAddToSelected(option);
+                                }
+                              }}
+                            >
+                              {option.label}
+                            </div>
+                          </div>
+                        )}
                         defaultValue={[]}
                         limitTags={4}
                         freeSolo
+                        onInputChange={(e) => setNumberInput(e.target.value)}
+                        inputValue={numberInput}
                         value={selected}
                         onChange={(e, value) => {
-                          const validValues = value.filter(beforeAddValidate);
+                          const updatedSelected = value.map((item) => {
+                            if (typeof item === "object") {
+                              // If it's a contact or group, just return it
+                              return item;
+                            } else if (contacts[item]) {
+                              // If it's a group, return an object representing the group
+                              return {
+                                label: item,
+                                isGroup: true,
+                                groupId: item,
+                              };
+                            } else {
+                              // If it's an individual number, return an object representing the number
+                              console.log("not a group");
+                              return {
+                                label: item,
+                                isGroup: false,
+                                groupId: item,
+                              };
+                            }
+                          });
 
-                          const updatedSelected = validValues.map((item) =>
-                            typeof item === "object"
-                              ? item
-                              : { label: item, value: item }
-                          );
+                          // Filter out null values
                           setSelected(updatedSelected);
                         }}
-                        getOptionLabel={(option) =>
-                          typeof option === "string" ? option : option.label
-                        }
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
                             <Chip
-                              icon={<FaPhoneAlt />}
+                              icon={
+                                option.isGroup ? (
+                                  <FaUserGroup />
+                                ) : (
+                                  <FaPhoneAlt />
+                                )
+                              }
                               key={index}
                               label={option.label}
                               size="medium"
@@ -404,24 +616,7 @@ export default function InputForm() {
                             {...params}
                             placeholder="Add a number by pressing enter"
                             sx={{ fontWeight: "bold" }}
-                            onKeyDown={(e) => {
-                              if (
-                                e.key === "Enter" &&
-                                e.target.value.trim() !== ""
-                              ) {
-                                const enteredValue = e.target.value.trim();
-                                if (beforeAddValidate(enteredValue)) {
-                                  setSelected([
-                                    ...selected,
-                                    {
-                                      label: enteredValue,
-                                      value: enteredValue,
-                                    },
-                                  ]);
-                                  e.target.value = ""; // Clear the input after adding
-                                }
-                              }
-                            }}
+                            onKeyDown={handleKeyDown}
                           />
                         )}
                       />

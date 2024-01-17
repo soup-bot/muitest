@@ -10,6 +10,7 @@ import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getSession, commitSession } from "./sessions";
+import { useRouteError, isRouteErrorResponse } from "@remix-run/react";
 import { DarkModeProvider, useDarkMode } from "./components/DarkModeContext";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
@@ -17,6 +18,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export const meta = () => {
   return [{ title: "Bulk SMS Portal" }];
 };
+function isDefinitelyAnError(error) {
+  // Check if the object is an instance of the Error class or has an "error" property
+  return (
+    error instanceof Error ||
+    (error && typeof error === "object" && error.hasOwnProperty("error"))
+  );
+}
+
 export const loader = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const message = session.get("globalMessage") || null;
@@ -156,5 +165,86 @@ export default function AppWithProviders() {
     <DarkModeProvider>
       <App />
     </DarkModeProvider>
+  );
+}
+
+export function ErrorBoundary() {
+  let error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <Document title={error.statusText}>
+        <div
+          className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in 
+      `}
+        >
+          <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
+            <div className="w-full h-full flex align-middle justify-center items-middle text-center">
+              <div>
+                <h1>{error.status}</h1>
+                <Link
+                  to={"/dashboard"}
+                  className="text-secondary hover:text-secondary/60"
+                >
+                  Click here to return to your dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Document>
+    );
+  }
+
+  return (
+    <Document title="Unknown Error ">
+      <div
+        className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in 
+      `}
+      >
+        <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
+          <div className="w-full h-full flex align-middle justify-center items-middle text-center">
+            <div className="bg-slate-50 shadow-md h-min mt-40 p-10 rounded-md">
+              <h1 className="  text-2xl  dark:text-slate-200 pb-15">
+                Oops, we ran into an error!
+              </h1>
+              <div className="h-20"></div>
+              <Link
+                to={"/dashboard"}
+                className="text-secondary hover:text-secondary/60 mt-20"
+              >
+                Click here to return to your dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Document>
+  );
+}
+
+function Document(props) {
+  return (
+    <html>
+      <head>
+        {props.title ? <title>{props.title}</title> : null}
+
+        <Links />
+      </head>
+      <body>
+        <img
+          src={bg2}
+          alt=""
+          className=" left-12 bottom-0 scale-150 hidden xl:flex absolute opacity-80"
+        />
+        <img
+          src={bg2}
+          alt=""
+          className=" right-0 bottom-0 scale-100 hidden xl:flex absolute rotate-180 opacity-80"
+        />
+        {props.children}
+        <Scripts />
+      </body>
+    </html>
   );
 }

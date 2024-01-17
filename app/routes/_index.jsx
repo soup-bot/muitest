@@ -39,7 +39,7 @@ export default function Index() {
 }
 export const loader = async ({ request }) => {
   dotenv.config();
-  const getContactsEP = process.env.REACT_APP_GET_CONTACTS_EP;
+  const getContactsEP = process.env.REACT_APP_GET_GROUP_CONTACTS_EP;
   const getSenderEP = process.env.REACT_APP_GET_SENDERS_EP;
 
   const { isLoggedIn, userId, balance, serviceStatus } =
@@ -75,9 +75,8 @@ export const loader = async ({ request }) => {
     const sendersData = await sendersResponse.json();
     const senderNames = sendersData.map((sender) => sender.senderName);
 
-    // Fetch contacts
-    const contactsUrl = `${getContactsEP}`; // Adjust parameters as needed
-    const contactsResponse = await fetch(contactsUrl, {
+    // Fetch contacts // Adjust parameters as needed
+    const contactsResponse = await fetch(getContactsEP, {
       method: "GET",
       headers: {
         accept: "application/json",
@@ -91,15 +90,11 @@ export const loader = async ({ request }) => {
       return { senders: senderNames, contacts: [] }; // Return senders and empty array for contacts
     }
 
-    const { contacts, totalCount } = await contactsResponse.json();
-    const contactNames = contacts.map((contact) => ({
-      label: contact.name,
-      value: contact.number,
-    }));
+    const contacts = await contactsResponse.json();
 
     return {
       senderNames: senderNames,
-      contactNames: contactNames,
+      contacts: contacts,
     };
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -116,7 +111,6 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
 
   const payloadType = formData.get("payloadType");
-  console.log(payloadType);
 
   try {
     switch (payloadType) {

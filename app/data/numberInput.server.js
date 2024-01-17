@@ -15,6 +15,8 @@ export const numberInputHandler = async ({
   const content = formData.get("text");
   const sender = formData.get("senderID");
   console.log("SENDER ID: " + sender);
+
+  console.log("destination" + destination);
   const numbersPayload = {
     destination: destination,
     content: content,
@@ -55,4 +57,5 @@ export const numberInputHandler = async ({
       "Set-Cookie": await commitSession(session),
     },
   });
+  return null;
 };
