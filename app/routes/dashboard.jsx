@@ -40,28 +40,29 @@ const customTheme = {
   root: {
     base: "relative h-full w-full",
     leftControl:
-      "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
+      "absolute top-0 translate-y-1/2  left-0 flex h-full items-center justify-center px-4 focus:outline-none",
     rightControl:
-      "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
+      "absolute top-0  translate-y-1/2 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
   },
   indicators: {
     active: {
-      off: "bg-primary/20 hover:bg-white dark:bg-gray-800/50 dark:hover:bg-gray-800",
-      on: "bg-primary/60 dark:bg-gray-800",
+      off: "bg-primary/20 hover:bg-white dark:bg-gray-300/50 dark:hover:bg-primary/40",
+      on: "bg-primary/10 dark:bg-primary/50",
     },
-    base: "h-3 w-3 rounded-full md:hidden",
-    wrapper: "absolute bottom-1 left-1/2 flex -translate-x-1/2 space-x-3",
+    base: "h-3 w-3 rounded-full ",
+    wrapper:
+      "absolute bottom-1 left-1/2 flex -translate-x-1/2  translate-y-1  space-x-3",
   },
   item: {
-    base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
+    base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-2/3",
     wrapper: {
       off: "w-full flex-shrink-0 transform cursor-default snap-center",
       on: "w-full flex-shrink-0 transform cursor-grab snap-center",
     },
   },
   control: {
-    base: "inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 group-hover:bg-primary/60  dark:bg-slate-300/20 dark:group-hover:bg-primary/60  sm:h-10 sm:w-10",
-    icon: "h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6",
+    base: "inline-flex h-8 w-8 items-center justify-center rounded-full  group-hover:bg-primary/20   dark:group-hover:bg-primary/60  sm:h-10 sm:w-10",
+    icon: "h-5 w-5 text-primary/50 dark:text-gray-800 sm:h-6 sm:w-6 dark:text-slate-400",
   },
   scrollContainer: {
     base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-lg",
@@ -224,7 +225,7 @@ function Dashboard() {
                 </li>
               </ul>
               <Link to="/manageplan">
-                <button className=" inline-flex items-center mt-16 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim ">
+                <button className=" inline-flex items-center mt-5 px-3 py-2 text-sm font-medium text-center text-white bg-primary self-end rounded-lg hover:bg-hoverprim ">
                   Manage plan
                   <svg
                     className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
@@ -250,20 +251,16 @@ function Dashboard() {
           {balanceData.length > 0 && (
             <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/2  ">
               <div className=" transition  w-full p-6 h-full bg-white border-b-4  hover:border-b-primary border dark:border-slate-600 dark:hover:border-b-primary rounded-lg dark:bg-slate-800">
-                <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
+                <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200 ">
                   My usage
                 </p>
-                <div className="h-56 md:w-2/3 lg:w-full w-full">
-                  <Carousel
-                    slide={false}
-                    indicators={false}
-                    theme={customTheme}
-                  >
+                <div className="h-60 md:w-2/3 lg:w-full w-full mb-2">
+                  <Carousel slide={false} theme={customTheme}>
                     {balanceData.map((item, index) => (
                       <div key={item.id} className="w-full p-0 py-3 lg:p-3 ">
                         <div className="transition w-full h-full p-6 bg-white border-b-4  border dark:border-slate-600  rounded-lg dark:bg-slate-800">
                           {index === 0 ? (
-                            <p className="mb-3 text-green-500 font-medium opacity-70 dark:text-slate-200">
+                            <p className="mb-3 text-green-500 dark:text-green-300 font-medium opacity-70 ">
                               Currently using
                             </p>
                           ) : (
