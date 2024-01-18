@@ -102,22 +102,11 @@ const GroupsModal = ({ isOpen, onClose, groups }) => {
           />
           <Form method="post" action="/addGroup">
             <div className="w-full flex align-middle justify-center px-2">
-              {/* <input
-              maxLength={30}
-              type="text"
-              value={newGroupName}
-              onKeyDown={(e) => (e.keyCode === 13 ? handleCreateGroup() : null)}
-              onChange={(e) => setNewGroupName(e.target.value)}
-              className="bg-gray-50 border mr-3 border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Name"
-            /> */}
-
               <div className="flex align-middle justify-center w-full ">
                 <TextField
                   error={!isValidGroup}
                   label="Name"
                   name="groupname"
-                  // helperText={!isValidGroup ? "Group name already exists" : " "}
                   helperText={
                     (!isValidGroup &&
                       newGroupName !== "" &&
@@ -138,13 +127,6 @@ const GroupsModal = ({ isOpen, onClose, groups }) => {
                   margin="normal"
                 />
               </div>
-
-              {/* <button
-                onClick={handleCreateGroup}
-                className="hover:scale-12 text-secondary hover:text-hoversec px-2 active:scale-110 transition"
-              >
-                <IoMdAddCircle size={40} />
-              </button> */}
 
               <div className="justify-self-center self-center mb-3">
                 <IconButton

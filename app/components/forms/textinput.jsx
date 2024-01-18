@@ -7,12 +7,12 @@ import {
 import { useState, useRef } from "react";
 import xlsx from "xlsx";
 import { IoSend } from "react-icons/io5";
-import sample from "../assets/sample.png";
-import placeholderimg from "../assets/placeholders.png";
+import sample from "../../assets/sample.png";
+import placeholderimg from "../../assets/placeholders.png";
 import { IoClose } from "react-icons/io5";
 import Modal from "@mui/material/Modal";
 import Chip from "@mui/material/Chip";
-import { useDarkMode } from "../components/DarkModeContext";
+import { useDarkMode } from "../DarkModeContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { FaPhoneAlt } from "react-icons/fa";

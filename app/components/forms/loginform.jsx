@@ -1,7 +1,7 @@
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { MdLogin } from "react-icons/md";
-import { useDarkMode } from "../components/DarkModeContext";
+import { useDarkMode } from "../DarkModeContext";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LoginForm from "../components/loginform";
+import LoginForm from "../components/forms/loginform";
 import logo from "../assets/logo.svg";
 import { Link, useActionData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";

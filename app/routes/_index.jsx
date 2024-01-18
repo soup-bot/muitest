@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import InputForm from "../components/textinput";
+import InputForm from "../components/forms/textinput";
 import React, { useState, useEffect } from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useDarkMode } from "../components/DarkModeContext";
