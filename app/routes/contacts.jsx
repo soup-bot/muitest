@@ -25,7 +25,7 @@ import { MdDelete } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { useDarkMode } from "../components/DarkModeContext";
-import GroupsModal from "../components/groupsmodal";
+import GroupsModal from "../components/modals/GroupsModal";
 import { FaEdit } from "react-icons/fa";
 import { getSession, commitSession } from "../sessions";
 import { MdGroupAdd } from "react-icons/md";

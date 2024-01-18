@@ -12,7 +12,7 @@ import TableCell from "@mui/material/TableCell";
 import TextField from "@mui/material/TextField";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-import { useDarkMode } from "../components/DarkModeContext";
+import { useDarkMode } from "../DarkModeContext";
 import TablePagination from "@mui/material/TablePagination";
 import { IoMdAddCircle } from "react-icons/io";
 import { Form } from "@remix-run/react";
