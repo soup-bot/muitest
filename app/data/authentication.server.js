@@ -163,7 +163,7 @@ export async function register(credentials) {
     if (!registerResponse.ok) {
       const error = await registerResponse.json();
       const errorData = error.errors;
-      console.log(errorData);
+
       // Handle registration failure
 
       return {

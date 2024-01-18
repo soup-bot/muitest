@@ -70,7 +70,6 @@ export default function InputForm() {
   const [validFile, setValidFile] = useState(true);
   const [uniqueNumbers, setUniqueNumbers] = useState([]);
   const navigation = useNavigation();
-  console.log(contacts);
   const handleOpen = () => setOpen(true);
   let $form = useRef();
   const handleClose = () => {

@@ -180,13 +180,16 @@ export function ErrorBoundary() {
         >
           <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
             <div className="w-full h-full flex align-middle justify-center items-middle text-center">
-              <div>
-                <h1>{error.status}</h1>
+              <div className=" h-min mt-40 p-10 ">
+                <h1 className="  text-3xl  dark:text-slate-200 pb-15 mb-5">
+                  Oops, we ran into an error!
+                </h1>
+                <h1 className="text-lg mb-8">{error.status}</h1>
                 <Link
                   to={"/dashboard"}
-                  className="text-secondary hover:text-secondary/60"
+                  className="bg-secondary py-2 px-4 text-lg rounded-md shadow text-slate-100 hover:bg-secondary/70 "
                 >
-                  Click here to return to your dashboard
+                  Click here to go home
                 </Link>
               </div>
             </div>

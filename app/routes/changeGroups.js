@@ -7,26 +7,31 @@ export const action = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
 
   dotenv.config();
-  const deleteGroupEP = process.env.REACT_APP_DELETE_GROUP_EP;
+  const changeGroupsEP = process.env.REACT_APP_CHANGE_GROUPS_EP;
   const formData = await request.formData();
-  const groupId = formData.get("groupId");
-
-  const deleteGroupUrl = `${deleteGroupEP}/${groupId}`;
+  const groupIds = formData.get("groupIds");
+  const group = formData.get("group");
 
   const accessToken = getAccessTokenFromCookie(request);
 
   console.log("action called");
-  if (request.method !== "DELETE") {
+  if (request.method !== "POST") {
     throw json({ message: "Invalid request method" }, { status: 400 });
   }
 
-  const response = await fetch(deleteGroupUrl, {
-    method: "DELETE",
+  const payload = {
+    contactIds: groupIds.split(",").map(Number), // Convert strings to numbers
+    groupId: Number(group), // Convert string to number
+  };
+
+  const response = await fetch(changeGroupsEP, {
+    method: "POST",
     headers: {
       accept: "*/*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
@@ -42,7 +47,7 @@ export const action = async ({ request }) => {
 
   const data = await response.text();
 
-  session.flash("globalMessage", `Group successfully deleted`);
+  session.flash("globalMessage", data);
   session.flash("messageType", `success`);
   return redirect("/contacts?page=1&pageSize=25", {
     headers: {

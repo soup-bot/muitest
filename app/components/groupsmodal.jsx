@@ -18,7 +18,6 @@ import { IoMdAddCircle } from "react-icons/io";
 import { Form } from "@remix-run/react";
 
 const GroupsModal = ({ isOpen, onClose, groups }) => {
-  console.log(groups);
   const [paginatedGroups, setPaginatedGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
   const [page, setPage] = useState(0);
@@ -130,9 +129,6 @@ const GroupsModal = ({ isOpen, onClose, groups }) => {
                   }
                   value={newGroupName}
                   inputProps={{ maxLength: 30 }}
-                  onKeyDown={(e) =>
-                    e.keyCode === 13 ? handleCreateGroup() : null
-                  }
                   onChange={(e) => {
                     setNewGroupName(e.target.value);
                     setIsValidGroup(true);

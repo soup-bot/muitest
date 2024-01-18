@@ -44,6 +44,7 @@ import {
   useActionData,
   useLoaderData,
   useNavigate,
+  useNavigation,
 } from "@remix-run/react";
 
 export const meta = () => {
@@ -135,7 +136,8 @@ export default function Contacts() {
   };
   const { contacts, groups } = useLoaderData();
   const navigate = useNavigate();
-
+  const navigation = useNavigation();
+  let actionData = useActionData();
   const [searchInput, setSearchInput] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -148,7 +150,6 @@ export default function Contacts() {
     pageSize: 25,
   });
   const [rowCountState, setRowCountState] = useState(totalRowCount || 0);
-
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidContact, setIsValidContact] = useState(true);
   const [isModalOpen, setModalOpen] = React.useState(false);
@@ -173,6 +174,17 @@ export default function Contacts() {
   const search = () => {
     setButtonClick((prevButtonClick) => !prevButtonClick);
   };
+
+  useEffect(
+    function resetFormOnSuccess() {
+      if (navigation.state === "idle") {
+        console.log("useeffect");
+        setNewContact({ name: "", number: "", group: "" });
+      }
+    },
+    [navigation.state]
+  );
+
   useEffect(() => {
     setIsLoading(false);
   }, [rows]);
@@ -333,6 +345,7 @@ export default function Contacts() {
             <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
               Add Contact
             </h2>
+
             <Form method="post" action="/addContact">
               <TextField
                 error={!isValidContact && !newContact.name}
@@ -420,46 +433,49 @@ export default function Contacts() {
           }`}
         >
           <Box className=" bg-white border  dark:border-slate-500 dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
-            <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
-              Change groups
-            </h2>
-            <p className="dark:text-slate-200 mt-10 text-sm">
-              Change the group of {selectedRows.length} contacts:
-            </p>
-            <div className="mt-3">
-              <FormControl variant="outlined" fullWidth margin="normal">
-                <InputLabel id="group-label">Group</InputLabel>
-                <Select
-                  labelId="group-label"
-                  name="group"
-                  id="group"
-                  value={newContact.group}
-                  onChange={(e) => {
-                    handleInputChange("group", e.target.value);
-                  }}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  {groups.map((group) => (
-                    <MenuItem key={group.id} value={group.groupName}>
-                      {group.groupName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="mt-12 flex justify-end ">
-              <div className="flex align-middle justify-center ml-2 w-full md:w-min">
-                <Button
-                  className="w-full"
-                  variant="contained"
-                  color="secondary"
-                  endIcon={<FaSave color="white" />}
-                  onClick={() => handleGroupChange(newGroup)}
-                >
-                  <p className="text-white">Save</p>
-                </Button>
+            <Form method="post" action="/changeGroups">
+              <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
+                Change groups
+              </h2>
+              <p className="dark:text-slate-200 mt-10 text-sm">
+                Change the group of {selectedRows.length} contacts:
+              </p>
+              <div className="mt-3">
+                <FormControl variant="outlined" fullWidth margin="normal">
+                  <InputLabel id="group-label">Group</InputLabel>
+                  <Select
+                    labelId="group-label"
+                    name="group"
+                    id="group"
+                    onChange={(e) => {
+                      handleInputChange("group", e.target.value);
+                    }}
+                  >
+                    <MenuItem value="">None</MenuItem>
+                    {groups.map((group) => (
+                      <MenuItem key={group.id} value={group.id}>
+                        {group.groupName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
-            </div>
+              <div className="mt-12 flex justify-end ">
+                <div className="flex align-middle justify-center ml-2 w-full md:w-min">
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    variant="contained"
+                    name="groupIds"
+                    value={selectedRows.join(",")}
+                    color="secondary"
+                    endIcon={<FaSave color="white" />}
+                  >
+                    <p className="text-white">Save</p>
+                  </Button>
+                </div>
+              </div>
+            </Form>
           </Box>
         </Modal>
       </div>
