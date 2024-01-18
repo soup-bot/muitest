@@ -259,12 +259,19 @@ function Dashboard() {
                     indicators={false}
                     theme={customTheme}
                   >
-                    {balanceData.map((item) => (
+                    {balanceData.map((item, index) => (
                       <div key={item.id} className="w-full p-0 py-3 lg:p-3 ">
                         <div className="transition w-full h-full p-6 bg-white border-b-4  border dark:border-slate-600  rounded-lg dark:bg-slate-800">
-                          <p className="mb-3 text-slate-800 font-medium opacity-70 dark:text-slate-200">
-                            {item.name} Balance
-                          </p>
+                          {index === 0 ? (
+                            <p className="mb-3 text-green-500 font-medium opacity-70 dark:text-slate-200">
+                              Currently using
+                            </p>
+                          ) : (
+                            <p className="mb-3 text-slate-800 font-medium opacity-70 dark:text-slate-200">
+                              {item.name} Balance
+                            </p>
+                          )}
+
                           <h5 className="mb-2 text-2xl font-medium tracking-tight text-slate-900 dark:text-slate-200">
                             {item.available} coins
                           </h5>

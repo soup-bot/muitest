@@ -21,11 +21,6 @@ import { FaAlignLeft } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { FaFileDownload } from "react-icons/fa";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import Button from "@mui/material/Button";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import { FaUserGroup } from "react-icons/fa6";
 
 const handleDownload = () => {
@@ -529,7 +524,7 @@ export default function InputForm() {
                         }
                         renderGroup={(params) => (
                           <div key={params.key} className="">
-                            <h5 className="font-medium text-lg px-3 shadow py-2">
+                            <h5 className="font-medium text-lg px-3 shadow py-2 text-secondary">
                               {params.group}
                             </h5>
                             <div className="w-full h-1/2 "></div>
