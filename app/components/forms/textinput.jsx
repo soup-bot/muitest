@@ -93,7 +93,7 @@ export default function InputForm() {
   const handleAddToSelected = (value) => {
     console.log("contact added");
     console.log(value);
-
+    setNumberInput("");
     // Check if it's a contact from the file or added manually
     const contactToAdd =
       typeof value === "object" ? value : { label: value, value };
@@ -106,12 +106,6 @@ export default function InputForm() {
     ]);
   };
 
-  const toggleTextDirection = () => {
-    // Toggle the text direction between "ltr" and "rtl"
-    setTextDirection((prevDirection) =>
-      prevDirection === "ltr" ? "rtl" : "ltr"
-    );
-  };
   const rtlTextDirection = () => {
     // Toggle the text direction between "ltr" and "rtl"
     setTextDirection("rtl");
@@ -176,6 +170,13 @@ export default function InputForm() {
     calculateMessages(text + " @@" + value);
   };
 
+  const filterOptions = (options, state) => {
+    const inputValue = state.inputValue.toLowerCase();
+    return options.filter((option) =>
+      option.label.toLowerCase().includes(inputValue)
+    );
+  };
+
   const groupOptions = [];
   const contactOptions = [];
 
@@ -208,7 +209,7 @@ export default function InputForm() {
       label: contact.name,
       value: contact.number,
     }));
-
+    setNumberInput("");
     // Add the contacts of the selected group to the existing selected numbers
     setSelected((prevSelected) => [...prevSelected, ...contactsToAdd]);
 
@@ -417,6 +418,7 @@ export default function InputForm() {
                       />
 
                       <Autocomplete
+                        autoComplete
                         className="dark:bg-slate-800 bg-slate-50 focus:border-none"
                         multiple
                         filterSelectedOptions
@@ -448,13 +450,14 @@ export default function InputForm() {
                         getOptionLabel={(option) => option.label}
                         renderOption={(props, option) => (
                           <div
-                            {...props}
+                            // {...props}
                             className="flex justify-between px-3 hover:bg-primary/30 py-1"
                           >
                             <div
                               className="flex justify-between w-full"
                               onClick={() => {
                                 if (option.isGroup) {
+                                  console.log(props);
                                   handleAddGroupToSelected(option.value);
                                 } else {
                                   handleAddToSelected(option);
@@ -485,7 +488,7 @@ export default function InputForm() {
                               };
                             } else {
                               // If it's an individual number, return an object representing the number
-                              console.log("not a group");
+
                               return {
                                 label: item,
                                 isGroup: false,
@@ -496,6 +499,7 @@ export default function InputForm() {
 
                           // Filter out null values
                           setSelected(updatedSelected);
+                          console.log(updatedSelected);
                         }}
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
