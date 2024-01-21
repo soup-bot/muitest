@@ -168,63 +168,63 @@ export default function AppWithProviders() {
   );
 }
 
-export function ErrorBoundary() {
-  let error = useRouteError();
+// export function ErrorBoundary() {
+//   let error = useRouteError();
 
-  if (isRouteErrorResponse(error)) {
-    return (
-      <Document title={error.statusText}>
-        <div
-          className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in 
-      `}
-        >
-          <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
-            <div className="w-full h-full flex align-middle justify-center items-middle text-center">
-              <div className=" h-min mt-40 p-10 ">
-                <h1 className="  text-3xl  dark:text-slate-200 pb-15 mb-5">
-                  Oops, we ran into an error!
-                </h1>
-                <h1 className="text-lg mb-8">{error.status}</h1>
-                <Link
-                  to={"/dashboard"}
-                  className="bg-secondary py-2 px-4 text-lg rounded-md shadow text-slate-100 hover:bg-secondary/70 "
-                >
-                  Click here to go home
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Document>
-    );
-  }
+//   if (isRouteErrorResponse(error)) {
+//     return (
+//       <Document title={error.statusText}>
+//         <div
+//           className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in
+//       `}
+//         >
+//           <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
+//             <div className="w-full h-full flex align-middle justify-center items-middle text-center">
+//               <div className=" h-min mt-40 p-10 ">
+//                 <h1 className="  text-3xl  dark:text-slate-200 pb-15 mb-5">
+//                   Oops, we ran into an error!
+//                 </h1>
+//                 <h1 className="text-lg mb-8">{error.status}</h1>
+//                 <Link
+//                   to={"/dashboard"}
+//                   className="bg-secondary py-2 px-4 text-lg rounded-md shadow text-slate-100 hover:bg-secondary/70 "
+//                 >
+//                   Click here to go home
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </Document>
+//     );
+//   }
 
-  return (
-    <Document title="Unknown Error ">
-      <div
-        className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in 
-      `}
-      >
-        <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
-          <div className="w-full h-full flex align-middle justify-center items-middle text-center">
-            <div className=" h-min mt-40 p-10 ">
-              <h1 className="  text-3xl  dark:text-slate-200 pb-15">
-                Oops, we ran into an error!
-              </h1>
-              <div className="h-20"></div>
-              <Link
-                to={"/dashboard"}
-                className="bg-secondary py-2 px-4 text-lg rounded-md shadow text-slate-100 hover:bg-secondary/70 "
-              >
-                Click here to go home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Document>
-  );
-}
+//   return (
+//     <Document title="Unknown Error ">
+//       <div
+//         className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in
+//       `}
+//       >
+//         <div className=" rounded-lg    w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
+//           <div className="w-full h-full flex align-middle justify-center items-middle text-center">
+//             <div className=" h-min mt-40 p-10 ">
+//               <h1 className="  text-3xl  dark:text-slate-200 pb-15">
+//                 Oops, we ran into an error!
+//               </h1>
+//               <div className="h-20"></div>
+//               <Link
+//                 to={"/dashboard"}
+//                 className="bg-secondary py-2 px-4 text-lg rounded-md shadow text-slate-100 hover:bg-secondary/70 "
+//               >
+//                 Click here to go home
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </Document>
+//   );
+// }
 
 function Document(props) {
   return (

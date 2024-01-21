@@ -9,12 +9,18 @@ import { TbWorld } from "react-icons/tb";
 import { MdSms } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
 import { IoChevronBack } from "react-icons/io5";
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { Carousel } from "flowbite-react";
 import { BiMoney } from "react-icons/bi";
 import { RiMessage2Line } from "react-icons/ri";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import Button from "@mui/material/Button";
+import { checkUserLoggedIn } from "../data/authentication.server";
+import { redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import packageConfigurations from "../data/packageConfigurations.json";
+import dotenv from "dotenv";
+import { getAccessTokenFromCookie } from "../data/authentication.server";
 
 const customTheme = {
   root: {
@@ -49,50 +55,55 @@ const customTheme = {
   },
 };
 
-const packageConfigurations = {
-  Starter: {
-    min: 100,
-    max: 1000,
-    step: 100,
-    rate: 2 / 5,
-    description: "Perfect for beginners",
-  },
-  Basic: {
-    min: 1000,
-    max: 10000,
-    step: 1000,
-    rate: 1.25 / 5,
-    description: "Great for small businesses",
-  },
-  Medium: {
-    min: 10000,
-    max: 50000,
-    step: 5000,
-    rate: 1 / 5,
-    description: "Suitable for growing businesses",
-  },
-  Advanced: {
-    min: 50000,
-    max: 100000,
-    step: 10000,
-    rate: 0.8 / 5,
-    description: "Ideal for advanced users",
-  },
-  Power: {
-    min: 100000,
-    max: 1000000,
-    step: 100000,
-    rate: 0.5 / 5,
-    description: "Unleash the power",
-  },
+export const loader = async ({ request }) => {
+  dotenv.config();
+  const accessToken = getAccessTokenFromCookie(request);
+  const getBalanceEP = process.env.REACT_APP_GET_BALANCE_EP;
+
+  const {
+    isLoggedIn,
+    userId,
+    planId,
+    balance,
+    serviceNumber,
+    displayName,
+    email,
+    serviceStatus,
+  } = await checkUserLoggedIn(request);
+
+  if (!isLoggedIn) {
+    // User is not logged in, redirect to /auth
+    return redirect("/auth");
+  }
+  // Include balance data in the returned object
+  return {
+    balance,
+    serviceNumber,
+    displayName,
+    email,
+    serviceStatus,
+    planId,
+  };
 };
 
 export default function Manage() {
+  const { planId } = useLoaderData();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const currentPackageRef = useRef(null);
   const [localSms, setLocalSms] = useState(0);
-  const [selectedPackage, setSelectedPackage] = useState("Advanced");
+  const findPackageById = (id) => {
+    return Object.keys(packageConfigurations).find(
+      (key) => packageConfigurations[key].id == id
+    );
+  };
 
+  const [selectedPackage, setSelectedPackage] = useState(() =>
+    findPackageById(planId)
+  );
+
+  useEffect(() => {
+    setSelectedPackage(findPackageById(planId));
+  }, [planId]);
   useEffect(() => {
     // Set initial localSms based on the selected package configuration
     setLocalSms(packageConfigurations[selectedPackage].min);
@@ -231,38 +242,42 @@ inline-block"
 
           {/* 
 CREATE PLAN CARD */}
+          <Form
+            method="patch"
+            action="/purchasePoints"
+            className="md:border rounded-r-lg dark:md:border-slate-700 px-8  lg:w-1/2 flex flex-col "
+          >
+            <div className="">
+              <div className="mb-3 md:mb-0  dark:md:border-slate-700 md:px-10 py-4 h-2/3">
+                <p className="mb-5   text-green-500  font-medium  dark:text-slate-200">
+                  Purchase points
+                </p>
+                <div className="flex align-middle w-full justify-between pt-12">
+                  <div className="flex flex-col">
+                    <div className="text-md mb-2 dark:text-slate-200 flex align-middle justify-left ">
+                      <div className="flex align-middle justify-center  mr-2">
+                        <IoMdHome size={25} />
+                      </div>
+                      1 Local SMS = x points
+                      {"  "}
+                    </div>
+                    <div className="text-md mb-5 dark:text-slate-200 flex align-middle justify-left w-full ">
+                      <div className="flex align-middle justify-center  mr-2">
+                        <TbWorld size={25} />
+                      </div>
+                      1 International SMS = x points
+                      {"  "}
+                    </div>
 
-          <div className="md:border rounded-r-lg dark:md:border-slate-700 px-8  lg:w-1/2 flex flex-col ">
-            <div className="mb-3 md:mb-0  dark:md:border-slate-700 md:px-10 py-4 h-2/3">
-              <p className="mb-5   text-green-500  font-medium  dark:text-slate-200">
-                Purchase points
-              </p>
-              <div className="flex align-middle w-full justify-between pt-12">
-                <div className="flex flex-col">
-                  <div className="text-md mb-2 dark:text-slate-200 flex align-middle justify-left ">
-                    <div className="flex align-middle justify-center  mr-2">
-                      <IoMdHome size={25} />
-                    </div>
-                    1 Local SMS = x points
-                    {"  "}
-                  </div>
-                  <div className="text-md mb-5 dark:text-slate-200 flex align-middle justify-left w-full ">
-                    <div className="flex align-middle justify-center  mr-2">
-                      <TbWorld size={25} />
-                    </div>
-                    1 International SMS = x points
-                    {"  "}
-                  </div>
-
-                  <div className="p-1 px-2 rounded-lg shadow-md font-bold w-min flex  border-primary/80 border-2 text-primary/80 dark:border-secondary dark:text-secondary">
-                    {localSms}
-                    <div className="flex items-center align-middle ml-2">
-                      <FaCoins size={15} />
+                    <div className="p-1 px-2 rounded-lg shadow-md font-bold w-min flex  border-primary/80 border-2 text-primary/80 dark:border-secondary dark:text-secondary">
+                      {localSms}
+                      <div className="flex items-center align-middle ml-2">
+                        <FaCoins size={15} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="self-end">
-                  {/* <Select
+                  <div className="self-end">
+                    {/* <Select
                     size="small"
                     value={selectedPackage}
                     onChange={handlePackageChange}
@@ -273,33 +288,38 @@ CREATE PLAN CARD */}
                       </MenuItem>
                     ))}
                   </Select> */}
+                  </div>
                 </div>
+                <Slider
+                  marks
+                  name="points"
+                  value={localSms}
+                  color="primary"
+                  onChange={handleLocalSmsChange}
+                  step={packageConfigurations[selectedPackage].step}
+                  sx={{ height: 12 }}
+                  min={packageConfigurations[selectedPackage].min}
+                  max={packageConfigurations[selectedPackage].max}
+                />
               </div>
-              <Slider
-                marks
-                value={localSms}
-                color="primary"
-                onChange={handleLocalSmsChange}
-                step={packageConfigurations[selectedPackage].step}
-                sx={{ height: 12 }}
-                min={packageConfigurations[selectedPackage].min}
-                max={packageConfigurations[selectedPackage].max}
-              />
-            </div>
-            <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8 h-1/3">
-              <div className="text-md   p-2 px-4 self-end w-full md:w-max  border-b-2 flex text-slate-600 dark:text-slate-300 my-2">
-                <p className="mr-2 font-semibold "> Cost:</p>
-                <p> {calculateCreditCost()} MVR</p>
-              </div>
+              <div className="flex justify-between align-bottom flex-col md:flex-row mt-10 md:mt-0 md:pb-5 md:px-8 h-1/3">
+                <div className="text-md   p-2 px-4 self-end w-full md:w-max  border-b-2 flex text-slate-600 dark:text-slate-300 my-2">
+                  <p className="mr-2 font-semibold "> Cost:</p>
+                  <p> {calculateCreditCost()} MVR</p>
+                </div>
 
-              <Button
-                variant="contained"
-                className="inline-flex items-center md:mt-16 mt-5 p-2 px-4 text-md font-semibold  text-center text-white my-2 bg-primary self-end rounded-lg hover:bg-hoverprim w-full md:w-max justify-center"
-              >
-                Purchase
-              </Button>
+                <Button
+                  value={planId}
+                  type="submit"
+                  name="planId"
+                  variant="contained"
+                  className="inline-flex items-center md:mt-16 mt-5 p-2 px-4 text-md font-semibold  text-center text-white my-2 bg-primary self-end rounded-lg hover:bg-hoverprim w-full md:w-max justify-center"
+                >
+                  Purchase
+                </Button>
+              </div>
             </div>
-          </div>
+          </Form>
         </div>
       </div>
     </div>
