@@ -18,11 +18,14 @@ import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { FaUserGroup } from "react-icons/fa6";
 import FileSampleModal from "../../components/modals/FileSampleModal";
+import { MdClear } from "react-icons/md";
 
 export default function InputForm() {
   const [textDirection, setTextDirection] = useState("ltr");
   const { senderNames } = useLoaderData();
+
   const { contacts } = useLoaderData();
+  console.log(contacts);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
   const [numberInput, setNumberInput] = useState("");
@@ -49,27 +52,36 @@ export default function InputForm() {
       e.preventDefault();
       const enteredValue = e.target.value.trim();
 
-      if (
-        !selected.some((item) => item.value === enteredValue) &&
-        !uniqueNumbers.includes(enteredValue)
-      ) {
-        setSelected((prevSelected) => [
-          ...prevSelected,
-          { label: enteredValue, value: enteredValue },
-        ]);
-        setUniqueNumbers((prevUniqueNumbers) => [
-          ...prevUniqueNumbers,
-          enteredValue,
-        ]);
+      // Check if the entered value is a number
+      if (!isNaN(enteredValue)) {
+        if (
+          !selected.some((item) => item.value === enteredValue) &&
+          !uniqueNumbers.includes(enteredValue)
+        ) {
+          setSelected((prevSelected) => [
+            ...prevSelected,
+            { label: enteredValue, value: enteredValue },
+          ]);
+          setUniqueNumbers((prevUniqueNumbers) => [
+            ...prevUniqueNumbers,
+            enteredValue,
+          ]);
+        } else {
+          // Clear the input field if the value is not unique
+          e.stopPropagation();
+          console.log("not a unique number");
+          setNumberInput("");
+        }
       } else {
-        // Clear the input field if the value is not unique
+        // Clear the input field if the entered value is not a number
         e.stopPropagation();
-        console.log("not unique number");
+        console.log("not a number");
+        setNumberInput("");
+        e.target.value = "";
       }
 
       e.target.value = "";
     }
-
     // Backspace key handling
     if (e.key === "Backspace" && e.target.value === "") {
       if (selected.length > 0) {
@@ -94,11 +106,27 @@ export default function InputForm() {
     console.log("contact added");
     console.log(value);
     setNumberInput("");
+
     // Check if it's a contact from the file or added manually
     const contactToAdd =
       typeof value === "object" ? value : { label: value, value };
 
-    setSelected((prevSelected) => [...prevSelected, contactToAdd]);
+    setSelected((prevSelected) => {
+      // Check if there is an individual contact with the same number
+      const existingContactIndex = prevSelected.findIndex(
+        (item) => !item.isGroup && item.value === contactToAdd.value
+      );
+
+      if (existingContactIndex !== -1) {
+        // If an individual contact with the same number exists, remove it
+        const updatedSelected = [...prevSelected];
+        updatedSelected.splice(existingContactIndex, 1);
+        return [...updatedSelected, contactToAdd];
+      } else {
+        // If no individual contact with the same number exists, add the contact
+        return [...prevSelected, contactToAdd];
+      }
+    });
 
     setUniqueNumbers((prevUniqueNumbers) => [
       ...prevUniqueNumbers,
@@ -410,7 +438,7 @@ export default function InputForm() {
               {inputType === "numbers" && (
                 <div className=" flex flex-col align-middle  justify-left mt-5  animate-fade animate-once animate-duration-300 animate-ease-linear">
                   <div className="flex flex-col md:flex-row ">
-                    <div className="w-full md:w-full ">
+                    <div className=" md:w-full flex w-full ">
                       <input
                         type="hidden"
                         name="numbers"
@@ -418,8 +446,9 @@ export default function InputForm() {
                       />
 
                       <Autocomplete
+                        // disabled={uniqueNumbers.length > 10}
                         autoComplete
-                        className="dark:bg-slate-800 bg-slate-50 focus:border-none"
+                        className="dark:bg-slate-800 bg-slate-50 focus:border-none w-full"
                         multiple
                         filterSelectedOptions
                         readOnly={selected.length >= 10}
@@ -448,29 +477,52 @@ export default function InputForm() {
                           </div>
                         )}
                         getOptionLabel={(option) => option.label}
-                        renderOption={(props, option) => (
-                          <div
-                            // {...props}
-                            className="flex justify-between px-3 hover:bg-primary/30 py-1"
-                          >
-                            <div
-                              className="flex justify-between w-full"
-                              onClick={() => {
-                                if (option.isGroup) {
-                                  console.log(props);
-                                  handleAddGroupToSelected(option.value);
-                                } else {
-                                  handleAddToSelected(option);
+                        renderOption={(props, option) => {
+                          return (
+                            <div {...props} className="flex justify-between">
+                              <button
+                                disabled={
+                                  // Check if the individual contact with the same number is already selected
+                                  selected.some(
+                                    (item) => item.value === option.value
+                                  ) ||
+                                  // Check if the contact or group number is already in uniqueNumbers
+                                  uniqueNumbers.includes(option.value) ||
+                                  // Check if it's a group and any number within the group is already in uniqueNumbers
+                                  (option.isGroup &&
+                                    contacts[option.value] &&
+                                    contacts[option.value].some((contact) =>
+                                      uniqueNumbers.includes(contact.number)
+                                    ))
                                 }
-                              }}
-                            >
-                              {option.label}
+                                type="button"
+                                className="flex justify-between w-full h-full  disabled:hover:bg-white/0  py-1 px-2 hover:bg-primary/30 focus:bg-primary disabled:opacity-20 "
+                                onClick={(event) => {
+                                  if (option.isGroup) {
+                                    console.log(props);
+                                    console.log(
+                                      selected.some((item) =>
+                                        console.log(item.value)
+                                      )
+                                    );
+
+                                    handleAddGroupToSelected(option.value);
+                                  } else {
+                                    console.log("selected" + uniqueNumbers);
+                                    console.log("value: " + option.value);
+                                    handleAddToSelected(option);
+                                  }
+                                }}
+                              >
+                                {option.label}
+                              </button>
                             </div>
-                          </div>
-                        )}
+                          );
+                        }}
                         defaultValue={[]}
                         limitTags={4}
                         freeSolo
+                        disableClearable
                         onInputChange={(e) => setNumberInput(e.target.value)}
                         inputValue={numberInput}
                         value={selected}
@@ -533,6 +585,18 @@ export default function InputForm() {
                           />
                         )}
                       />
+                      <div className="flex align-middle justify-center items-center px-2 opacity-50">
+                        <button
+                          type="button"
+                          className="hover:bg-slate-200 rounded-full h-min w-min p-1 dark:text-white dark:hover:bg-slate-700"
+                          onClick={() => {
+                            setSelected([]);
+                            setUniqueNumbers([]);
+                          }}
+                        >
+                          <MdClear size={25} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                   {!validNum && (

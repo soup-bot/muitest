@@ -190,6 +190,12 @@ export default function Contacts() {
   }, [rows]);
 
   useEffect(() => {
+    if (searchInput === "") {
+      navigate(`/contacts?page=1&pageSize=25&filterName=`);
+    }
+  }, [searchInput]);
+
+  useEffect(() => {
     navigate(
       `/contacts?page=${paginationModel.page + 1}&pageSize=${
         paginationModel.pageSize

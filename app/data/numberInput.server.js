@@ -16,6 +16,9 @@ export const numberInputHandler = async ({
   const sender = formData.get("senderID");
   console.log("destination " + destination);
 
+  if (destination.length > 10) {
+    console.log("too long");
+  }
   console.log("destination" + destination);
   // const numbersPayload = {
   //   destination: destination,
