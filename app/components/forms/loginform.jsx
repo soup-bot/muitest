@@ -2,6 +2,18 @@ import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { useState } from "react";
 import { MdLogin } from "react-icons/md";
 import { useDarkMode } from "../DarkModeContext";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+
+import { BsFillEyeFill } from "react-icons/bs";
+import { BsFillEyeSlashFill } from "react-icons/bs";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -9,66 +21,107 @@ export default function LoginForm() {
   const validationErrors = useActionData();
   const navigation = useNavigation();
   const [isSignIn, setSignIn] = useState("login");
+  const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [progress, setProgress] = useState("");
+  const handlePassword = (passwordValue) => {
+    const strengthChecks = {
+      length: 0,
+      hasUpperCase: false,
+      hasLowerCase: false,
+      hasDigit: false,
+      hasSpecialChar: false,
+    };
+
+    strengthChecks.length = passwordValue.length >= 6 ? true : false;
+    strengthChecks.hasUpperCase = /[A-Z]+/.test(passwordValue);
+    strengthChecks.hasLowerCase = /[a-z]+/.test(passwordValue);
+    strengthChecks.hasDigit = /[0-9]+/.test(passwordValue);
+    strengthChecks.hasSpecialChar = /[^A-Za-z0-9]+/.test(passwordValue);
+
+    let verifiedList = Object.values(strengthChecks).filter((value) => value);
+
+    let strength =
+      verifiedList.length == 5
+        ? "Strong"
+        : verifiedList.length >= 2
+        ? "Medium"
+        : "Weak";
+
+    setPassword(passwordValue);
+    setProgress(`${(verifiedList.length / 5) * 100}%`);
+    setMessage(strength);
+  };
+
+  const getActiveColor = (type) => {
+    if (type === "Strong") return "#8BC926";
+    if (type === "Medium") return "#FEBD01";
+    return "#FF0054";
+  };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
     <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm ">
       <Form className="space-y-6" method="POST" noValidate>
         {/* Email field */}
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium leading-6 text-gray-500 dark:text-slate-200"
-          >
-            Email address
-          </label>
-          <div className={`mt-2`}>
-            <input
-              maxLength={50}
-              id="email"
-              name="email"
-              type="email"
-              placeholder=" "
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white shadow-sm placeholder-slate-400
-    focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-    disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-    invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer`}
-            />
-            <span className="mt-2 font-medium hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-              Please enter a valid email address
-            </span>
-          </div>
-        </div>
+        <TextField
+          name="email"
+          className="w-full"
+          label="Email"
+          variant="outlined"
+        />
 
         {/* Password field */}
         <div>
-          <div className="flex items-center justify-between">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium leading-6 text-gray-500 dark:text-slate-200"
+          <TextField
+            name="password"
+            className="w-full"
+            label="Password"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? (
+                      <BsFillEyeFill size={20} />
+                    ) : (
+                      <BsFillEyeSlashFill size={20} />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            onChange={({ target }) => {
+              handlePassword(target.value);
+            }}
+            type={showPassword ? "text" : "password"}
+          />
+          {password.length !== 0 && !isSignIn ? (
+            <div
+              className="h-1"
+              style={{
+                width: progress,
+                backgroundColor: getActiveColor(message),
+              }}
+            ></div>
+          ) : (
+            <div className="h-1"></div>
+          )}
+          {/* {isSignIn && <div className="h-1"></div>} */}
+
+          {/* {password.length !== 0 ? (
+            <p
+              className="message mt-2"
+              style={{ color: getActiveColor(message) }}
             >
-              Password
-            </label>
-          </div>
-          <div className={`mt-2`}>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder=" "
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={`mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md  dark:bg-slate-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-sm shadow-sm placeholder-slate-400
-              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-              disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-              invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer `}
-            />
-          </div>
+              Your password is {message.toLowerCase()}
+            </p>
+          ) : null} */}
         </div>
 
         {/* Button for switching between sign-in and log-in */}
