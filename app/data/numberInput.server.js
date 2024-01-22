@@ -14,12 +14,12 @@ export const numberInputHandler = async ({
   const destination = destinationString ? destinationString.split(",") : [];
   const content = formData.get("text");
   const sender = formData.get("senderID");
-  console.log("destination " + destination);
-
+  console.log("destination: " + destination);
+  console.log("text: " + content);
   if (destination.length > 10) {
     console.log("too long");
   }
-  console.log("destination" + destination);
+
   // const numbersPayload = {
   //   destination: destination,
   //   content: content,
