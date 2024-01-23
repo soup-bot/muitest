@@ -133,7 +133,7 @@ export default function InputForm() {
         handleClose={handleClose}
         isDarkMode={isDarkMode}
       />
-      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border-t-4  border-secondary bg-white dark:bg-slate-900 ">
+      <div className="w-full xl:w-3/5 justify-center items-center mt-4 p-10 py-3 pb-4 rounded-lg xl:shadow-lg xl:border dark:border-slate-600 bg-white dark:bg-slate-900 ">
         <h1 className="font-medium text-2xl my-10 dark:text-slate-200">
           Compose a message
         </h1>
