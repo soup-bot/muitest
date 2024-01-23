@@ -240,7 +240,7 @@ export default function Navbar({ balance, serviceStatus }) {
                       className={({ isActive }) =>
                         isActive
                           ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg  shadow-secondary/30 lg:rounded-l-lg group transition dark:text-white"
-                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition dark:text-white dark:hover:bg-slate-600"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-600 lg:rounded-l-lg  hover:bg-slate-100  hover:scale-105 group  transition dark:text-white dark:hover:bg-slate-600"
                       }
                     >
                       <BiSolidMessageAdd size={26} />
@@ -257,7 +257,7 @@ export default function Navbar({ balance, serviceStatus }) {
                       className={({ isActive }) =>
                         isActive
                           ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg  shadow-secondary/30 group transition dark:text-white"
-                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-600   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                       }
                     >
                       <MdMoveToInbox size={26} />
@@ -274,7 +274,7 @@ export default function Navbar({ balance, serviceStatus }) {
                       className={({ isActive }) =>
                         isActive
                           ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 group transition dark:text-white"
-                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900g  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-600  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                       }
                     >
                       <IoMdSend size={26} />
@@ -291,7 +291,7 @@ export default function Navbar({ balance, serviceStatus }) {
                       className={({ isActive }) =>
                         isActive
                           ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 group transition dark:text-white"
-                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-600   hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                       }
                     >
                       <RiContactsBook2Fill size={26} />
@@ -308,7 +308,7 @@ export default function Navbar({ balance, serviceStatus }) {
                       className={({ isActive }) =>
                         isActive
                           ? "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-white bg-secondary shadow-lg shadow-secondary/30 lg:rounded-r-lg group transition dark:text-white"
-                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-900 lg:rounded-r-lg  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
+                          : "pl-8 py-3 lg:p-3 lg:pr-4 flex items-center p-2 text-gray-600 lg:rounded-r-lg  hover:bg-slate-100  hover:scale-105  group transition dark:text-white dark:hover:bg-slate-600"
                       }
                     >
                       <HiDocumentReport size={26} />

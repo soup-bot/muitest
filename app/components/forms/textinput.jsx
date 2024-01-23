@@ -18,7 +18,7 @@ export default function InputForm() {
   const { senderNames } = useLoaderData();
 
   const { contacts } = useLoaderData();
-  console.log(contacts);
+
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [text, setText] = useState("");
   const [numberInput, setNumberInput] = useState("");
@@ -26,6 +26,7 @@ export default function InputForm() {
   const [inputType, setInputType] = useState("numbers");
   const [selected, setSelected] = useState([]);
   const [headers, setHeaders] = useState(null);
+  const [exampleData, setExampleData] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [validNum, setValidNum] = useState(true);
   const [validFileSize, setValidFileSize] = useState(true);
@@ -44,45 +45,62 @@ export default function InputForm() {
     setValidFile(true);
     setText("");
     setHeaders(null);
+    setExampleData(null);
     setUploadedFile(null);
     setSelected([]);
     setNumMessages(0);
   };
   const handleFileChange = async (e) => {
     setValidFile(true);
-    // if (e.target.files[0].size > 60000) {
-    //   setValidFileSize(false);
-    //   e.target.value = "";
-    // }
-
     setHeaders(null);
+    setExampleData(null);
     const file = e.target.files[0];
-
     setUploadedFile(file);
+
     if (!file) {
       return;
     }
 
     try {
       setValidFileSize(true);
+      // if (e.target.files[0].size > 60000) {
+      //   setValidFileSize(false);
+      //   e.target.value = "";
+      // }
       const arrayBuffer = await file.arrayBuffer();
       const data = new Uint8Array(arrayBuffer);
       const workbook = xlsx.read(data, { type: "array" });
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
       const headers = [];
+      const exampleDataRow = []; // Array to store the second row data
+
       const range = xlsx.utils.decode_range(sheet["!ref"]);
       for (let C = range.s.c; C <= range.e.c; ++C) {
         const headerCellAddress = xlsx.utils.encode_cell({
           r: range.s.r,
           c: C,
         });
+
         const headerCellValue = sheet[headerCellAddress].v;
         headers.push(headerCellValue);
+
+        // Store second row data
+        if (range.s.r + 1 <= range.e.r) {
+          const dataCellAddress = xlsx.utils.encode_cell({
+            r: range.s.r + 1, // Second row
+            c: C,
+          });
+
+          const dataCellValue = sheet[dataCellAddress].v;
+          exampleDataRow.push(dataCellValue);
+        }
       }
 
-      console.log("CLIENT SIDE:", headers);
+      console.log("CLIENT SIDE Headers:", headers);
+      console.log("CLIENT SIDE Example Data:", exampleDataRow);
       setHeaders(headers);
+      setExampleData(exampleDataRow); // Set the exampleData state
     } catch (error) {
       console.error("Error processing file:", error);
       setValidFile(false);
@@ -264,7 +282,6 @@ export default function InputForm() {
                       </div>
                     </div>
                   )}
-
                   {validFileSize ? (
                     <p
                       className="mt-1 text-sm text-gray-500 dark:text-slate-300"
@@ -277,7 +294,6 @@ export default function InputForm() {
                       Your file is too big!
                     </p>
                   )}
-
                   {validFile ? (
                     ""
                   ) : (
@@ -288,10 +304,9 @@ export default function InputForm() {
 
                   {headers ? (
                     <>
-                      <div className="mt-5 text-md font-medium"></div>
                       {Object.values(headers).map((value, index) => (
                         <button
-                          className="bg-secondary text-white mx-1 border py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
+                          className="bg-secondary mt-3 text-white mr-1 border py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
                           key={index}
                           type="button"
                           onMouseDown={(e) => handleButtonClick(value, e)}
@@ -299,10 +314,37 @@ export default function InputForm() {
                           {value}
                         </button>
                       ))}
+
+                      {/* Display Example Data */}
+                      {exampleData.length > 0 && (
+                        <div className="flex align-middle mt-3 space-x-2">
+                          <p className="text-sm text-gray-500 dark:text-slate-300">
+                            {" "}
+                            e.g. Will be replaced by
+                          </p>
+
+                          <>
+                            {exampleData.map((value, index) => (
+                              <div
+                                key={index}
+                                className="bg-gray-200 px-1 rounded-md shadow-sm text-sm text-gray-600 dark:text-slate-300"
+                              >
+                                {value}
+                              </div>
+                            ))}
+                            <p className="text-sm text-gray-500 dark:text-slate-300">
+                              {" "}
+                              for your first message
+                            </p>
+                          </>
+                        </div>
+                      )}
                     </>
                   ) : (
                     // ELSE SHOW THAT NO DATA IS AVAILABLE
-                    <div className="mt-3 text-md font-medium"></div>
+                    <div className="mt-3 text-sm  text-gray-500 dark:text-slate-300">
+                      No Data Available
+                    </div>
                   )}
                 </div>
               )}
