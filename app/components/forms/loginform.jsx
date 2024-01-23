@@ -69,6 +69,7 @@ export default function LoginForm() {
           name="email"
           className="w-full"
           label="Email"
+          autoComplete="off"
           variant="outlined"
         />
 
@@ -76,7 +77,7 @@ export default function LoginForm() {
         <div>
           <TextField
             name="password"
-            className="w-full"
+            className="w-full focus:outline-none focus:border-none"
             label="Password"
             InputProps={{
               endAdornment: (
@@ -133,11 +134,15 @@ export default function LoginForm() {
             type="submit"
             name="authType"
             value={isSignIn ? "login" : "signup"}
-            className="flex align-middle justify-center items-center w-full rounded-md disabled:bg-gray-400 bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className={` ${
+              isSignIn
+                ? " bg-secondary hover:bg-hoversec"
+                : "bg-primary hover:bg-hoverprim"
+            }flex align-middle justify-center items-center w-full rounded-md disabled:bg-gray-400  px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition`}
           >
             {navigation.state === "submitting"
               ? `Signing ${isSignIn ? "in" : "up"}  `
-              : `${isSignIn ? "Sign in" : "Sign up"}`}
+              : `${isSignIn ? "Sign in" : "Create account"}`}
             {navigation.state === "submitting" && (
               <div className="ml-2">
                 <svg
