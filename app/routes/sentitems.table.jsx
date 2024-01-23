@@ -122,7 +122,13 @@ export default function SentTable() {
   };
 
   const columns = [
-    { field: "col1", headerName: "To", width: 150 },
+    {
+      field: "col1",
+      headerName: "To",
+      width: 150,
+      filterable: false,
+      sortable: false,
+    },
     {
       field: "col2",
       headerName: "Text",
@@ -143,6 +149,8 @@ export default function SentTable() {
       type: "dateTime",
       valueGetter: ({ value }) => value && new Date(value),
       width: 250,
+      filterable: false,
+      sortable: false,
     },
   ];
 
@@ -205,23 +213,23 @@ export default function SentTable() {
         }}
         pageSizeOptions={[25, 50, 100]}
         onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
-        checkboxSelection
-        slots={{
-          toolbar: () => (
-            <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
-              <div className="">
-                <Button
-                  color="info"
-                  disabled={selectedRows.length <= 0}
-                  startIcon={<MdDelete size={25} />}
-                  onClick={handleOpen}
-                >
-                  <p className="hidden sm:block">DELETE</p>
-                </Button>
-              </div>
-            </GridToolbarContainer>
-          ),
-        }}
+        // checkboxSelection
+        // slots={{
+        //   toolbar: () => (
+        //     <GridToolbarContainer className="flex flex-row sm:flex-row justify-end bg-slate-200 dark:bg-slate-600">
+        //       <div className="">
+        //         <Button
+        //           color="info"
+        //           disabled={selectedRows.length <= 0}
+        //           startIcon={<MdDelete size={25} />}
+        //           onClick={handleOpen}
+        //         >
+        //           <p className="hidden sm:block">DELETE</p>
+        //         </Button>
+        //       </div>
+        //     </GridToolbarContainer>
+        //   ),
+        // }}
       />
     </>
   );
