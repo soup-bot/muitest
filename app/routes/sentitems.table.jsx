@@ -82,7 +82,7 @@ export default function SentTable() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleOpen = () => setOpen(true);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   const handleClose = () => setOpen(false);
   const formatDate = (date) => dayjs(date).format("YYYY-MM-DD");
   const [paginationModel, setPaginationModel] = useState({
@@ -162,9 +162,7 @@ export default function SentTable() {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          className={`flex items-center align-middle justify-center ${
-            isDarkMode ? "dark " : ""
-          }`}
+          className={`flex items-center align-middle justify-center `}
         >
           <div className="bg-white dark:bg-slate-800 p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border dark:border-slate-600 shadow-md animate-fade animate-duration-[350ms]">
             <p className="text-black mt-4 mb-12 dark:text-slate-200">

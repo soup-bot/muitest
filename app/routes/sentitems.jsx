@@ -45,7 +45,7 @@ export default function SentItems() {
   const [startDate, setStartDate] = useState(getFirstDayOfMonth());
   const [endDate, setEndDate] = useState(getLastDayOfMonth());
   const [buttonClick, setButtonClick] = useState(false);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   const today = dayjs().format("DD/MM/YYYY");
 
   const handleStartDateChange = (date) => {
@@ -65,12 +65,10 @@ export default function SentItems() {
 
   return (
     <div
-      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
       <div className=" h-min min-h-full rounded-lg md:shadow-lg  xl:border dark:border-slate-600 w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
-        <h1 className="font-medium  text-2xl my-10 dark:text-slate-200">
+        <h1 className="font-medium  text-2xl my-10 text-slate-800 dark:text-slate-200">
           Sent items
         </h1>
         <div className="flex flex-col lg:flex-row w-full">

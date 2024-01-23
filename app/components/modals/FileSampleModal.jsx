@@ -9,7 +9,7 @@ import * as XLSX from "xlsx";
 import sample from "../../assets/sample.png";
 import placeholderimg from "../../assets/placeholders.png";
 
-const FileSampleModal = ({ open, handleClose, isDarkMode }) => {
+const FileSampleModal = ({ open, handleClose }) => {
   const handleDownload = () => {
     // Your data in the desired format
     const data = [
@@ -45,9 +45,7 @@ const FileSampleModal = ({ open, handleClose, isDarkMode }) => {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      className={`flex items-center align-middle justify-center ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`flex items-center align-middle justify-center`}
     >
       <div className="border-t-4 border-secondary bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-100 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
         <div className="w-100 flex align-top justify-between mb-5">

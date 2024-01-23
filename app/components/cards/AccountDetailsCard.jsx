@@ -10,7 +10,7 @@ const AccountDetailsCard = ({
   balance,
 }) => {
   return (
-    <div className="w-full p-0 py-3 lg:p-3 lg:basis-2/3">
+    <div className="w-full p-0 py-3 lg:p-3 lg:basis-2/3 text-slate-800">
       <div className="transition w-full p-1 h-full bg-white rounded-lg flex flex-col dark:bg-slate-800 border dark:border-slate-600">
         <div className="text-md bg-white rounded-md p-3 divide-y divide-slate-200 dark:divide-slate-600 dark:bg-slate-800">
           <p className="mb-3 font-medium opacity-70 text-gray-800 dark:text-slate-200">

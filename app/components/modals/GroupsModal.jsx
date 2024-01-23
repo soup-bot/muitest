@@ -22,7 +22,6 @@ const GroupsModal = ({ isOpen, onClose, groups }) => {
   const [newGroupName, setNewGroupName] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isValidGroup, setIsValidGroup] = useState(true);
 
   useEffect(() => {
@@ -50,9 +49,7 @@ const GroupsModal = ({ isOpen, onClose, groups }) => {
     <Modal
       open={isOpen}
       onClose={handleClose}
-      className={`flex items-center align-middle justify-center ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`flex items-center align-middle justify-center`}
     >
       <Box className="border  dark:border-slate-500 bg-white dark:bg-slate-800 absolute flex flex-col pt-6 px-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
         <div className="">

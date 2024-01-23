@@ -85,7 +85,7 @@ function Dashboard() {
     planId,
     balanceData,
   } = useLoaderData();
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   console.log(planId);
   const selectedPlan = Object.entries(packageConfigurations).find(
     ([key, plan]) => plan.id === parseInt(planId)
@@ -99,12 +99,10 @@ function Dashboard() {
   }
   return (
     <div
-      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
-      <div className=" h-max pb-20 min-h-full  2xl: shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
-        <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
+      <div className=" h-max pb-20 min-h-full  2xl: shadow-lg xl:border dark:border-slate-600 w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
+        <h1 className="font-medium  text-slate-800 text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>
         {!(serviceStatus === "active") && <p>Inactive account</p>}

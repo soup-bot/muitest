@@ -88,7 +88,7 @@ export const loader = async ({ request }) => {
 
 export default function Manage() {
   const { planId } = useLoaderData();
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   const currentPackageRef = useRef(null);
   const [localSms, setLocalSms] = useState(0);
   const findPackageById = (id) => {
@@ -134,9 +134,7 @@ export default function Manage() {
 
   return (
     <div
-      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in  ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
       <div className=" h-screen pb-20 min-h-full  2xl:shadow-lg  2xl:border-t-4 mt-4 border-secondary w-full md:px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
         <Link

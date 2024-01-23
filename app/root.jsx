@@ -11,7 +11,14 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getSession, commitSession } from "./sessions";
 import { useRouteError, isRouteErrorResponse } from "@remix-run/react";
-import { DarkModeProvider, useDarkMode } from "./components/DarkModeContext";
+
+import {
+  ThemeProvider as ThemenProvider,
+  useTheme,
+  PreventFlashOnWrongTheme,
+} from "remix-themes";
+import { themeSessionResolver } from "./sessions.server";
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
 });
@@ -27,6 +34,8 @@ function isDefinitelyAnError(error) {
 }
 
 export const loader = async ({ request }) => {
+  const { getTheme } = await themeSessionResolver(request);
+
   const session = await getSession(request.headers.get("Cookie"));
   const message = session.get("globalMessage") || null;
   const messageType = session.get("messageType") || null;
@@ -37,7 +46,13 @@ export const loader = async ({ request }) => {
     await checkUserLoggedIn(request);
   console.log("balance: " + balance);
 
-  const data = { message, messageType, balance, serviceStatus };
+  const data = {
+    message,
+    messageType,
+    balance,
+    serviceStatus,
+    theme: getTheme(),
+  };
   return json(data, {
     headers: {
       "Set-Cookie": await commitSession(session),
@@ -66,6 +81,10 @@ export function links() {
 //app
 function App() {
   const loaderData = useLoaderData();
+  const data = useLoaderData();
+  console.log("Data: " + data.theme);
+  const [theme] = useTheme();
+  console.log("THEME IS: " + [theme]);
   const { message, messageType, serviceStatus } = useLoaderData();
   const [open, setOpen] = React.useState(false);
 
@@ -79,16 +98,15 @@ function App() {
   const { balance } = useLoaderData();
   const location = useLocation();
   const auth = location.pathname === "/auth";
-  const { isDarkMode } = useDarkMode();
   React.useEffect(() => {
     if (message && message.length > 0) {
       setOpen(true); // Trigger the alert if there's a non-empty success message
     }
   }, [loaderData]);
   // Customize the MUI theme based on dark mode state
-  const theme = createTheme({
+  const themez = createTheme({
     palette: {
-      mode: isDarkMode ? "dark" : "light",
+      mode: theme ?? "light",
       // Add more customizations as needed
       primary: {
         main: "#F26940",
@@ -103,18 +121,17 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <html lang="en">
+    <ThemeProvider theme={themez}>
+      <html lang="en" className={theme ?? ""}>
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <Meta />
+          <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
           <Links />
         </head>
         <body
-          className={`transition-[background-color] overflow-y-scroll  font-body ${
-            isDarkMode ? "bg-slate-900 xl:bg-slate-950" : ""
-          }`}
+          className={`overflow-y-scroll font-body bg-white xl:dark:bg-slate-950 dark:bg-slate-900`}
         >
           {!auth && <Navbar balance={balance} serviceStatus={serviceStatus} />}
 
@@ -161,10 +178,11 @@ function App() {
 }
 
 export default function AppWithProviders() {
+  const data = useLoaderData();
   return (
-    <DarkModeProvider>
+    <ThemenProvider specifiedTheme={data.theme} themeAction="/set-theme">
       <App />
-    </DarkModeProvider>
+    </ThemenProvider>
   );
 }
 

@@ -25,13 +25,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function Index() {
   const { userId } = useLoaderData();
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <div
-      className={`animate-fade-up animate-once animate-duration-200 animate-ease-in ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`animate-fade-up animate-once animate-duration-200 animate-ease-in`}
     >
       <InputForm />
     </div>

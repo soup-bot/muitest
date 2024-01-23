@@ -10,7 +10,6 @@ import { login, register } from "../data/authentication.server";
 export default function Auth() {
   const errorData = useActionData();
   console.log("error data: " + errorData);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const renderErrorMessages = () => {
     if (errorData) {
@@ -34,11 +33,7 @@ export default function Auth() {
     return null;
   };
   return (
-    <div
-      className={`h-screen flex flex-col lg:flex-row ${
-        isDarkMode ? "dark " : ""
-      }`}
-    >
+    <div className={`h-screen flex flex-col lg:flex-row`}>
       <div
         className={`overflow-auto no-scrollbar flex flex-col lg:w-3/4 w-full h-screen p-10 pt-20 justify-center`}
       >

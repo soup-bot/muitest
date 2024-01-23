@@ -11,15 +11,16 @@ import { BiSolidMessageAdd } from "react-icons/bi";
 import { FaCoins } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
-import { useDarkMode } from "./DarkModeContext";
-import { checkUserLoggedIn } from "~/data/authentication.server";
-import { serialize } from "cookie";
-import { logout } from "~/data/authentication.server";
-import { redirect } from "@remix-run/node";
+import { Theme, useTheme } from "remix-themes";
+
 export default function Navbar({ balance, serviceStatus }) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [, setTheme] = useTheme();
+  const toggleDarkMode = () => {
+    setTheme((prev) => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK));
+  };
+
   const sidebarRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -30,23 +31,6 @@ export default function Navbar({ balance, serviceStatus }) {
   const toggledropdownVisible = () => {
     setdropdownVisible(!dropdownVisible);
     setSidebarVisible(false);
-  };
-
-  const signOut = async () => {
-    toggledropdownVisible;
-    // await logout();
-
-    const cookieOptions = {
-      maxAge: -1, // expiresIn should be in seconds
-      sameSite: "Lax", // Adjust as needed
-      path: "/", // Adjust as needed
-    };
-
-    document.cookie = serialize(
-      ".AspNetCore.Identity.Application",
-      "",
-      cookieOptions
-    );
   };
 
   useEffect(() => {
@@ -70,8 +54,8 @@ export default function Navbar({ balance, serviceStatus }) {
     };
   }, [sidebarRef, dropdownRef]);
   return (
-    <div ref={sidebarRef} className={`${isDarkMode ? "dark" : ""}`}>
-      <nav className="bg-white border-gray-200 shadow-md md:shadow-none xl:py-2 xl:mb-0 dark:bg-slate-950  transition-[background-color]">
+    <div ref={sidebarRef}>
+      <nav className="bg-white border-gray-200 shadow-md md:shadow-none xl:py-2 xl:mb-0 dark:bg-slate-950 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />
@@ -178,14 +162,10 @@ export default function Navbar({ balance, serviceStatus }) {
                   </li>
                   <li>
                     <button
-                      className="block p-2 pl-3 pt-3 pb-3  hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600  w-full "
+                      className="block p-2 pl-3 pt-3 pb-3 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600 w-full"
                       onClick={toggleDarkMode}
                     >
-                      {isDarkMode ? (
-                        <MdLightMode size={20} />
-                      ) : (
-                        <MdDarkMode size={20} />
-                      )}
+                      <MdLightMode size={20} />
                     </button>
                   </li>
                   <li className="lg:hidden">
@@ -229,9 +209,9 @@ export default function Navbar({ balance, serviceStatus }) {
             }`}
             aria-label="Sidebar"
           >
-            <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-950 dark:bg-slate-950 transition-[background-color]">
+            <div className="h-full lg:h-30 px-0 py-4 overflow-y-auto bg-white  shadow-md lg:shadow-none lg:dark:bg-slate-950 dark:bg-slate-950">
               <ul className=" space-y-5 lg:space-y-0 lg:gap-3 font-medium lg:flex lg:flex-row lg:w-full lg:justify-center dark:text-white ">
-                <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-950 lg:dark:bg-slate-700 dark:text-white  dark:border-none transition-[background-color]">
+                <div className="flex flex-col lg:flex-row space-y-6 py-10 lg:py-0 lg:space-y-0 lg:border lg:rounded-lg lg:shadow-md dark:bg-slate-950 lg:dark:bg-slate-700 dark:text-white  dark:border-none">
                   <li>
                     <NavLink
                       prefetch="intent"

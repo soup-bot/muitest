@@ -11,7 +11,7 @@ const PlanCard = ({ selectedPlanName, selectedPlan, balanceData }) => {
 
   return (
     <div
-      className={`w-full p-0 py-3 lg:p-3 ${
+      className={`w-full p-0 py-3 lg:p-3  text-slate-800 ${
         balanceData.length > 0 ? "lg:basis-1/2" : ""
       }`}
     >

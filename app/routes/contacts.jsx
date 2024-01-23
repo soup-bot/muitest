@@ -150,7 +150,7 @@ export default function Contacts() {
     pageSize: 25,
   });
   const [rowCountState, setRowCountState] = useState(totalRowCount || 0);
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   const [isValidContact, setIsValidContact] = useState(true);
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [isGroupModalOpen, setGroupModalOpen] = React.useState(false);
@@ -250,12 +250,10 @@ export default function Contacts() {
 
   return (
     <div
-      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
       <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border dark:border-slate-600 w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
-        <h1 className="font-medium text-2xl my-10 dark:text-slate-200">
+        <h1 className="font-medium text-2xl my-10 text-slate-800 dark:text-slate-200">
           Contacts
         </h1>
         <div className="flex mb-10 mt-5 w-full">
@@ -343,12 +341,10 @@ export default function Contacts() {
         <Modal
           open={isModalOpen}
           onClose={closeModal}
-          className={`flex items-center align-middle justify-center ${
-            isDarkMode ? "dark " : ""
-          }`}
+          className={`flex items-center align-middle justify-center`}
         >
           <Box className="border  dark:border-slate-500 bg-white dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
-            <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
+            <h2 className="dark:text-slate-200 text-slate-800 text-md font-bold justify-self-center self-center">
               Add Contact
             </h2>
 
@@ -434,16 +430,14 @@ export default function Contacts() {
         <Modal
           open={isGroupModalOpen}
           onClose={closeModal}
-          className={`flex items-center align-middle justify-center ${
-            isDarkMode ? "dark " : ""
-          }`}
+          className={`flex items-center align-middle justify-center`}
         >
           <Box className=" bg-white border  dark:border-slate-500 dark:bg-slate-800 absolute flex flex-col p-6 shadow-md rounded-lg left-50 z-10 w-4/5 sm:w-1/2 lg:w-1/3 xl:w-1/4 animate-fade-down animate-once animate-duration-[240ms] animate-ease-in">
             <Form method="post" action="/changeGroups">
-              <h2 className="dark:text-slate-200 text-md font-bold justify-self-center self-center">
+              <h2 className="dark:text-slate-200 text-slate-800 text-md font-bold justify-self-center self-center">
                 Change groups
               </h2>
-              <p className="dark:text-slate-200 mt-10 text-sm">
+              <p className="dark:text-slate-200 text-slate-800 mt-10 text-sm">
                 Change the group of {selectedRows.length} contacts:
               </p>
               <div className="mt-3">

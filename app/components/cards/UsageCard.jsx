@@ -57,7 +57,7 @@ const UsageCard = ({ balanceData }) => {
     );
   }
   return (
-    <div className="w-full p-0 py-3 lg:p-3 lg:basis-1/2">
+    <div className="w-full p-0 py-3 lg:p-3 lg:basis-1/2 text-slate-800">
       <div className="transition w-full p-6 h-full bg-white border-b-4 hover:border-b-primary border dark:border-slate-600 dark:hover:border-b-primary rounded-lg dark:bg-slate-800">
         <p className="mb-3 text-slate-800 font-medium opacity-70 dark:text-slate-200">
           My usage

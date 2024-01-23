@@ -194,6 +194,9 @@ const AutocompleteInput = ({
           padding: "2",
         },
       }}
+      ListboxProps={{
+        className: "myCustomList",
+      }}
       readOnly={selected.length >= 10}
       id="tags-filled"
       options={options}

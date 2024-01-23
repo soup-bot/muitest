@@ -3,7 +3,7 @@ import { MdEmail } from "react-icons/md";
 
 export default function HelpCard() {
   return (
-    <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 ">
+    <div className="w-full p-0  py-3  lg:p-3 lg:basis-1/3 text-slate-800">
       <div className="transition  w-full p-6 h-full bg-white   rounded-lg flex flex-col dark:bg-slate-800 border dark:border-slate-600">
         <p className="mb-3  text-slate-800  font-medium opacity-70 dark:text-slate-200">
           Help & Support
