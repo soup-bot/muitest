@@ -28,6 +28,13 @@ export default function LoginForm() {
   useEffect(() => {
     setEmail("");
     setPassword("");
+    setStrengthChecks({
+      length: false,
+      hasUpperCase: false,
+      hasLowerCase: false,
+      hasDigit: false,
+      hasSpecialChar: false,
+    });
   }, [isSignIn]);
 
   // Declare strengthChecks outside handlePassword
