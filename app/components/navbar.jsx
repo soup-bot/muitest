@@ -249,7 +249,7 @@ export default function Navbar({ balance, serviceStatus }) {
                       </span>
                     </NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <NavLink
                       prefetch="intent"
                       to="/inbox/table"
@@ -265,7 +265,7 @@ export default function Navbar({ balance, serviceStatus }) {
                         Inbox
                       </span>
                     </NavLink>
-                  </li>
+                  </li> */}
                   <li>
                     <NavLink
                       prefetch="intent"

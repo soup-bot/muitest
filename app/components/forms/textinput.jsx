@@ -317,7 +317,7 @@ export default function InputForm() {
 
                       {/* Display Example Data */}
                       {exampleData.length > 0 && (
-                        <div className="flex align-middle mt-3 space-x-2">
+                        <div className="flex flex-wrap align-middle mt-3 space-x-2 gap-y-1">
                           <p className="text-sm text-gray-500 dark:text-slate-300">
                             {" "}
                             e.g. Will be replaced by
