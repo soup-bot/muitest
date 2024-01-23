@@ -139,14 +139,14 @@ export async function logout(request) {
       cookieOptions
     );
 
-    return redirect("/", {
+    return redirect("/auth", {
       headers: {
         "Set-Cookie": emptyCookieString,
       },
     });
   }
   // If the user is not logged in, redirect to /
-  return redirect("/");
+  return redirect("/auth");
 }
 
 export async function register(credentials) {

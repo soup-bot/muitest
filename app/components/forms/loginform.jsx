@@ -24,25 +24,33 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState("");
+
+  // Declare strengthChecks outside handlePassword
+  const [strengthChecks, setStrengthChecks] = useState({
+    length: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasDigit: false,
+    hasSpecialChar: false,
+  });
+
   const handlePassword = (passwordValue) => {
-    const strengthChecks = {
-      length: 0,
-      hasUpperCase: false,
-      hasLowerCase: false,
-      hasDigit: false,
-      hasSpecialChar: false,
+    const newStrengthChecks = {
+      length: passwordValue.length >= 6,
+      hasUpperCase: /[A-Z]+/.test(passwordValue),
+      hasLowerCase: /[a-z]+/.test(passwordValue),
+      hasDigit: /[0-9]+/.test(passwordValue),
+      hasSpecialChar: /[^A-Za-z0-9]+/.test(passwordValue),
     };
 
-    strengthChecks.length = passwordValue.length >= 6 ? true : false;
-    strengthChecks.hasUpperCase = /[A-Z]+/.test(passwordValue);
-    strengthChecks.hasLowerCase = /[a-z]+/.test(passwordValue);
-    strengthChecks.hasDigit = /[0-9]+/.test(passwordValue);
-    strengthChecks.hasSpecialChar = /[^A-Za-z0-9]+/.test(passwordValue);
+    setStrengthChecks(newStrengthChecks);
 
-    let verifiedList = Object.values(strengthChecks).filter((value) => value);
+    let verifiedList = Object.values(newStrengthChecks).filter(
+      (value) => value
+    );
 
     let strength =
-      verifiedList.length == 5
+      verifiedList.length === 5
         ? "Strong"
         : verifiedList.length >= 2
         ? "Medium"
@@ -54,7 +62,7 @@ export default function LoginForm() {
   };
 
   const getActiveColor = (type) => {
-    if (type === "Strong") return "#8BC926";
+    if (type === "Strong") return "#4caf50";
     if (type === "Medium") return "#FEBD01";
     return "#FF0054";
   };
@@ -113,18 +121,62 @@ export default function LoginForm() {
           ) : (
             <div className="h-1"></div>
           )}
-          {/* {isSignIn && <div className="h-1"></div>} */}
-
-          {/* {password.length !== 0 ? (
-            <p
-              className="message mt-2"
-              style={{ color: getActiveColor(message) }}
-            >
-              Your password is {message.toLowerCase()}
-            </p>
-          ) : null} */}
         </div>
-
+        {!isSignIn && (
+          <div className="flex flex-col mt-2 space-y-1 text-sm text-gray-500 animate-fade-up">
+            <p>Password must have:</p>
+            <ul className="list-disc pl-5 font-medium ">
+              <li>
+                <div
+                  className={`text-${
+                    strengthChecks.length ? "green-500 " : "gray-500 "
+                  }`}
+                >
+                  At least 6 characters
+                </div>
+              </li>
+              <li>
+                {" "}
+                <div
+                  className={`text-${
+                    strengthChecks.hasUpperCase ? "green-500" : "gray-500"
+                  }`}
+                >
+                  At least one uppercase letter
+                </div>
+              </li>
+              <li>
+                <div
+                  className={`text-${
+                    strengthChecks.hasLowerCase ? "green-500" : "gray-500"
+                  }`}
+                >
+                  At least one lowercase letter
+                </div>
+              </li>
+              <li>
+                {" "}
+                <div
+                  className={`text-${
+                    strengthChecks.hasDigit ? "green-500" : "gray-500"
+                  }`}
+                >
+                  At least one digit
+                </div>
+              </li>
+              <li>
+                {" "}
+                <div
+                  className={`text-${
+                    strengthChecks.hasSpecialChar ? "green-500" : "gray-500"
+                  }`}
+                >
+                  At least one special character
+                </div>
+              </li>
+            </ul>
+          </div>
+        )}
         {/* Button for switching between sign-in and log-in */}
 
         {/* Submit button */}
@@ -137,14 +189,14 @@ export default function LoginForm() {
             className={` ${
               isSignIn
                 ? " bg-secondary hover:bg-hoversec"
-                : "bg-primary hover:bg-hoverprim"
-            }flex align-middle justify-center items-center w-full rounded-md disabled:bg-gray-400  px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition`}
+                : "bg-primary hover:bg-hoverprim animate-fade-down"
+            } flex align-middle justify-center items-center w-full rounded-md disabled:bg-gray-400  px-2 py-2 text-sm font-semibold  text-white shadow-sm  hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition`}
           >
             {navigation.state === "submitting"
               ? `Signing ${isSignIn ? "in" : "up"}  `
               : `${isSignIn ? "Sign in" : "Create account"}`}
             {navigation.state === "submitting" && (
-              <div className="ml-2">
+              <div className="ml-3 w-min">
                 <svg
                   aria-hidden="true"
                   className="w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -176,7 +228,11 @@ export default function LoginForm() {
                   // Toggle between sign-in and log-in
                   setSignIn((prev) => !prev);
                 }}
-                className="font-semibold leading-6 text-secondary hover:text-indigo-500 focus:outline-none focus-visible:outline-indigo-600"
+                className={`${
+                  !isSignIn
+                    ? " text-secondary hover:text-hoversec"
+                    : "text-primary hover:text-hoverprim"
+                } font-semibold leading-6 `}
               >
                 {!isSignIn ? "Sign in" : "Sign up"}
               </button>
