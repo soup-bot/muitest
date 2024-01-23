@@ -1,5 +1,5 @@
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdLogin } from "react-icons/md";
 import { useDarkMode } from "../DarkModeContext";
 import TextField from "@mui/material/TextField";
@@ -24,6 +24,11 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState("");
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, [isSignIn]);
 
   // Declare strengthChecks outside handlePassword
   const [strengthChecks, setStrengthChecks] = useState({
@@ -77,6 +82,10 @@ export default function LoginForm() {
           name="email"
           className="w-full"
           label="Email"
+          value={email}
+          onChange={({ target }) => {
+            setEmail(target.value);
+          }}
           autoComplete="off"
           variant="outlined"
         />
@@ -87,6 +96,7 @@ export default function LoginForm() {
             name="password"
             className="w-full focus:outline-none focus:border-none"
             label="Password"
+            value={password}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -123,7 +133,7 @@ export default function LoginForm() {
           )}
         </div>
         {!isSignIn && (
-          <div className="flex flex-col mt-2 space-y-1 text-sm text-gray-500 animate-fade-up">
+          <div className="flex flex-col mt-2 space-y-1 text-sm text-gray-500 animate-fade-right">
             <p>Password must have:</p>
             <ul className="list-disc pl-5 font-medium ">
               <li>
