@@ -133,7 +133,13 @@ function App() {
         <body
           className={`overflow-y-scroll font-body bg-white xl:dark:bg-slate-950 dark:bg-slate-900`}
         >
-          {!auth && <Navbar balance={balance} serviceStatus={serviceStatus} />}
+          {!auth && (
+            <Navbar
+              balance={balance}
+              serviceStatus={serviceStatus}
+              theme={theme}
+            />
+          )}
 
           {!auth && (
             <img

@@ -13,7 +13,7 @@ import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import { Theme, useTheme } from "remix-themes";
 
-export default function Navbar({ balance, serviceStatus }) {
+export default function Navbar({ balance, serviceStatus, theme }) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [dropdownVisible, setdropdownVisible] = useState(false);
   const [, setTheme] = useTheme();
@@ -165,7 +165,11 @@ export default function Navbar({ balance, serviceStatus }) {
                       className="block p-2 pl-3 pt-3 pb-3 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-600 w-full"
                       onClick={toggleDarkMode}
                     >
-                      <MdLightMode size={20} />
+                      {theme === Theme.DARK ? (
+                        <MdLightMode size={20} />
+                      ) : (
+                        <MdDarkMode size={20} />
+                      )}
                     </button>
                   </li>
                   <li className="lg:hidden">
