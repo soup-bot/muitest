@@ -90,18 +90,15 @@ export default function InactiveUserComponent() {
   const [plan, setPlan] = React.useState(
     packageConfigurations[Object.keys(packageConfigurations)[0]].id
   );
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const handleChange = (event) => {
     setPlan(event.target.value);
   };
   return (
     <div
-      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in ${
-        isDarkMode ? "dark " : ""
-      }`}
+      className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in`}
     >
       <div className="h-max pb-20 min-h-full 2xl:shadow-lg 2xl:border-t-4 mt-4 border-secondary w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
-        <h1 className="font-medium text-2xl my-10 px-3 dark:text-slate-200">
+        <h1 className="font-medium text-2xl my-10 px-3 text-slate-800 dark:text-slate-200">
           Dashboard
         </h1>
         <div>
@@ -158,7 +155,7 @@ export default function InactiveUserComponent() {
                   >
                     {Object.keys(packageConfigurations).map((packageKey) => (
                       <div key={packageKey} className="">
-                        <div className="w-full h-full flex items-center justify-center p-10">
+                        <div className="w-full h-full flex items-center justify-center p-10 text-slate-800">
                           <div
                             className={`bg-white px-6 pt-2 py-4 rounded-lg shadow-md border-t-2 dark:bg-slate-950/30 dark:text-slate-300 border-secondary`}
                           >

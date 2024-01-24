@@ -163,7 +163,7 @@ inline-block"
                           : null
                       }
                     >
-                      <div className="w-full h-full flex items-center justify-center p-10   ">
+                      <div className="w-full h-full flex items-center justify-center p-10  text-slate-800 ">
                         <div
                           className={`bg-white px-6 pt-2 py-4 rounded-lg shadow-md  border-t-2 dark:bg-slate-950/30 dark:text-slate-300 ${
                             packageKey === selectedPackage
@@ -215,7 +215,7 @@ inline-block"
                               Change
                             </Button>
                           </div> */}
-                            <div className="flex align-middle justify-center mt-4">
+                            <div className="flex align-middle justify-center mt-4 ">
                               {!(selectedPackage === packageKey) && (
                                 <Button
                                   variant="outlined"
@@ -243,7 +243,7 @@ CREATE PLAN CARD */}
           <Form
             method="patch"
             action="/purchasePoints"
-            className="md:border rounded-r-lg dark:md:border-slate-700 px-8  lg:w-1/2 flex flex-col "
+            className="md:border rounded-r-lg dark:md:border-slate-700 px-8  lg:w-1/2 flex flex-col text-slate-800"
           >
             <div className="">
               <div className="mb-3 md:mb-0  dark:md:border-slate-700 md:px-10 py-4 h-2/3">
