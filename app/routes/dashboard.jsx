@@ -86,6 +86,10 @@ function Dashboard() {
     balanceData,
   } = useLoaderData();
 
+  const totalGrant = balanceData.reduce((acc, entry) => acc + entry.grant, 0);
+
+  // Now, totalGrant contains the sum of all grant values in balanceData
+  console.log("Total Grant:", totalGrant);
   console.log(planId);
   const selectedPlan = Object.entries(packageConfigurations).find(
     ([key, plan]) => plan.id === parseInt(planId)
@@ -109,7 +113,7 @@ function Dashboard() {
 
         <div className="pt-2 flex flex-row flex-wrap w-full ">
           {/* BALANCE CARD */}
-          <BalanceCard balance={balance} />
+          <BalanceCard balance={balance} totalGrant={totalGrant} />
 
           {/* PLAN CARD */}
           <PlanCard

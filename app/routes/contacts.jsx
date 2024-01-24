@@ -161,6 +161,11 @@ export default function Contacts() {
     number: "",
     group: "",
   });
+  const [openDelete, setOpenDelete] = useState(false);
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
 
   const handlePaginationModelChange = (model, details) => {
     setIsLoading(true);
@@ -187,6 +192,9 @@ export default function Contacts() {
 
   useEffect(() => {
     setIsLoading(false);
+    setGroupModalOpen(false);
+    setOpenDelete(false);
+    setGroupsModalOpen(false);
   }, [rows]);
 
   useEffect(() => {
@@ -252,6 +260,51 @@ export default function Contacts() {
     <div
       className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
+      <Modal
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className={`flex items-center align-middle justify-center`}
+      >
+        <div className="bg-white dark:bg-slate-800  p-3 px-6 flex flex-col justify-center align-middle items-center outline-none rounded-md border dark:border-slate-600 shadow-md animate-fade animate-duration-[350ms]">
+          <p className="text-black mt-4 mb-12 dark:text-slate-200">
+            Are you sure you want to delete{" "}
+            <span className="font-black ">{selectedRows.length}</span> contact
+            {selectedRows.length > 1 && <span>s</span>}?
+          </p>
+          <div className="flex gap-1 justify-end w-full">
+            <Form method="delete" action="/deleteContacts">
+              <div className="flex">
+                <div className="mr-2">
+                  <Button
+                    type="button"
+                    variant="contained"
+                    size="medium"
+                    color="info"
+                    onClick={handleCloseDelete}
+                  >
+                    <p className="text-white">No</p>
+                  </Button>
+                </div>
+                <div>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    startIcon={<MdDelete />}
+                    size="medium"
+                    name="contactIDs"
+                    value={selectedRows}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          </div>
+        </div>
+      </Modal>
+
       <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border dark:border-slate-600 w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
         <h1 className="font-medium text-2xl my-10 text-slate-800 dark:text-slate-200">
           Contacts
@@ -288,6 +341,20 @@ export default function Contacts() {
             density="compact"
             loading={isLoading}
             checkboxSelection
+            sx={{
+              "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
+                width: "0.1em",
+              },
+              "& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track": {
+                background: "#cecece3d",
+              },
+              "& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb": {
+                backgroundColor: "#979797af",
+              },
+              "& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb:hover": {
+                background: "#979797af",
+              },
+            }}
             disableRowSelectionOnClick
             paginationModel={paginationModel}
             onPaginationModelChange={handlePaginationModelChange}
@@ -301,21 +368,21 @@ export default function Contacts() {
             onRowSelectionModelChange={(itm) => setSelectedRows(itm)}
             slots={{
               toolbar: () => (
-                <GridToolbarContainer className="flex flex-row sm:flex-row justify-between bg-slate-200 dark:bg-slate-600">
-                  <div>
+                <GridToolbarContainer className="flex flex-row  justify-between bg-slate-100 dark:bg-slate-600 w-full">
+                  <div className="w-full flex justify-around sm:justify-start ">
                     <Button
                       startIcon={<IoMdAddCircle />}
                       onClick={openModal}
                       color="info"
                     >
-                      <p className="hidden sm:block mr-5">Add Contact</p>
+                      <p className="hidden md:block mr-5">Add Contact</p>
                     </Button>
                     <Button
                       color="info"
                       startIcon={<MdGroupAdd />}
                       onClick={() => setGroupsModalOpen(true)}
                     >
-                      <p className="hidden sm:block mr-5">Manage Groups</p>
+                      <p className="hidden md:block mr-5">Manage Groups</p>
                     </Button>
 
                     <Button
@@ -324,10 +391,17 @@ export default function Contacts() {
                       startIcon={<FaUserEdit />}
                       onClick={() => setGroupModalOpen(true)}
                     >
-                      <p className="hidden sm:block">Change Group</p>
+                      <p className="hidden md:block">Change Group</p>
+                    </Button>
+                    <Button
+                      color="info"
+                      disabled={selectedRows.length <= 0}
+                      startIcon={<MdDelete size={25} />}
+                      onClick={() => setOpenDelete(true)}
+                    >
+                      <p className="hidden md:block">DELETE</p>
                     </Button>
                   </div>
-                  <GridToolbarExport color="info"></GridToolbarExport>
                 </GridToolbarContainer>
               ),
             }}

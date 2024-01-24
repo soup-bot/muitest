@@ -3,7 +3,10 @@
 import React from "react";
 import { FaCoins } from "react-icons/fa";
 
-const BalanceCard = ({ balance }) => {
+const BalanceCard = ({ balance, totalGrant }) => {
+  console.log("TOTAL: " + totalGrant);
+  const percentage = (balance / totalGrant) * 100;
+  console.log("PERCENTAGE: " + percentage);
   return (
     <div className="w-full py-3 lg:p-3 text-slate-800">
       <div className="transition bg-gradient-to-bl from-blue-200 to-secondary w-full p-6 bg-white rounded-lg shadow-xl hover:bg-gray-100">

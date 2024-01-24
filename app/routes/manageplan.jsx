@@ -143,7 +143,7 @@ export default function Manage() {
 
 inline-block"
         >
-          <div className="font-medium text-2xl my-10 dark:text-slate-200 flex  w-min hover:scale-105 transition">
+          <div className="font-medium text-2xl my-10 dark:text-slate-200 text-slate-800 flex  w-min hover:scale-105 transition">
             <IoChevronBack className="mt-1 ml-8 md:ml-0" /> <div>Dashboard</div>
           </div>
         </Link>
