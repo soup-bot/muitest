@@ -141,7 +141,7 @@ function App() {
             />
           )}
 
-          {!auth && (
+          {/* {!auth && (
             <img
               src={bg2}
               alt=""
@@ -154,7 +154,7 @@ function App() {
               alt=""
               className=" right-0 bottom-0 scale-100 hidden xl:flex absolute rotate-180 opacity-80"
             />
-          )}
+          )} */}
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Outlet />

@@ -55,7 +55,8 @@ export default function Navbar({ balance, serviceStatus, theme }) {
   }, [sidebarRef, dropdownRef]);
   return (
     <div ref={sidebarRef}>
-      <nav className="bg-white border-gray-200 shadow-md md:shadow-none xl:py-2 xl:mb-0 dark:bg-slate-950 ">
+      <div className="w-full bg-gradient-to-r from-cyan-500 via-teal-400  to-primary h-1"></div>
+      <nav className="bg-white border-gray-200 shadow-md md:shadow-none xl:pb-2 xl:pt-1 xl:mb-0 dark:bg-slate-950 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <NavLink to="/">
             <img className="h-12 hidden md:block" src={logo} alt="" />

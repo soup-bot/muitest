@@ -126,7 +126,7 @@ export default function Reports() {
 
   return (
     <div
-      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in`}
+      className={`h-screen w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in`}
     >
       <div className="h-min min-h-full rounded-lg md:shadow-lg xl:border dark:border-slate-600 w-full px-10 mt-4 xl:w-2/3 bg-white dark:bg-slate-900">
         <h1 className="font-medium text-slate-800 text-2xl my-10 dark:text-slate-200">

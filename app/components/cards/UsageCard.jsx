@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 const UsageCard = ({ balanceData }) => {
   const customTheme = {
     root: {
-      base: "relative h-full w-full",
+      base: "relative h-full w-full carousel",
       leftControl:
         "absolute top-0 translate-y-1/2  left-0 flex h-full items-center justify-center px-4 focus:outline-none",
       rightControl:
@@ -27,10 +27,10 @@ const UsageCard = ({ balanceData }) => {
         "absolute bottom-1 left-1/2 flex -translate-x-1/2  translate-y-1  space-x-3",
     },
     item: {
-      base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-2/3",
+      base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-2/3 ",
       wrapper: {
-        off: "w-full flex-shrink-0 transform cursor-default snap-center",
-        on: "w-full flex-shrink-0 transform cursor-grab snap-center",
+        off: "w-full flex-shrink-0 transform cursor-default snap-center ",
+        on: "w-full flex-shrink-0 transform cursor-grab snap-center ",
       },
     },
     control: {

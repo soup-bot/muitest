@@ -258,7 +258,7 @@ export default function Contacts() {
 
   return (
     <div
-      className={`h-screen w-full flex justify-center xl:pl-20 animate-fade-up animate-once animate-duration-200 animate-ease-in `}
+      className={`h-screen w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
       <Modal
         open={openDelete}

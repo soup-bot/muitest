@@ -195,6 +195,20 @@ export default function SentTable() {
         className="dark:bg-slate-800 bg-slate-50"
         density="compact"
         rows={rowz}
+        sx={{
+          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
+            width: "0.1em",
+          },
+          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar-track": {
+            background: "#cecece3d",
+          },
+          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb": {
+            backgroundColor: "#979797af",
+          },
+          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar-thumb:hover": {
+            background: "#979797af",
+          },
+        }}
         autoHeight
         keepNonExistentRowsSelected
         columns={columns}
