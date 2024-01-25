@@ -15,7 +15,7 @@ const PlanCard = ({ selectedPlanName, selectedPlan, balanceData }) => {
         balanceData.length > 0 ? "lg:basis-1/2" : ""
       }`}
     >
-      <div className="transition w-full h-full p-6 bg-white border-b-4 hover:border-b-primary border dark:border-slate-600 dark:hover:border-b-primary rounded-lg dark:bg-slate-800">
+      <div className="transition w-full h-full p-6 bg-white  border dark:border-slate-600  rounded-lg dark:bg-slate-800">
         <p className="mb-3 text-slate-800 font-medium opacity-70 dark:text-slate-200">
           My current plan
         </p>

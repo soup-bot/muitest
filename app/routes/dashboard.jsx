@@ -105,7 +105,7 @@ function Dashboard() {
     <div
       className={`h-max w-full flex justify-center animate-fade-up animate-once animate-duration-200 animate-ease-in `}
     >
-      <div className=" h-max pb-20 min-h-full  2xl: shadow-lg xl:border dark:border-slate-600 w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3 bg-white z-10 dark:bg-slate-900">
+      <div className=" h-max pb-20 min-h-full  2xl: shadow-lg xl:border dark:border-slate-600 w-full px-10 pt-4 xl:rounded-lg 2xl:w-2/3  z-10 dark:bg-slate-900">
         <h1 className="font-medium  text-slate-800 text-2xl my-10 px-3 dark:text-slate-200">
           Dashboard
         </h1>

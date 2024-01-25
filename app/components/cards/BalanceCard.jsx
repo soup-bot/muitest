@@ -7,7 +7,7 @@ const BalanceCard = ({ balance, totalGrant }) => {
   useEffect(() => {
     // Animate the percentage on mount
     // setPercentage((balance / totalGrant) * 100);
-    setPercentage(75);
+    setPercentage(100);
   }, [balance, totalGrant]);
 
   console.log(percentage);
@@ -37,9 +37,9 @@ const BalanceCard = ({ balance, totalGrant }) => {
   };
 
   return (
-    <div className="balance-card-container relative w-full mb-3 text-slate-800 rounded-xl ">
+    <div className="balance-card-container relative lg:mx-3 w-full mb-3 text-slate-800 rounded-xl ">
       <div
-        className={`absolute area left-0 top-0 h-full rounded-lg p-3 lg:mx-3 w-100 z-10 bg-gradient-to-l from-secondary to-cyan-400 background-animate`}
+        className={`absolute area left-0 top-0 h-full rounded-lg  w-100 z-10 bg-gradient-to-l from-secondary to-cyan-400 background-animate shadow-lg`}
         style={gradientStyle}
       >
         {" "}
@@ -56,7 +56,7 @@ const BalanceCard = ({ balance, totalGrant }) => {
           <li></li>
         </ul>
       </div>
-      <div className="z-1 h-full w-100 p-3 rounded-xl lg:mx-3 bg-slate-800 dark:bg-slate-800 border dark:border-slate-500">
+      <div className="z-1 h-full w-100 p-3 rounded-lg lg:px-3 bg-slate-800 dark:bg-slate-800 border dark:border-slate-500">
         <div className="w-20 h-20"></div>
       </div>
       <div className="absolute top-4 left-10 z-20 w-full h-full">
