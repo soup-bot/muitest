@@ -39,7 +39,7 @@ const BalanceCard = ({ balance, totalGrant }) => {
   return (
     <div className="balance-card-container relative w-full mb-3 text-slate-800 rounded-xl ">
       <div
-        className={`absolute area left-0 top-0 h-full rounded-lg p-3 lg:mx-3 w-100 z-10 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-blue-400 to-secondary background-animate`}
+        className={`absolute area left-0 top-0 h-full rounded-lg p-3 lg:mx-3 w-100 z-10 bg-gradient-to-l from-secondary to-cyan-400 background-animate`}
         style={gradientStyle}
       >
         {" "}

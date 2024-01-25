@@ -301,7 +301,7 @@ export default function InputForm() {
                     <>
                       {Object.values(headers).map((value, index) => (
                         <button
-                          className="bg-secondary mt-3 text-white mr-1 border py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
+                          className="animate-jump-in bg-secondary mt-3  text-white mr-1 border py-1 px-2 rounded-md shadow-sm hover:bg-hoversec text-sm hover:scale-105 transition"
                           key={index}
                           type="button"
                           onMouseDown={(e) => handleButtonClick(value, e)}
